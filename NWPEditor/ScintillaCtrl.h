@@ -48,14 +48,14 @@ public:
 	void setScintillaCtrl(HWND wnd);
 	void setLang(int langm, bool clang=false);
 	HWND getScintillaCtrl();
-	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam);
+	LRESULT SendEditor(int msg, WPARAM wparam=0, LPARAM lparam=0);
 
 	//Events
 };
 
 //language Messages Defines
 
-#define PLAIN   000
-#define CLANG	001
-#define CPPLANG 002
-#define PYLANG  003
+#define PLAIN		000
+#define CLANG		001
+#define CPPLANG		002
+#define PYLANG		003

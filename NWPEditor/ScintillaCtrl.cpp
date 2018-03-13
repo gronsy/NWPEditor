@@ -9,7 +9,7 @@ LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam) {
 	return ::SendMessage(scintillaCtrl, msg, wparam, lparam);
 }
 
-void ScintillaCtrl::setLang(int lex, bool clang=false) {
+void ScintillaCtrl::setLang(int lex, bool clang) {
 	switch (lex) {
 	case CPPLANG:
 		SendEditor(SCI_SETLEXER, SCLEX_CPP, NULL);
@@ -24,7 +24,7 @@ void ScintillaCtrl::setLang(int lex, bool clang=false) {
 		SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(py_keywords));
 		break;
 	case PLAIN:
-		SendEditor(SCI_SETLEXER, SCLEX_NULL, NULL);
-		SendEditor(SCI_SETKEYWORDS, NULL, NULL);
+		SendEditor(SCI_SETLEXER, SCLEX_NULL);
+		SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(""));
 	}
 }
