@@ -48,7 +48,7 @@ public:
 	void setScintillaCtrl(HWND wnd);
 	void setLang(int langm, bool clang=false);
 	HWND getScintillaCtrl();
-	LRESULT SendEditor(int msg, WPARAM wparam=0, LPARAM lparam=0);
+	LRESULT SendEditor(int msg, WPARAM wparam=NULL, LPARAM lparam=NULL);
 
 	//Events
 };
