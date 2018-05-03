@@ -1,6 +1,5 @@
 #pragma once
 #include "IniCtrl.h"
-#include <tchar.h>
 
 
 struct Color {
