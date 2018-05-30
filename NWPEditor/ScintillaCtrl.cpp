@@ -3,10 +3,7 @@
 #include "ChildView.h"
 
 //construction and deconstruction
-ScintillaCtrl::ScintillaCtrl() {
-	ini.loadKeywords();
-	ini.loadColours();
-}
+ScintillaCtrl::ScintillaCtrl() {}
 
 ScintillaCtrl::~ScintillaCtrl() {}
 
@@ -23,17 +20,17 @@ void ScintillaCtrl::setLang(int lex, bool clang) {
 	case SCLEX_CPP:
 		SendEditor(SCI_SETLEXER, SCLEX_CPP, NULL);
 		if (clang) {
-			SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(c_keywords));
+			ini.SendIni(SCLEX_CPP, true);
 			break;
-		}
-		SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(cpp_keywords));
+		}else
+			ini.SendIni(SCLEX_CPP);
 		break;
 	case SCLEX_PYTHON:
 		SendEditor(SCI_SETLEXER, SCLEX_PYTHON, NULL);
-		SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(py_keywords));
 		break;
 	case SCLEX_NULL:
 		SendEditor(SCI_SETLEXER, SCLEX_NULL);
-		SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(""));
 	}
+
+	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(ini.GetKeywords()));
 }

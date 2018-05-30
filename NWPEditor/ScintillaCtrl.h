@@ -12,6 +12,8 @@ protected:
 	HWND scintillaCtrl;
 	IniCtrl ini;
 	Color clr;
+protected:
+
 public:
 	//construction and deconstruction
 	ScintillaCtrl();

@@ -31,15 +31,17 @@ static TCHAR* py_keywords = _T("False class finally is return None continue for 
 
 class IniCtrl {
 protected:
-	TCHAR* buffer;
-	TCHAR* keywords;
+	TCHAR *buffer, *keywords;
+	TCHAR *key;
+	int lang;
 
-	void writeKeywords();
-	void writeColours();
+	void WriteKeywords();
+	void WriteColours();
+	void LoadKeywords();
+	void LoadColours();
 public:
-	void sendIni(int lang, bool clang=false);
-	void loadKeywords();
-	void loadColours();
-	void saveKeywords();
-	void saveColours();
+	IniCtrl();
+	~IniCtrl();
+	void SendIni(int lang, bool clang=false);
+	TCHAR* GetKeywords();
 };
