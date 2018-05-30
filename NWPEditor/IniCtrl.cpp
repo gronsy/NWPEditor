@@ -5,6 +5,7 @@
 IniCtrl::IniCtrl()
 {
 	buffer = nullptr;
+	keywords = _T("");
 }
 
 IniCtrl::~IniCtrl()

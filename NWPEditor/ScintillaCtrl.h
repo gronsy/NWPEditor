@@ -20,8 +20,8 @@ public:
 	~ScintillaCtrl();
 
 	//general methods
-	void setScintillaCtrl(HWND wnd);
-	void setLang(int langm, bool clang=false);
-	HWND getScintillaCtrl();
+	void SetScintillaCtrl(HWND wnd);
+	void SetLang(int langm, bool clang=false);
+	HWND GetScintillaCtrl();
 	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam=NULL);
 };
