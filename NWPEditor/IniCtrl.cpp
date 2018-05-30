@@ -52,8 +52,6 @@ void IniCtrl::LoadKeywords()
 
 	buffer = new TCHAR[buffer_len];
 	GetPrivateProfileString(_T("keywords"), key, keywords, buffer, buffer_len, _T("config/keywords.ini"));
-
-	delete[] buffer; buffer = nullptr;
 }
 
 void IniCtrl::WriteKeywords() 
