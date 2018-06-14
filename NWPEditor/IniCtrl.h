@@ -1,5 +1,6 @@
 #include "stdafx.h"
 
+//Default colours
 const COLORREF black = RGB(0, 0, 0);
 const COLORREF white = RGB(255, 255, 255);
 const COLORREF green = RGB(0, 255, 0);
@@ -9,6 +10,7 @@ const COLORREF yellow = RGB(255, 255, 0);
 const COLORREF magenta = RGB(255, 0, 255);
 const COLORREF cyan = RGB(0, 255, 255);
 
+//Default keyords
 static TCHAR* cpp_keywords = _T("asm auto bool break case catch char class const "
 	"dynamic_cast else enum explicit extern false finally "
 	"float for friend goto if inline int long mutable "
@@ -32,16 +34,16 @@ static TCHAR* py_keywords = _T("False class finally is return None continue for 
 class IniCtrl {
 protected:
 	TCHAR *buffer, *keywords;
-	TCHAR *key;
 	int lang;
 
 	void WriteKeywords();
 	void WriteColours();
-	void LoadKeywords();
+	void LoadKeywords(TCHAR* key);
 	void LoadColours();
 public:
 	IniCtrl();
 	~IniCtrl();
+	//Chooses language to load from ini files
 	void SendIni(int lang, bool clang=false);
 	TCHAR* GetKeywords();
 };

@@ -16,6 +16,8 @@ IniCtrl::~IniCtrl()
 
 void IniCtrl::SendIni(int lang, bool clang) 
 {
+	TCHAR* key;
+
 	switch (lang) {
 	case SCLEX_CPP:
 		if (clang) {
@@ -34,7 +36,7 @@ void IniCtrl::SendIni(int lang, bool clang)
 		keywords = NULL;
 	}
 	
-	LoadKeywords();
+	LoadKeywords(key);
 	LoadColours();
 }
 
@@ -42,7 +44,7 @@ void IniCtrl::LoadColours()
 {
 }
 
-void IniCtrl::LoadKeywords()
+void IniCtrl::LoadKeywords(TCHAR* key)
 {
 	int buffer_len = _tcslen(keywords) * 2;
 	if (PathFileExists(_T("config/keywords.ini")))
