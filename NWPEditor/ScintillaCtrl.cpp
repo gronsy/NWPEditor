@@ -59,15 +59,16 @@ void ScintillaCtrl::SetUpEditor()
 	SendEditor(SCI_STYLECLEARALL, NULL);
 	SendEditor(SCI_SETSELBACK, TRUE, RGB(0, 0, 255));
 
-	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("green")));
-	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("green")));
-	SetAStyle(SCE_C_COMMENTDOC, ini.GetColor(_T("green")));
-	SetAStyle(SCE_C_NUMBER, ini.GetColor(_T("magenta")));
-	SetAStyle(SCE_C_STRING, ini.GetColor(_T("yellow")));
-	SetAStyle(SCE_C_CHARACTER, ini.GetColor(_T("yellow")));
-	SetAStyle(SCE_C_UUID, ini.GetColor(_T("cyan")));
-	SetAStyle(SCE_C_OPERATOR, ini.GetColor(_T("red")));
-	SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(_T("red")));
-	SetAStyle(SCE_C_WORD, ini.GetColor(_T("red")));
+	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));
+	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("comment")));
+	SetAStyle(SCE_C_COMMENTDOC, ini.GetColor(_T("comment")));
+	SetAStyle(SCE_C_NUMBER, ini.GetColor(_T("number")));
+	SetAStyle(SCE_C_STRING, ini.GetColor(_T("strings")));
+	SetAStyle(SCE_C_CHARACTER, ini.GetColor(_T("string")));
+	SetAStyle(SCE_C_UUID, ini.GetColor(_T("uuid")));
+	SetAStyle(SCE_C_OPERATOR, ini.GetColor(_T("variables")));
+	SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(_T("variables")));
+	SetAStyle(SCE_C_WORD, ini.GetColor(_T("variables")));
+	
 	ini.SaveEditorState();
 }

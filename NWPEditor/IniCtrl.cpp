@@ -72,13 +72,13 @@ void IniCtrl::WriteDefaultColours()
 	TCHAR* buffer = new TCHAR[RGB(255, 255, 255)];
 
 	
-	WritePrivateProfileString(_T("colors"), _T("black"), _itot(RGB(0, 0, 0), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("green"), _itot(RGB(0, 255, 00), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("red"), _itot(RGB(255, 0, 0), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("blue"), _itot(RGB(0, 0, 255), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("yellow"), _itot(RGB(255, 255, 0), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("magenta"), _itot(RGB(255, 0, 255), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("cyan"), _itot(RGB(0, 255, 255), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("plain"), _itot(RGB(0, 0, 0), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("comment"), _itot(RGB(0, 255, 00), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("variables"), _itot(RGB(255, 0, 0), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("marked"), _itot(RGB(0, 0, 255), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("string"), _itot(RGB(255, 255, 0), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("number"), _itot(RGB(255, 0, 255), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("uuid"), _itot(RGB(0, 255, 255), buffer, 10), _T("config/colors.ini"));
 
 	delete[] buffer; buffer = nullptr;
 }
