@@ -1,17 +1,11 @@
 #pragma once
 #include "IniCtrl.h"
-
-
-struct Color {
-	int item;
-	COLORREF rgb;
-};
+#include "Snapshot.h"
 
 class ScintillaCtrl {
 protected:
 	HWND scintillaCtrl;
 	IniCtrl ini;
-	Color clr;
 protected:
 	void SetUpEditor();
 	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL);

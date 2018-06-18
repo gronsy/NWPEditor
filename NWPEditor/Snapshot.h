@@ -1,0 +1,4 @@
+class Snapshot {
+private:
+
+};

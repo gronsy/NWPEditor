@@ -101,3 +101,8 @@ void IniCtrl::AddColor(COLORREF color, TCHAR* name)
 
 	delete[] buffer; buffer = nullptr;
 }
+
+void IniCtrl::SaveEditorState()
+{
+
+}

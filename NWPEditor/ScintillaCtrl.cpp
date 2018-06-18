@@ -69,4 +69,5 @@ void ScintillaCtrl::SetUpEditor()
 	SetAStyle(SCE_C_OPERATOR, ini.GetColor(_T("red")));
 	SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(_T("red")));
 	SetAStyle(SCE_C_WORD, ini.GetColor(_T("red")));
+	ini.SaveEditorState();
 }

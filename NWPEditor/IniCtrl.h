@@ -34,9 +34,9 @@ protected:
 public:
 	IniCtrl();
 	~IniCtrl();
-	//Chooses language to load from ini files
 	void SendIni(int lang, bool clang=false);
 	TCHAR* GetKeywords();
 	COLORREF GetColor(TCHAR* colorName);
 	void AddColor(COLORREF color, TCHAR* name);
+	void SaveEditorState();
 };
