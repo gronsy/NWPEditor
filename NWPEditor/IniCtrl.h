@@ -28,8 +28,8 @@ protected:
 	std::map<std::string, COLORREF> default_colors;
 	int lang;
 
-	void WriteKeywords();
-	void WriteColours();
+	void WriteDefaultKeywords();
+	void WriteDefaultColours();
 	void LoadKeywords(TCHAR* keywordsLang);
 	void LoadColours(TCHAR* keywordsLang);
 public:

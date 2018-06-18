@@ -51,17 +51,17 @@ void IniCtrl::SendIni(int lang, bool clang)
 
 void IniCtrl::LoadColours(TCHAR* keywordsLang)
 {
-	if (PathFileExists(wcscat(_T("config/"), wcscat(keywordsLang, _T(".ini")))))
-		WriteColours();
+	if (PathFileExists(_T("config/colors.ini")))
+		WriteDefaultColours();
 
-	
+
 }
 
 void IniCtrl::LoadKeywords(TCHAR* keywordsLang)
 {
 	int buffer_len = _tcslen(keywords) * 2;
 	if (PathFileExists(_T("config/keywords.ini")))
-		WriteKeywords();
+		WriteDefaultKeywords();
 
 	if (buffer != nullptr) delete[] buffer;
 
@@ -69,16 +69,26 @@ void IniCtrl::LoadKeywords(TCHAR* keywordsLang)
 	GetPrivateProfileString(_T("keywords"), keywordsLang, keywords, buffer, buffer_len, _T("config/keywords.ini"));
 }
 
-void IniCtrl::WriteKeywords() 
+void IniCtrl::WriteDefaultKeywords() 
 {
 	WritePrivateProfileString(_T("keywords"), _T("cpp"), cpp_keywords, _T("config/keywords.ini"));
 	WritePrivateProfileString(_T("keywords"), _T("c"), c_keywords, _T("config/keywords.ini"));
 	WritePrivateProfileString(_T("keywords"), _T("python"), py_keywords, _T("config/keywords.ini"));
 }
 
-void IniCtrl::WriteColours() 
+void IniCtrl::WriteDefaultColours() 
 {
-	
+	TCHAR* buffer = new TCHAR[RGB(255, 255, 255)];
+
+	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["black"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["green"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["red"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["blue"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["yellow"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["magenta"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["cyan"], buffer, 10), _T("config/colors.ini"));
+
+	delete[] buffer; buffer = nullptr;
 }
 
 TCHAR* IniCtrl::GetKeywords() { return keywords; }
