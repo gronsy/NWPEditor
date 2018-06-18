@@ -50,7 +50,7 @@ void IniCtrl::LoadKeywords(TCHAR* key)
 	if (PathFileExists(_T("config/keywords.ini")))
 		WriteKeywords();
 
-	if (buffer != nullptr) delete[] buffer;
+	//if (buffer != nullptr) delete[] buffer;
 
 	buffer = new TCHAR[buffer_len];
 	GetPrivateProfileString(_T("keywords"), key, keywords, buffer, buffer_len, _T("config/keywords.ini"));
