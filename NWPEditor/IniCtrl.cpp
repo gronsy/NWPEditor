@@ -51,19 +51,18 @@ void IniCtrl::SendIni(int lang, bool clang)
 
 void IniCtrl::LoadColours(TCHAR* keywordsLang)
 {
-	if (PathFileExists(_T("config/colors.ini")))
+	if (!PathFileExists(_T("config/colors.ini")))
 		WriteDefaultColours();
-
-
 }
 
 void IniCtrl::LoadKeywords(TCHAR* keywordsLang)
 {
 	int buffer_len = _tcslen(keywords) * 2;
-	if (PathFileExists(_T("config/keywords.ini")))
+	if (!PathFileExists(_T("config/keywords.ini")))
 		WriteDefaultKeywords();
 
-	if (buffer != nullptr) delete[] buffer;
+	if (buffer != nullptr) 
+		delete[] buffer;
 
 	buffer = new TCHAR[buffer_len];
 	GetPrivateProfileString(_T("keywords"), keywordsLang, keywords, buffer, buffer_len, _T("config/keywords.ini"));
@@ -81,12 +80,12 @@ void IniCtrl::WriteDefaultColours()
 	TCHAR* buffer = new TCHAR[RGB(255, 255, 255)];
 
 	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["black"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["green"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["red"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["blue"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["yellow"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["magenta"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["cyan"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("green"), _itot(default_colors["green"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("red"), _itot(default_colors["red"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("blue"), _itot(default_colors["blue"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("yellow"), _itot(default_colors["yellow"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("magenta"), _itot(default_colors["magenta"], buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("cyan"), _itot(default_colors["cyan"], buffer, 10), _T("config/colors.ini"));
 
 	delete[] buffer; buffer = nullptr;
 }
