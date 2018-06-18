@@ -7,6 +7,14 @@ IniCtrl::IniCtrl()
 {
 	buffer = nullptr;
 	keywords = _T("");
+
+	default_colors["black"] = RGB(0, 0, 0);
+	default_colors["green"] = RGB(0, 255, 00);
+	default_colors["red"] = RGB(255, 0, 0);
+	default_colors["blue"] = RGB(0, 0, 255);
+	default_colors["yellow"] = RGB(255, 255, 0);
+	default_colors["magenta"] = RGB(255, 0, 255);
+	default_colors["cyan"] = RGB(0, 255, 255);
 }
 
 IniCtrl::~IniCtrl()
@@ -43,6 +51,10 @@ void IniCtrl::SendIni(int lang, bool clang)
 
 void IniCtrl::LoadColours(TCHAR* keywordsLang)
 {
+	if (PathFileExists(wcscat(_T("config/"), wcscat(keywordsLang, _T(".ini")))))
+		WriteColours();
+
+	
 }
 
 void IniCtrl::LoadKeywords(TCHAR* keywordsLang)
@@ -70,3 +82,4 @@ void IniCtrl::WriteColours()
 }
 
 TCHAR* IniCtrl::GetKeywords() { return keywords; }
+COLORREF* IniCtrl::GetColor(std::string key) { return &default_colors[key]; }
