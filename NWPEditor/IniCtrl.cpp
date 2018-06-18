@@ -69,7 +69,7 @@ void IniCtrl::WriteDefaultKeywords()
 
 void IniCtrl::WriteDefaultColours() 
 {
-	TCHAR* buffer = new TCHAR[RGB(255, 255, 255)];
+	TCHAR buffer[sizeof(COLORREF)];
 
 	
 	WritePrivateProfileString(_T("colors"), _T("plain"), _itot(RGB(0, 0, 0), buffer, 10), _T("config/colors.ini"));
@@ -79,8 +79,6 @@ void IniCtrl::WriteDefaultColours()
 	WritePrivateProfileString(_T("colors"), _T("string"), _itot(RGB(255, 255, 0), buffer, 10), _T("config/colors.ini"));
 	WritePrivateProfileString(_T("colors"), _T("number"), _itot(RGB(255, 0, 255), buffer, 10), _T("config/colors.ini"));
 	WritePrivateProfileString(_T("colors"), _T("uuid"), _itot(RGB(0, 255, 255), buffer, 10), _T("config/colors.ini"));
-
-	delete[] buffer; buffer = nullptr;
 }
 
 TCHAR* IniCtrl::GetKeywords() { return keywords; }
@@ -102,7 +100,14 @@ void IniCtrl::AddColor(COLORREF color, TCHAR* name)
 	delete[] buffer; buffer = nullptr;
 }
 
-void IniCtrl::SaveEditorState()
-{
+void IniCtrl::SaveEditorState(TCHAR* field, TCHAR* value) 
+{ 
+	WritePrivateProfileString(_T("colors"), field, value, _T("config/colors.ini")); 
+}
 
+void IniCtrl::SaveEditorState(TCHAR* field, COLORREF value)
+{
+	TCHAR buffer[sizeof(COLORREF)];
+	
+	WritePrivateProfileString(_T("colors"), field, _itot(value, buffer, 10), _T("config/colors.ini"));
 }

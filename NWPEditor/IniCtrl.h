@@ -38,5 +38,6 @@ public:
 	TCHAR* GetKeywords();
 	COLORREF GetColor(TCHAR* colorName);
 	void AddColor(COLORREF color, TCHAR* name);
-	void SaveEditorState();
+	void SaveEditorState(TCHAR* field, TCHAR* value);
+	void SaveEditorState(TCHAR* field, COLORREF value);
 };
