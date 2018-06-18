@@ -7,14 +7,6 @@ IniCtrl::IniCtrl()
 {
 	buffer = nullptr;
 	keywords = _T("");
-
-	default_colors["black"] = RGB(0, 0, 0);
-	default_colors["green"] = RGB(0, 255, 00);
-	default_colors["red"] = RGB(255, 0, 0);
-	default_colors["blue"] = RGB(0, 0, 255);
-	default_colors["yellow"] = RGB(255, 255, 0);
-	default_colors["magenta"] = RGB(255, 0, 255);
-	default_colors["cyan"] = RGB(0, 255, 255);
 }
 
 IniCtrl::~IniCtrl()
@@ -79,16 +71,33 @@ void IniCtrl::WriteDefaultColours()
 {
 	TCHAR* buffer = new TCHAR[RGB(255, 255, 255)];
 
-	WritePrivateProfileString(_T("colors"), _T("black"), _itot(default_colors["black"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("green"), _itot(default_colors["green"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("red"), _itot(default_colors["red"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("blue"), _itot(default_colors["blue"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("yellow"), _itot(default_colors["yellow"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("magenta"), _itot(default_colors["magenta"], buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("cyan"), _itot(default_colors["cyan"], buffer, 10), _T("config/colors.ini"));
+	
+	WritePrivateProfileString(_T("colors"), _T("black"), _itot(RGB(0, 0, 0), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("green"), _itot(RGB(0, 255, 00), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("red"), _itot(RGB(255, 0, 0), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("blue"), _itot(RGB(0, 0, 255), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("yellow"), _itot(RGB(255, 255, 0), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("magenta"), _itot(RGB(255, 0, 255), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("cyan"), _itot(RGB(0, 255, 255), buffer, 10), _T("config/colors.ini"));
 
 	delete[] buffer; buffer = nullptr;
 }
 
 TCHAR* IniCtrl::GetKeywords() { return keywords; }
-COLORREF* IniCtrl::GetColor(std::string key) { return &default_colors[key]; }
+
+COLORREF IniCtrl::GetColor(TCHAR* colorName) { 
+	COLORREF color;
+
+	color=GetPrivateProfileInt(_T("colors"), colorName, RGB(0, 0, 0), _T("config/colors.ini"));
+	return color;
+}
+
+void IniCtrl::AddColor(COLORREF color, TCHAR* name)
+{
+	TCHAR* buffer = new TCHAR[RGB(255, 255, 255)];
+
+	if (GetPrivateProfileInt(_T("colors"), name, RGB(0, 0, 0), _T("config/colors.ini")) == RGB(0, 0, 0))
+		WritePrivateProfileString(_T("colors"), name, _itot(color, buffer, 10), _T("config/colors.ini"));
+
+	delete[] buffer; buffer = nullptr;
+}

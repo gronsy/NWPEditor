@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include <map>
+#include <string>
 
 //Default keyords
 static TCHAR* cpp_keywords = _T("asm auto bool break case catch char class const "
@@ -25,7 +25,6 @@ static TCHAR* py_keywords = _T("False class finally is return None continue for 
 class IniCtrl {
 protected:
 	TCHAR *buffer, *keywords;
-	std::map<std::string, COLORREF> default_colors;
 	int lang;
 
 	void WriteDefaultKeywords();
@@ -38,5 +37,6 @@ public:
 	//Chooses language to load from ini files
 	void SendIni(int lang, bool clang=false);
 	TCHAR* GetKeywords();
-	COLORREF* GetColor(std::string key);
+	COLORREF GetColor(TCHAR* colorName);
+	void AddColor(COLORREF color, TCHAR* name);
 };
