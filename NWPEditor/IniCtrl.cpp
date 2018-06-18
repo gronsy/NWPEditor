@@ -1,6 +1,7 @@
 #include "ChildView.h"
 #include "stdafx.h"
 #include "IniCtrl.h"
+#include <cstring>
 
 IniCtrl::IniCtrl()
 {
@@ -16,35 +17,35 @@ IniCtrl::~IniCtrl()
 
 void IniCtrl::SendIni(int lang, bool clang) 
 {
-	TCHAR* key;
+	TCHAR* keywordsLang;
 
 	switch (lang) {
 	case SCLEX_CPP:
 		if (clang) {
 			keywords = c_keywords;
-			key = _T("c");
+			keywordsLang = _T("c");
 			break;
 		}
-		key = _T("cpp");
+		keywordsLang = _T("cpp");
 		keywords = cpp_keywords;
 		break;
 	case SCLEX_PYTHON:
-		key = _T("python");
+		keywordsLang = _T("python");
 		keywords = py_keywords;
 		break;
 	default:
 		keywords = NULL;
 	}
 	
-	LoadKeywords(key);
-	LoadColours();
+	LoadKeywords(keywordsLang);
+	LoadColours(keywordsLang);
 }
 
-void IniCtrl::LoadColours()
+void IniCtrl::LoadColours(TCHAR* keywordsLang)
 {
 }
 
-void IniCtrl::LoadKeywords(TCHAR* key)
+void IniCtrl::LoadKeywords(TCHAR* keywordsLang)
 {
 	int buffer_len = _tcslen(keywords) * 2;
 	if (PathFileExists(_T("config/keywords.ini")))
@@ -53,7 +54,7 @@ void IniCtrl::LoadKeywords(TCHAR* key)
 	if (buffer != nullptr) delete[] buffer;
 
 	buffer = new TCHAR[buffer_len];
-	GetPrivateProfileString(_T("keywords"), key, keywords, buffer, buffer_len, _T("config/keywords.ini"));
+	GetPrivateProfileString(_T("keywords"), keywordsLang, keywords, buffer, buffer_len, _T("config/keywords.ini"));
 }
 
 void IniCtrl::WriteKeywords() 
@@ -65,7 +66,7 @@ void IniCtrl::WriteKeywords()
 
 void IniCtrl::WriteColours() 
 {
-
+	
 }
 
 TCHAR* IniCtrl::GetKeywords() { return keywords; }

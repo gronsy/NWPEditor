@@ -27,6 +27,7 @@ void ScintillaCtrl::SetLang(int lex, bool clang) {
 		break;
 	case SCLEX_PYTHON:
 		SendEditor(SCI_SETLEXER, SCLEX_PYTHON, NULL);
+		ini.SendIni(SCLEX_PYTHON);
 		break;
 	case SCLEX_NULL:
 		SendEditor(SCI_SETLEXER, SCLEX_NULL);

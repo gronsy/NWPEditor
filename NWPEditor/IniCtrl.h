@@ -2,7 +2,6 @@
 
 //Default colours
 const COLORREF black = RGB(0, 0, 0);
-const COLORREF white = RGB(255, 255, 255);
 const COLORREF green = RGB(0, 255, 0);
 const COLORREF red = RGB(255, 0, 0);
 const COLORREF blue = RGB(0, 0, 255);
@@ -38,8 +37,8 @@ protected:
 
 	void WriteKeywords();
 	void WriteColours();
-	void LoadKeywords(TCHAR* key);
-	void LoadColours();
+	void LoadKeywords(TCHAR* keywordsLang);
+	void LoadColours(TCHAR* keywordsLang);
 public:
 	IniCtrl();
 	~IniCtrl();
