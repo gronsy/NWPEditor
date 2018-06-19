@@ -11,7 +11,8 @@ ScintillaCtrl::~ScintillaCtrl() {}
 void ScintillaCtrl::SetScintillaCtrl(HWND wnd) {scintillaCtrl = wnd;}
 HWND ScintillaCtrl::GetScintillaCtrl() { return scintillaCtrl; }
 
-LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam) {
+LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam) 
+{
 	return ::SendMessage(scintillaCtrl, msg, wparam, lparam);
 }
 
@@ -26,7 +27,8 @@ void ScintillaCtrl::SetAStyle(int style, COLORREF fore, COLORREF back, int size,
 		SendEditor(SCI_STYLESETFONT, style, reinterpret_cast<LPARAM>(face));
 }
 
-void ScintillaCtrl::SetLang(int lex, bool clang) {
+void ScintillaCtrl::SetLang(int lex, bool clang) 
+{
 	switch (lex) {
 	case SCLEX_CPP:
 		SendEditor(SCI_SETLEXER, SCLEX_CPP, NULL);
