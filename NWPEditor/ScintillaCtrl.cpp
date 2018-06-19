@@ -49,16 +49,9 @@ void ScintillaCtrl::SetLang(int lex, bool clang) {
 
 void ScintillaCtrl::SetUpEditor()
 {
-	SendEditor(SCI_SETTABWIDTH, 4);
 	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(ini.GetKeywords()));
 
-	//Default Style
-	SetAStyle(STYLE_DEFAULT, RGB(255,255,255), RGB(56, 57, 58), 10, "Arial");
-
-	SendEditor(SCI_SETCARETFORE, RGB(255, 255, 255));
-	SendEditor(SCI_STYLECLEARALL, NULL);
-	SendEditor(SCI_SETSELBACK, TRUE, RGB(0, 0, 255));
-
+	//Background parameter is set by default value (can be seen in ScintillaCtrl.h)
 	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTDOC, ini.GetColor(_T("comment")));
@@ -69,4 +62,14 @@ void ScintillaCtrl::SetUpEditor()
 	SetAStyle(SCE_C_OPERATOR, ini.GetColor(_T("variables")));
 	SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(_T("variables")));
 	SetAStyle(SCE_C_WORD, ini.GetColor(_T("variables")));
+}
+
+void ScintillaCtrl::LoadDefaultState()
+{
+	SendEditor(SCI_SETLEXER, SCLEX_NULL);
+	SendEditor(SCI_SETTABWIDTH, 4);
+	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, "Arial");
+	SendEditor(SCI_SETCARETFORE, RGB(0, 0, 0));
+	SendEditor(SCI_STYLECLEARALL, NULL);
+	SendEditor(SCI_SETSELBACK, TRUE, ini.GetColor(_T("selection")));
 }
