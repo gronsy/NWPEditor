@@ -71,14 +71,14 @@ void IniCtrl::WriteDefaultColours()
 {
 	TCHAR buffer[sizeof(COLORREF)];
 
-	
-	WritePrivateProfileString(_T("colors"), _T("plain"), _itot(RGB(0, 0, 0), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("comment"), _itot(RGB(0, 255, 00), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("variables"), _itot(RGB(255, 0, 0), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("selection"), _itot(RGB(51, 153, 255), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("string"), _itot(RGB(255, 255, 0), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("number"), _itot(RGB(255, 0, 255), buffer, 10), _T("config/colors.ini"));
-	WritePrivateProfileString(_T("colors"), _T("uuid"), _itot(RGB(0, 255, 255), buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), _T("plain"), _itot(RGB(0, 0, 0), buffer, 10), _T("config/colors.ini"));				//black
+	WritePrivateProfileString(_T("colors"), _T("comment"), _itot(RGB(0, 255, 0), buffer, 10), _T("config/colors.ini"));			//green
+	WritePrivateProfileString(_T("colors"), _T("operators"), _itot(RGB(255, 0, 0), buffer, 10), _T("config/colors.ini"));		//red
+	WritePrivateProfileString(_T("colors"), _T("selection"), _itot(RGB(51, 153, 255), buffer, 10), _T("config/colors.ini"));	//light-blue
+	WritePrivateProfileString(_T("colors"), _T("string"), _itot(RGB(255, 255, 0), buffer, 10), _T("config/colors.ini"));		//yellow
+	WritePrivateProfileString(_T("colors"), _T("number"), _itot(RGB(255, 0, 255), buffer, 10), _T("config/colors.ini"));		//magenta
+	WritePrivateProfileString(_T("colors"), _T("uuid"), _itot(RGB(0, 255, 255), buffer, 10), _T("config/colors.ini"));			//cyan
+	WritePrivateProfileString(_T("colors"), _T("preprocessor"), _itot(RGB(77, 77, 51), buffer, 10), _T("config/colors.ini"));	//gray
 }
 
 TCHAR* IniCtrl::GetKeywords() { return keywords; }

@@ -58,11 +58,11 @@ void ScintillaCtrl::SetUpEditor()
 	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTDOC, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_NUMBER, ini.GetColor(_T("number")));
-	SetAStyle(SCE_C_STRING, ini.GetColor(_T("strings")));
+	SetAStyle(SCE_C_STRING, ini.GetColor(_T("string")));
 	SetAStyle(SCE_C_CHARACTER, ini.GetColor(_T("string")));
 	SetAStyle(SCE_C_UUID, ini.GetColor(_T("uuid")));
-	SetAStyle(SCE_C_OPERATOR, ini.GetColor(_T("variables")));
-	SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(_T("variables")));
+	SetAStyle(SCE_C_OPERATOR, ini.GetColor(_T("operators")));
+	SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(_T("preprocessor")));
 	SetAStyle(SCE_C_WORD, ini.GetColor(_T("variables")));
 }
 
