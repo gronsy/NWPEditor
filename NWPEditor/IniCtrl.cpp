@@ -91,6 +91,14 @@ COLORREF IniCtrl::GetColor(TCHAR* colorName)
 	return color;
 }
 
+TCHAR* IniCtrl::GetFont()
+{
+	TCHAR font[50];
+
+	GetPrivateProfileString(_T("font"), _T("font"), _T("Arial"), font, 50, _T("config/font.ini"));
+	return font;
+}
+
 void IniCtrl::AddColor(COLORREF color, TCHAR* name)
 {
 	TCHAR* buffer = new TCHAR[RGB(255, 255, 255)];
@@ -99,6 +107,11 @@ void IniCtrl::AddColor(COLORREF color, TCHAR* name)
 		WritePrivateProfileString(_T("colors"), name, _itot(color, buffer, 10), _T("config/colors.ini"));
 
 	delete[] buffer; buffer = nullptr;
+}
+
+void IniCtrl::AddFont(TCHAR* font)
+{
+	WritePrivateProfileString(_T("font"), _T("font"), font, _T("config/font.ini"));
 }
 
 void IniCtrl::SaveEditorState(TCHAR* field, TCHAR* value) 

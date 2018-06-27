@@ -37,7 +37,9 @@ public:
 	void SendIni(int lang, bool clang=false);
 	TCHAR* GetKeywords();
 	COLORREF GetColor(TCHAR* colorName);
+	TCHAR* GetFont();
 	void AddColor(COLORREF color, TCHAR* name);
+	void AddFont(TCHAR* font);
 	void SaveEditorState(TCHAR* field, TCHAR* value);
 	void SaveEditorState(TCHAR* field, COLORREF value);
 };

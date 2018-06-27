@@ -10,6 +10,7 @@ ScintillaCtrl::~ScintillaCtrl() {}
 //general methods implementation(public)
 void ScintillaCtrl::SetScintillaCtrl(HWND wnd) {scintillaCtrl = wnd;}
 HWND ScintillaCtrl::GetScintillaCtrl() { return scintillaCtrl; }
+IniCtrl ScintillaCtrl::GetIni() { return ini; }
 
 LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam) 
 {

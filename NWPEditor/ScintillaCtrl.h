@@ -19,5 +19,6 @@ public:
 	void SetScintillaCtrl(HWND wnd);
 	void SetLang(int langm, bool clang=false);
 	void LoadDefaultState();
+	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };
