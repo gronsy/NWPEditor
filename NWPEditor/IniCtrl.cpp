@@ -83,7 +83,8 @@ void IniCtrl::WriteDefaultColours()
 
 TCHAR* IniCtrl::GetKeywords() { return keywords; }
 
-COLORREF IniCtrl::GetColor(TCHAR* colorName) { 
+COLORREF IniCtrl::GetColor(TCHAR* colorName) 
+{ 
 	COLORREF color;
 
 	color=GetPrivateProfileInt(_T("colors"), colorName, RGB(0, 0, 0), _T("config/colors.ini"));

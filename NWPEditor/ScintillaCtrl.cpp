@@ -69,7 +69,7 @@ void ScintillaCtrl::SetUpEditor()
 void ScintillaCtrl::LoadDefaultState()
 {
 	SendEditor(SCI_SETLEXER, SCLEX_NULL);
-	SendEditor(SCI_SETTABWIDTH, 4);
+	SendEditor(SCI_SETTABWIDTH,4);
 	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, "Arial");
 	SendEditor(SCI_SETCARETFORE, RGB(0, 0, 0));
 	SendEditor(SCI_STYLECLEARALL, NULL);
