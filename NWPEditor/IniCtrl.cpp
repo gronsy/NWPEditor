@@ -40,7 +40,7 @@ void IniCtrl::SendIni(int lang, bool clang)
 		keywords = NULL;
 	}
 	
-	LoadKeywords(keywordsLang);
+	LoadKeywordsWFont(keywordsLang);
 	LoadColours(keywordsLang);
 }
 
@@ -50,11 +50,14 @@ void IniCtrl::LoadColours(TCHAR* keywordsLang)
 		WriteDefaultColours();
 }
 
-void IniCtrl::LoadKeywords(TCHAR* keywordsLang)
+void IniCtrl::LoadKeywordsWFont(TCHAR* keywordsLang)
 {
 	int buffer_len = _tcslen(keywords) * 2;
 	if (!PathFileExists(_T("config/keywords.ini")))
 		WriteDefaultKeywords();
+
+	if (!PathFileExists(_T("config/font.ini")))
+		WriteDefaultFont();
 
 	if (buffer != nullptr) 
 		delete[] buffer;
@@ -69,6 +72,8 @@ void IniCtrl::WriteDefaultKeywords()
 	WritePrivateProfileString(_T("keywords"), _T("c"), c_keywords, _T("config/keywords.ini"));
 	WritePrivateProfileString(_T("keywords"), _T("python"), py_keywords, _T("config/keywords.ini"));
 }
+
+void IniCtrl::WriteDefaultFont(){ WritePrivateProfileString(_T("font"), _T("font"), _T("Arial"), _T("config/font.ini")); }
 
 void IniCtrl::WriteDefaultColours() 
 {

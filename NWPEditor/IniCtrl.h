@@ -29,7 +29,8 @@ protected:
 
 	void WriteDefaultKeywords();
 	void WriteDefaultColours();
-	void LoadKeywords(TCHAR* keywordsLang);
+	void WriteDefaultFont();
+	void LoadKeywordsWFont(TCHAR* keywordsLang);
 	void LoadColours(TCHAR* keywordsLang);
 public:
 	IniCtrl();
