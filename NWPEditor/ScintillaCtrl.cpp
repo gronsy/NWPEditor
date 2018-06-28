@@ -12,12 +12,13 @@ void ScintillaCtrl::SetScintillaCtrl(HWND wnd) {scintillaCtrl = wnd;}
 HWND ScintillaCtrl::GetScintillaCtrl() { return scintillaCtrl; }
 IniCtrl ScintillaCtrl::GetIni() { return ini; }
 
-LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam) 
+LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=NULL*/)
 {
 	return ::SendMessage(scintillaCtrl, msg, wparam, lparam);
 }
 
-void ScintillaCtrl::SetAStyle(int style, COLORREF fore, COLORREF back, int size, const char *face)
+void ScintillaCtrl::SetAStyle(int style, COLORREF fore, 
+	COLORREF back/*=RGB(255,255,255)*/, int size/*=NULL*/, const char *face/*=NULL*/)
 {
 	SendEditor(SCI_STYLESETFORE, style, fore);
 	SendEditor(SCI_STYLESETBACK, style, back);
@@ -28,7 +29,7 @@ void ScintillaCtrl::SetAStyle(int style, COLORREF fore, COLORREF back, int size,
 		SendEditor(SCI_STYLESETFONT, style, reinterpret_cast<LPARAM>(face));
 }
 
-void ScintillaCtrl::SetLang(int lex, bool clang) 
+void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/) 
 {
 	switch (lex) {
 	case SCLEX_CPP:
