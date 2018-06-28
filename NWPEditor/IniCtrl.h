@@ -39,7 +39,7 @@ public:
 	COLORREF GetColor(TCHAR* colorName);
 	TCHAR* GetFont();
 	void ChangeColor(COLORREF color, TCHAR* name);
-	void AddFont(TCHAR* font);
+	void ChangeFont(TCHAR* font);
 	void SaveEditorState(TCHAR* field, TCHAR* value);
 	void SaveEditorState(TCHAR* field, COLORREF value);
 };

@@ -111,7 +111,7 @@ void IniCtrl::ChangeColor(COLORREF color, TCHAR* field)
 	delete[] buffer; buffer = nullptr;
 }
 
-void IniCtrl::AddFont(TCHAR* font)
+void IniCtrl::ChangeFont(TCHAR* font)
 {
 	WritePrivateProfileString(_T("font"), _T("font"), font, _T("config/font.ini"));
 }
