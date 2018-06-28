@@ -11,8 +11,11 @@ IniCtrl::IniCtrl()
 
 IniCtrl::~IniCtrl()
 {
-	delete[] buffer;
-	buffer = nullptr;
+	if (buffer != nullptr)
+	{
+		delete[] buffer;
+		buffer = nullptr;
+	}
 }
 
 void IniCtrl::SendIni(int lang, bool clang) 
@@ -99,12 +102,11 @@ TCHAR* IniCtrl::GetFont()
 	return font;
 }
 
-void IniCtrl::AddColor(COLORREF color, TCHAR* name)
+void IniCtrl::ChangeColor(COLORREF color, TCHAR* field)
 {
 	TCHAR* buffer = new TCHAR[RGB(255, 255, 255)];
 
-	if (GetPrivateProfileInt(_T("colors"), name, RGB(0, 0, 0), _T("config/colors.ini")) == RGB(0, 0, 0))
-		WritePrivateProfileString(_T("colors"), name, _itot(color, buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("colors"), field, _itot(color, buffer, 10), _T("config/colors.ini"));
 
 	delete[] buffer; buffer = nullptr;
 }
