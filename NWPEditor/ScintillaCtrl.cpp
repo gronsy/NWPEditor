@@ -77,3 +77,27 @@ void ScintillaCtrl::LoadDefaultState()
 	SendEditor(SCI_STYLECLEARALL, NULL);
 	SendEditor(SCI_SETSELBACK, TRUE, ini.GetColor(_T("selection")));
 }
+
+void ScintillaCtrl::UpdateColor(TCHAR* field)
+{
+	if (!wcscmp(field, _T("comment")))
+	{
+		SetAStyle(SCE_C_COMMENT, ini.GetColor(field));
+		SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(field));
+		SetAStyle(SCE_C_COMMENTDOC, ini.GetColor(field));
+	}else if (!wcscmp(field, _T("string")))
+	{
+		SetAStyle(SCE_C_STRING, ini.GetColor(field));
+		SetAStyle(SCE_C_CHARACTER, ini.GetColor(field));
+	}
+	else if (!wcscmp(field, _T("number"))) SetAStyle(SCE_C_NUMBER, ini.GetColor(field));
+	else if (!wcscmp(field, _T("uuid")))SetAStyle(SCE_C_UUID, ini.GetColor(field));
+	else if (!wcscmp(field, _T("operators")))SetAStyle(SCE_C_OPERATOR, ini.GetColor(field));
+	else if (!wcscmp(field, _T("preprocessor")))SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(field));
+	else if (!wcscmp(field, _T("variables")))SetAStyle(SCE_C_WORD, ini.GetColor(field));
+}
+
+void ScintillaCtrl::UpdateFont()
+{
+
+}
