@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "FieldPickDlg.h"
 #include <string>
 
 //Default keyords
@@ -23,6 +24,7 @@ static TCHAR* py_keywords = _T("False class finally is return None continue for 
 	"break except in raise");
 
 class IniCtrl {
+	friend void ColorPickDlg::OnBtnDefault();
 protected:
 	TCHAR *buffer, *keywords;
 	int lang;
