@@ -77,7 +77,7 @@ void IniCtrl::WriteDefaultFont(){ WritePrivateProfileString(_T("font"), _T("font
 
 void IniCtrl::WriteDefaultColours() 
 {
-	TCHAR buffer[sizeof(COLORREF)];
+	TCHAR buffer[sizeof(COLORREF)*2+1];
 
 	WritePrivateProfileString(_T("colors"), _T("plain"), _itot(RGB(0, 0, 0), buffer, 10), _T("config/colors.ini"));				//black
 	WritePrivateProfileString(_T("colors"), _T("comment"), _itot(RGB(0, 255, 0), buffer, 10), _T("config/colors.ini"));			//green
@@ -131,4 +131,9 @@ void IniCtrl::SaveEditorState(TCHAR* field, COLORREF value)
 	TCHAR buffer[sizeof(COLORREF)];
 	
 	WritePrivateProfileString(_T("colors"), field, _itot(value, buffer, 10), _T("config/colors.ini"));
+}
+
+void IniCtrl::LoadDefaults()
+{
+	
 }
