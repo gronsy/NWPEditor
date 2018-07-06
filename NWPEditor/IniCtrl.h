@@ -45,5 +45,4 @@ public:
 	void ChangeFont(TCHAR* font);
 	void SaveEditorState(TCHAR* field, TCHAR* value);
 	void SaveEditorState(TCHAR* field, COLORREF value);
-	void LoadDefaults();
 };

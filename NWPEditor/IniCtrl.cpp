@@ -132,8 +132,3 @@ void IniCtrl::SaveEditorState(TCHAR* field, COLORREF value)
 	
 	WritePrivateProfileString(_T("colors"), field, _itot(value, buffer, 10), _T("config/colors.ini"));
 }
-
-void IniCtrl::LoadDefaults()
-{
-	
-}
