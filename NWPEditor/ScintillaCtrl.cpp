@@ -55,7 +55,6 @@ void ScintillaCtrl::SetUpEditor()
 {
 	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(ini.GetKeywords()));
 
-	//Background parameter is set by default value (can be seen in ScintillaCtrl.h)
 	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTDOC, ini.GetColor(_T("comment")));
@@ -65,7 +64,7 @@ void ScintillaCtrl::SetUpEditor()
 	SetAStyle(SCE_C_UUID, ini.GetColor(_T("uuid")));
 	SetAStyle(SCE_C_OPERATOR, ini.GetColor(_T("operators")));
 	SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(_T("preprocessor")));
-	SetAStyle(SCE_C_WORD, ini.GetColor(_T("variables")));
+	SetAStyle(SCE_C_WORD, ini.GetColor(_T("keywords")));
 }
 
 void ScintillaCtrl::LoadDefaultState()

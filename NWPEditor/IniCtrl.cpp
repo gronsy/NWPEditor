@@ -87,6 +87,7 @@ void IniCtrl::WriteDefaultColours()
 	WritePrivateProfileString(_T("colors"), _T("number"), _itot(RGB(255, 0, 255), buffer, 10), _T("config/colors.ini"));		//magenta
 	WritePrivateProfileString(_T("colors"), _T("uuid"), _itot(RGB(0, 255, 255), buffer, 10), _T("config/colors.ini"));			//cyan
 	WritePrivateProfileString(_T("colors"), _T("preprocessor"), _itot(RGB(77, 77, 51), buffer, 10), _T("config/colors.ini"));	//gray
+	WritePrivateProfileString(_T("colors"), _T("keywords"), _itot(RGB(102, 0, 3), buffer, 10), _T("config/colors.ini"));		//purple
 }
 
 TCHAR* IniCtrl::GetKeywords() { return keywords; }
