@@ -20,7 +20,6 @@ public:
 	void SetLang(int langm, bool clang=false);
 	void LoadDefaultState();
 	void UpdateColor(TCHAR* field);
-	void UpdateFont();
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };

@@ -95,8 +95,3 @@ void ScintillaCtrl::UpdateColor(TCHAR* field)
 	else if (!wcscmp(field, _T("preprocessor")))SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(field));
 	else if (!wcscmp(field, _T("variables")))SetAStyle(SCE_C_WORD, ini.GetColor(field));
 }
-
-void ScintillaCtrl::UpdateFont()
-{
-
-}
