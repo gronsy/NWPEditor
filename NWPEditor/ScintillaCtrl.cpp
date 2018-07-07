@@ -65,6 +65,7 @@ void ScintillaCtrl::SetUpEditor()
 	SetAStyle(SCE_C_OPERATOR, ini.GetColor(_T("operators")));
 	SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(_T("preprocessor")));
 	SetAStyle(SCE_C_WORD, ini.GetColor(_T("keywords")));
+	SetAStyle(SCE_C_WORD2, ini.GetColor(_T("keywords")));
 }
 
 void ScintillaCtrl::LoadDefaultState()
