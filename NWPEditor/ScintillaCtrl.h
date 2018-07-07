@@ -15,7 +15,6 @@ public:
 	ScintillaCtrl();
 	~ScintillaCtrl();
 
-	//general methods
 	void SetScintillaCtrl(HWND wnd);
 	void SetLang(int langm, bool clang=false);
 	void LoadDefaultState();
