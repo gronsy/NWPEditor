@@ -29,9 +29,9 @@ protected:
 	TCHAR *buffer, *keywords;
 	int lang;
 
-	void WriteDefaultKeywords();
-	void WriteDefaultColours();
-	void WriteDefaultFont();
+	static void WriteDefaultKeywords();
+	static void WriteDefaultColours();
+	static void WriteDefaultFont();
 	void LoadKeywordsWFont(TCHAR* keywordsLang);
 	void LoadColours(TCHAR* keywordsLang);
 public:
