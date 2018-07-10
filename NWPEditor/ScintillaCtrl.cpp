@@ -34,11 +34,8 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 	switch (lex) {
 	case SCLEX_CPP:
 		SendEditor(SCI_SETLEXER, SCLEX_CPP, NULL);
-		if (clang) {
-			ini.SendIni(SCLEX_CPP, true);
-			break;
-		}else
-			ini.SendIni(SCLEX_CPP);
+		if (clang) ini.SendIni(SCLEX_CPP, true);
+		else ini.SendIni(SCLEX_CPP);
 		break;
 	case SCLEX_PYTHON:
 		SendEditor(SCI_SETLEXER, SCLEX_PYTHON, NULL);
@@ -65,7 +62,7 @@ void ScintillaCtrl::SetUpEditor()
 	SetAStyle(SCE_C_OPERATOR, ini.GetColor(_T("operators")));
 	SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(_T("preprocessor")));
 	SetAStyle(SCE_C_WORD, ini.GetColor(_T("keywords")));
-	SetAStyle(SCE_C_WORD2, ini.GetColor(_T("keywords")));
+	//SetAStyle(SCE_C_WORD2, ini.GetColor(_T("keywords")));
 }
 
 void ScintillaCtrl::LoadDefaultState()
@@ -94,5 +91,5 @@ void ScintillaCtrl::UpdateColor(TCHAR* field)
 	else if (!wcscmp(field, _T("uuid")))SetAStyle(SCE_C_UUID, ini.GetColor(field));
 	else if (!wcscmp(field, _T("operators")))SetAStyle(SCE_C_OPERATOR, ini.GetColor(field));
 	else if (!wcscmp(field, _T("preprocessor")))SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(field));
-	else if (!wcscmp(field, _T("variables")))SetAStyle(SCE_C_WORD, ini.GetColor(field));
+	else if (!wcscmp(field, _T("keywords")))SetAStyle(SCE_C_WORD, ini.GetColor(field));
 }
