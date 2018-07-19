@@ -19,6 +19,7 @@ public:
 	void SetLang(int langm, bool clang=false);
 	void LoadDefaultState();
 	void UpdateColor(TCHAR* field);
+	void AutoCompKey(UINT key);
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };

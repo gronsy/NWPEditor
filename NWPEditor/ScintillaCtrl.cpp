@@ -51,9 +51,6 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 void ScintillaCtrl::SetUpEditor()
 {
 	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(ini.GetKeywords()));
-	SendEditor(SCI_AUTOCSHOW, 1, reinterpret_cast<LPARAM>(ini.GetKeywords()));
-	SendEditor(SCI_AUTOCSETIGNORECASE, true);
-	SendEditor(SCI_AUTOCSETORDER, SC_ORDER_PERFORMSORT);
 
 	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("comment")));
@@ -95,4 +92,11 @@ void ScintillaCtrl::UpdateColor(TCHAR* field)
 	else if (!wcscmp(field, _T("operators")))SetAStyle(SCE_C_OPERATOR, ini.GetColor(field));
 	else if (!wcscmp(field, _T("preprocessor")))SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(field));
 	else if (!wcscmp(field, _T("keywords")))SetAStyle(SCE_C_WORD, ini.GetColor(field));
+}
+
+void ScintillaCtrl::AutoCompKey(UINT key)
+{
+	SendEditor(SCI_AUTOCSHOW, 1, reinterpret_cast<LPARAM>(ini.GetKeywords()));
+	SendEditor(SCI_AUTOCSETIGNORECASE, true);
+	SendEditor(SCI_AUTOCSETORDER, SC_ORDER_PERFORMSORT);
 }
