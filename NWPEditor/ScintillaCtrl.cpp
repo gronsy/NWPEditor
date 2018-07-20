@@ -61,9 +61,8 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 void ScintillaCtrl::SetUpEditor()
 {
 	//TODO: Change types of all keywords
-	//SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(ini.GetKeywords()));
-	SendEditor(SCI_SETKEYWORDS, NULL, (LPARAM)keywords);
-
+	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(ini.GetKeywords()));
+	
 	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTDOC, ini.GetColor(_T("comment")));

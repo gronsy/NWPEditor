@@ -59,11 +59,11 @@ void IniCtrl::LoadKeywordsWFont(TCHAR* keywordsLang)
 	if (!PathFileExists(_T("config/font.ini")))
 		WriteDefaultFont();
 
-	if (buffer != nullptr) 
+	/*if (buffer != nullptr) 
 		delete[] buffer;
 
 	buffer = new TCHAR[buffer_len];
-	GetPrivateProfileString(_T("keywords"), keywordsLang, keywords, buffer, buffer_len, _T("config/keywords.ini"));
+	GetPrivateProfileString(_T("keywords"), keywordsLang, keywords, buffer, buffer_len, _T("config/keywords.ini"));*/
 }
 
 void IniCtrl::WriteDefaultKeywords() 
@@ -90,7 +90,19 @@ void IniCtrl::WriteDefaultColours()
 	WritePrivateProfileString(_T("colors"), _T("keywords"), _itot(RGB(102, 0, 3), buffer, 10), _T("config/colors.ini"));		//purple
 }
 
-TCHAR* IniCtrl::GetKeywords() { return keywords; }
+char* IniCtrl::GetKeywords() 
+{
+	if (buffer != nullptr) 
+	{
+		delete[] buffer;
+		buffer = nullptr;
+	}
+
+	buffer = new char[wcslen(keywords)];
+	wcstombs(buffer, keywords, wcslen(keywords));
+
+	return buffer;
+}
 
 COLORREF IniCtrl::GetColor(TCHAR* colorName) 
 { 

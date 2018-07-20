@@ -26,7 +26,8 @@ static TCHAR* py_keywords = _T("False class finally is return None continue for 
 class IniCtrl {
 	friend void ColorPickDlg::OnBtnDefault();
 protected:
-	TCHAR *buffer, *keywords;
+	TCHAR  *keywords;
+	char *buffer;
 	int lang;
 
 	static void WriteDefaultKeywords();
@@ -38,7 +39,7 @@ public:
 	IniCtrl();
 	~IniCtrl();
 	void SendIni(int lang, bool clang=false);
-	TCHAR* GetKeywords();
+	char* GetKeywords();
 	COLORREF GetColor(TCHAR* colorName);
 	TCHAR* GetFont();
 	void ChangeColor(COLORREF color, TCHAR* name);
