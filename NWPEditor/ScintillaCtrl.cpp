@@ -2,16 +2,6 @@
 #include "stdafx.h"
 #include "ChildView.h"
 
-char keywords[] = "asm auto bool break case catch char class const "
-"dynamic_cast else enum explicit extern false finally "
-"float for friend goto if inline int long mutable "
-"namespace new operator private protected public "
-"register reinterpret_cast register return short signed "
-"sizeof static static_cast struct switch template "
-"this throw true try typedef typeid typename "
-"union unsigned using virtual void volatile "
-"wchar_t while";
-
 //construction and deconstruction
 ScintillaCtrl::ScintillaCtrl() {}
 
@@ -73,7 +63,6 @@ void ScintillaCtrl::SetUpEditor()
 	SetAStyle(SCE_C_OPERATOR, ini.GetColor(_T("operators")));
 	SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(_T("preprocessor")));
 	SetAStyle(SCE_C_WORD, ini.GetColor(_T("keywords")));
-	//SetAStyle(SCE_C_WORD2, ini.GetColor(_T("keywords")));
 }
 
 void ScintillaCtrl::LoadDefaultState()
