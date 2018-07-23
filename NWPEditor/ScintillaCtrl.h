@@ -20,6 +20,7 @@ public:
 	void LoadDefaultState();
 	void UpdateColor(TCHAR* field);
 	void AutoCompKey(UINT key);
+	void CheckTab();
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };

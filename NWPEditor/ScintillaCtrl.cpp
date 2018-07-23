@@ -50,7 +50,6 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 
 void ScintillaCtrl::SetUpEditor()
 {
-	//TODO: Change types of all keywords
 	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(ini.GetKeywords()));
 	
 	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));
@@ -99,4 +98,10 @@ void ScintillaCtrl::AutoCompKey(UINT key)
 	SendEditor(SCI_AUTOCSHOW, 1, reinterpret_cast<LPARAM>(ini.GetKeywords()));
 	SendEditor(SCI_AUTOCSETIGNORECASE, true);
 	SendEditor(SCI_AUTOCSETORDER, SC_ORDER_PERFORMSORT);
+}
+
+void ScintillaCtrl::CheckTab()
+{
+	if (SendEditor(SCI_AUTOCACTIVE, NULL))
+		SendEditor(SCI_AUTOCCOMPLETE, NULL);
 }
