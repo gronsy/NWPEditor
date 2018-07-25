@@ -105,3 +105,12 @@ void ScintillaCtrl::CheckTab()
 	if (SendEditor(SCI_AUTOCACTIVE, NULL))
 		SendEditor(SCI_AUTOCCOMPLETE, NULL);
 }
+
+void ScintillaCtrl::CutCopyPaste(UINT key)
+{
+	switch (key) {
+	case 0x43: SendEditor(SCI_COPY, NULL); return;
+	case 0x56: SendEditor(SCI_PASTE, NULL); return;
+	case 0x58: SendEditor(SCI_CUT, NULL); return;
+	}
+}
