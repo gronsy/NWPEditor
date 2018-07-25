@@ -15,7 +15,7 @@ static TCHAR* cpp_keywords = _T("asm auto bool break case catch char class const
 
 static TCHAR* c_keywords = _T("auto break case char const continue delete do double "
 	"else enum explicit float for goto if int long register "
-	"return short signed sizeof static struct switch typedef "
+	"return short signed sizeof static struct switch typedef"
 	);
 
 static TCHAR* py_keywords = _T("False class finally is return None continue for lambda "

@@ -12,10 +12,7 @@ IniCtrl::IniCtrl()
 IniCtrl::~IniCtrl()
 {
 	if (buffer != nullptr)
-	{
 		delete[] buffer;
-		buffer = nullptr;
-	}
 }
 
 void IniCtrl::SendIni(int lang, bool clang) 
@@ -58,12 +55,6 @@ void IniCtrl::LoadKeywordsWFont(TCHAR* keywordsLang)
 
 	if (!PathFileExists(_T("config/font.ini")))
 		WriteDefaultFont();
-
-	/*if (buffer != nullptr) 
-		delete[] buffer;
-
-	buffer = new TCHAR[buffer_len];
-	GetPrivateProfileString(_T("keywords"), keywordsLang, keywords, buffer, buffer_len, _T("config/keywords.ini"));*/
 }
 
 void IniCtrl::WriteDefaultKeywords() 
@@ -93,13 +84,10 @@ void IniCtrl::WriteDefaultColours()
 char* IniCtrl::GetKeywords() 
 {
 	if (buffer != nullptr) 
-	{
 		delete[] buffer;
-		buffer = nullptr;
-	}
 
-	buffer = new char[wcslen(keywords)];
-	wcstombs(buffer, keywords, wcslen(keywords));
+	buffer = new char[wcslen(keywords)+1];
+	wcstombs(buffer, keywords, wcslen(keywords)+1);
 
 	return buffer;
 }

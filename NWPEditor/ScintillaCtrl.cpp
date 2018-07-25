@@ -96,7 +96,7 @@ void ScintillaCtrl::UpdateColor(TCHAR* field)
 void ScintillaCtrl::AutoCompKey(UINT key)
 {
 	SendEditor(SCI_AUTOCSHOW, 1, reinterpret_cast<LPARAM>(ini.GetKeywords()));
-	SendEditor(SCI_AUTOCSETIGNORECASE, true);
+	//SendEditor(SCI_AUTOCSETIGNORECASE, true);
 	SendEditor(SCI_AUTOCSETORDER, SC_ORDER_PERFORMSORT);
 }
 
