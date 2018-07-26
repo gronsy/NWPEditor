@@ -1,9 +1,5 @@
-#include "ChildView.h"
-#include "IniCtrl.h"
 #include "stdafx.h"
-#include <cstring>
-#include <locale>
-#include <codecvt>
+#include "IniCtrl.h"
 
 IniCtrl::IniCtrl()
 {

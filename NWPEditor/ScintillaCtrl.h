@@ -1,6 +1,6 @@
 #pragma once
 #include "IniCtrl.h"
-#include "Snapshot.h"
+//#include "Snapshot.h"
 #include <string>
 
 class ScintillaCtrl {

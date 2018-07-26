@@ -1,6 +1,8 @@
-#include "stdafx.h"
+#pragma once
 #include "ColorPickDlg.h"
 #include <string>
+#include <locale>
+#include <codecvt>
 
 //Default keyords
 std::wstring cpp_keywords = _T("asm auto bool break case catch char class const "

@@ -1,6 +1,6 @@
-#include "ScintillaCtrl.h"
 #include "stdafx.h"
-#include "ChildView.h"
+#include "ScintillaCtrl.h"
+
 
 //construction and deconstruction
 ScintillaCtrl::ScintillaCtrl() {}
