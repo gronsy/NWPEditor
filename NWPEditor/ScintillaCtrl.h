@@ -1,6 +1,7 @@
 #pragma once
 #include "IniCtrl.h"
 #include "Snapshot.h"
+#include <string>
 
 class ScintillaCtrl {
 protected:
@@ -8,7 +9,7 @@ protected:
 	IniCtrl ini;
 protected:
 	void SetUpEditor();
-	void SetAStyle(int style, COLORREF fore, COLORREF back=RGB(255,255,255), int size=NULL, const char *face=NULL);
+	void SetAStyle(int style, COLORREF fore, COLORREF back=RGB(255,255,255), int size=NULL, const std::string face=NULL);
 	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL);
 public:
 	//construction and deconstruction

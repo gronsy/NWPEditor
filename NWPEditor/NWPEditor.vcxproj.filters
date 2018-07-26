@@ -39,7 +39,7 @@
     <ClInclude Include="IniCtrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FieldPickDlg.h">
+    <ClInclude Include="ColorPickDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,7 +62,7 @@
     <ClCompile Include="IniCtrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FieldPickDlg.cpp">
+    <ClCompile Include="ColorPickDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

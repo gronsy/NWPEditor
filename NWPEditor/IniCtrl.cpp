@@ -1,23 +1,22 @@
 #include "ChildView.h"
-#include "stdafx.h"
 #include "IniCtrl.h"
+#include "stdafx.h"
 #include <cstring>
+#include <locale>
+#include <codecvt>
 
 IniCtrl::IniCtrl()
 {
-	buffer = nullptr;
 	keywords = _T("");
 }
 
 IniCtrl::~IniCtrl()
 {
-	if (buffer != nullptr)
-		delete[] buffer;
 }
 
 void IniCtrl::SendIni(int lang, bool clang) 
 {
-	TCHAR* keywordsLang;
+	std::wstring keywordsLang;
 
 	switch (lang) {
 	case SCLEX_CPP:
@@ -34,22 +33,21 @@ void IniCtrl::SendIni(int lang, bool clang)
 		keywords = py_keywords;
 		break;
 	default:
-		keywords = NULL;
+		keywords = nullptr;
 	}
 	
 	LoadKeywordsWFont(keywordsLang);
 	LoadColours(keywordsLang);
 }
 
-void IniCtrl::LoadColours(TCHAR* keywordsLang)
+void IniCtrl::LoadColours(const std::wstring& keywordsLang)
 {
 	if (!PathFileExists(_T("config/colors.ini")))
 		WriteDefaultColours();
 }
 
-void IniCtrl::LoadKeywordsWFont(TCHAR* keywordsLang)
+void IniCtrl::LoadKeywordsWFont(const std::wstring& keywordsLang)
 {
-	int buffer_len = _tcslen(keywords) * 2;
 	if (!PathFileExists(_T("config/keywords.ini")))
 		WriteDefaultKeywords();
 
@@ -59,77 +57,60 @@ void IniCtrl::LoadKeywordsWFont(TCHAR* keywordsLang)
 
 void IniCtrl::WriteDefaultKeywords() 
 {
-	WritePrivateProfileString(_T("keywords"), _T("cpp"), cpp_keywords, _T("config/keywords.ini"));
-	WritePrivateProfileString(_T("keywords"), _T("c"), c_keywords, _T("config/keywords.ini"));
-	WritePrivateProfileString(_T("keywords"), _T("python"), py_keywords, _T("config/keywords.ini"));
+	WritePrivateProfileString(_T("keywords"), _T("cpp"), cpp_keywords.c_str(), _T("config/keywords.ini"));
+	WritePrivateProfileString(_T("keywords"), _T("c"), c_keywords.c_str(), _T("config/keywords.ini"));
+	WritePrivateProfileString(_T("keywords"), _T("python"), py_keywords.c_str(), _T("config/keywords.ini"));
 }
 
 void IniCtrl::WriteDefaultFont(){ WritePrivateProfileString(_T("font"), _T("font"), _T("Arial"), _T("config/font.ini")); }
 
 void IniCtrl::WriteDefaultColours() 
 {
-	TCHAR buffer[sizeof(COLORREF)*2+1];
+	std::wstring buffer;
 
-	WritePrivateProfileString(_T("colors"), _T("plain"), _itot(RGB(0, 0, 0), buffer, 10), _T("config/colors.ini"));				//black
-	WritePrivateProfileString(_T("colors"), _T("comment"), _itot(RGB(0, 255, 0), buffer, 10), _T("config/colors.ini"));			//green
-	WritePrivateProfileString(_T("colors"), _T("operators"), _itot(RGB(255, 0, 0), buffer, 10), _T("config/colors.ini"));		//red
-	WritePrivateProfileString(_T("colors"), _T("selection"), _itot(RGB(51, 153, 255), buffer, 10), _T("config/colors.ini"));	//light-blue
-	WritePrivateProfileString(_T("colors"), _T("string"), _itot(RGB(255, 255, 0), buffer, 10), _T("config/colors.ini"));		//yellow
-	WritePrivateProfileString(_T("colors"), _T("number"), _itot(RGB(255, 0, 255), buffer, 10), _T("config/colors.ini"));		//magenta
-	WritePrivateProfileString(_T("colors"), _T("uuid"), _itot(RGB(0, 255, 255), buffer, 10), _T("config/colors.ini"));			//cyan
-	WritePrivateProfileString(_T("colors"), _T("preprocessor"), _itot(RGB(77, 77, 51), buffer, 10), _T("config/colors.ini"));	//gray
-	WritePrivateProfileString(_T("colors"), _T("keywords"), _itot(RGB(102, 0, 3), buffer, 10), _T("config/colors.ini"));		//purple
+	WritePrivateProfileString(_T("colors"), _T("plain"), std::to_wstring(RGB(0, 0, 0)).c_str(), _T("config/colors.ini"));				//black
+	WritePrivateProfileString(_T("colors"), _T("comment"), std::to_wstring(RGB(0, 255, 0)).c_str(), _T("config/colors.ini"));			//green
+	WritePrivateProfileString(_T("colors"), _T("operators"), std::to_wstring(RGB(255, 0, 0)).c_str(), _T("config/colors.ini"));		//red
+	WritePrivateProfileString(_T("colors"), _T("selection"), std::to_wstring(RGB(51, 153, 255)).c_str(), _T("config/colors.ini"));	//light-blue
+	WritePrivateProfileString(_T("colors"), _T("string"), std::to_wstring(RGB(255, 255, 0)).c_str(), _T("config/colors.ini"));		//yellow
+	WritePrivateProfileString(_T("colors"), _T("number"), std::to_wstring(RGB(255, 0, 255)).c_str(), _T("config/colors.ini"));		//magenta
+	WritePrivateProfileString(_T("colors"), _T("uuid"), std::to_wstring(RGB(0, 255, 255)).c_str(), _T("config/colors.ini"));			//cyan
+	WritePrivateProfileString(_T("colors"), _T("preprocessor"), std::to_wstring(RGB(77, 77, 51)).c_str(), _T("config/colors.ini"));	//gray
+	WritePrivateProfileString(_T("colors"), _T("keywords"), std::to_wstring(RGB(102, 0, 3)).c_str(), _T("config/colors.ini"));//purple
 }
 
-char* IniCtrl::GetKeywords() 
+const std::string& IniCtrl::GetKeywords() 
 {
-	if (buffer != nullptr) 
-		delete[] buffer;
+	using convert_type = std::codecvt_utf8<wchar_t>;
+	std::wstring_convert<convert_type, wchar_t> converter;
 
-	buffer = new char[wcslen(keywords)+1];
-	wcstombs(buffer, keywords, wcslen(keywords)+1);
-
-	return buffer;
+	return converter.to_bytes(keywords);
 }
 
-COLORREF IniCtrl::GetColor(TCHAR* colorName) 
+COLORREF IniCtrl::GetColor(const std::wstring& colorName) 
 { 
 	COLORREF color;
 
-	color=GetPrivateProfileInt(_T("colors"), colorName, RGB(0, 0, 0), _T("config/colors.ini"));
+	color=GetPrivateProfileInt(_T("colors"), colorName.c_str(), RGB(0, 0, 0), _T("config/colors.ini"));
 	return color;
 }
 
-TCHAR* IniCtrl::GetFont()
+const std::wstring& IniCtrl::GetFont()
 {
-	TCHAR font[50];
+	std::wstring font;
 
-	GetPrivateProfileString(_T("font"), _T("font"), _T("Arial"), font, 50, _T("config/font.ini"));
+	GetPrivateProfileString(_T("font"), _T("font"), _T("Arial"), &font[0], 50, _T("config/font.ini"));
 	return font;
 }
 
-void IniCtrl::ChangeColor(COLORREF color, TCHAR* field)
+void IniCtrl::ChangeColor(const COLORREF color, const std::wstring& field)
 {
-	TCHAR* buffer = new TCHAR[RGB(255, 255, 255)];
+	std::wstring buffer;
 
-	WritePrivateProfileString(_T("colors"), field, _itot(color, buffer, 10), _T("config/colors.ini"));
-
-	delete[] buffer; buffer = nullptr;
+	WritePrivateProfileString(_T("colors"), field.c_str(), std::to_wstring(color).c_str(), _T("config/colors.ini"));
 }
 
-void IniCtrl::ChangeFont(TCHAR* font)
+void IniCtrl::ChangeFont(const std::wstring& font)const
 {
-	WritePrivateProfileString(_T("font"), _T("font"), font, _T("config/font.ini"));
-}
-
-void IniCtrl::SaveEditorState(TCHAR* field, TCHAR* value) 
-{ 
-	WritePrivateProfileString(_T("colors"), field, value, _T("config/colors.ini")); 
-}
-
-void IniCtrl::SaveEditorState(TCHAR* field, COLORREF value)
-{
-	TCHAR buffer[sizeof(COLORREF)];
-	
-	WritePrivateProfileString(_T("colors"), field, _itot(value, buffer, 10), _T("config/colors.ini"));
+	WritePrivateProfileString(_T("font"), _T("font"), font.c_str(), _T("config/font.ini"));
 }

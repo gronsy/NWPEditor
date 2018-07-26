@@ -181,7 +181,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ChildView.h" />
-    <ClInclude Include="FieldPickDlg.h" />
+    <ClInclude Include="ColorPickDlg.h" />
     <ClInclude Include="IniCtrl.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="NWPEditor.h" />
@@ -192,7 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChildView.cpp" />
-    <ClCompile Include="FieldPickDlg.cpp" />
+    <ClCompile Include="ColorPickDlg.cpp" />
     <ClCompile Include="IniCtrl.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="NWPEditor.cpp" />

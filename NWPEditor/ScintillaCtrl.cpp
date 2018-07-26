@@ -18,7 +18,7 @@ LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=NULL*/
 }
 
 void ScintillaCtrl::SetAStyle(int style, COLORREF fore, 
-	COLORREF back/*=RGB(255,255,255)*/, int size/*=NULL*/, const char *face/*=NULL*/)
+	COLORREF back/*=RGB(255,255,255)*/, int size/*=NULL*/, std::string face/*=NULL*/)
 {
 	SendEditor(SCI_STYLESETFORE, style, fore);
 	SendEditor(SCI_STYLESETBACK, style, back);
@@ -26,7 +26,7 @@ void ScintillaCtrl::SetAStyle(int style, COLORREF fore,
 	if (size >= 1)
 		SendEditor(SCI_STYLESETSIZE, style, size);
 	else
-		SendEditor(SCI_STYLESETFONT, style, reinterpret_cast<LPARAM>(face));
+		SendEditor(SCI_STYLESETFONT, style, face[0]);
 }
 
 void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/) 
@@ -50,7 +50,7 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 
 void ScintillaCtrl::SetUpEditor()
 {
-	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(ini.GetKeywords()));
+	SendEditor(SCI_SETKEYWORDS, NULL, ini.GetKeywords()[0]);
 	
 	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("comment")));
@@ -95,7 +95,7 @@ void ScintillaCtrl::UpdateColor(TCHAR* field)
 
 void ScintillaCtrl::AutoCompKey(UINT key)
 {
-	SendEditor(SCI_AUTOCSHOW, 1, reinterpret_cast<LPARAM>(ini.GetKeywords()));
+	SendEditor(SCI_AUTOCSHOW, 1, ini.GetKeywords()[0]);
 	//SendEditor(SCI_AUTOCSETIGNORECASE, true);
 	SendEditor(SCI_AUTOCSETORDER, SC_ORDER_PERFORMSORT);
 }
