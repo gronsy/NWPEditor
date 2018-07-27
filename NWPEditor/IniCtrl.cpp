@@ -1,28 +1,28 @@
 #include "stdafx.h"
 #include "IniCtrl.h"
 
+std::wstring IniCtrl::cpp_keywords=_T("asm auto bool break case catch char class const "
+	"dynamic_cast else enum explicit extern false finally "
+	"float for friend goto if inline int long mutable "
+	"namespace new operator private protected public "
+	"register reinterpret_cast register return short signed "
+	"sizeof static static_cast struct switch template "
+	"this throw true try typedef typeid typename "
+	"union unsigned using virtual void volatile "
+	"wchar_t while");
+
+std::wstring IniCtrl::c_keywords= _T("auto break case char const continue delete do double "
+	"else enum explicit float for goto if int long register "
+	"return short signed sizeof static struct switch typedef");
+
+std::wstring IniCtrl::py_keywords = _T("False class finally is return None continue for lambda "
+	"try True def from nonlocal while and del global not "
+	"with as elif if or yield assert else import pass "
+	"break except in raise");
+
 IniCtrl::IniCtrl()
 {
 	keywords = _T("");
-	cpp_keywords= _T("asm auto bool break case catch char class const "
-		"dynamic_cast else enum explicit extern false finally "
-		"float for friend goto if inline int long mutable "
-		"namespace new operator private protected public "
-		"register reinterpret_cast register return short signed "
-		"sizeof static static_cast struct switch template "
-		"this throw true try typedef typeid typename "
-		"union unsigned using virtual void volatile "
-		"wchar_t while");
-
-	c_keywords= _T("auto break case char const continue delete do double "
-		"else enum explicit float for goto if int long register "
-		"return short signed sizeof static struct switch typedef"
-	);
-
-	py_keywords= _T("False class finally is return None continue for lambda "
-		"try True def from nonlocal while and del global not "
-		"with as elif if or yield assert else import pass "
-		"break except in raise");
 }
 
 IniCtrl::~IniCtrl()
