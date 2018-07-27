@@ -4,6 +4,25 @@
 IniCtrl::IniCtrl()
 {
 	keywords = _T("");
+	cpp_keywords= _T("asm auto bool break case catch char class const "
+		"dynamic_cast else enum explicit extern false finally "
+		"float for friend goto if inline int long mutable "
+		"namespace new operator private protected public "
+		"register reinterpret_cast register return short signed "
+		"sizeof static static_cast struct switch template "
+		"this throw true try typedef typeid typename "
+		"union unsigned using virtual void volatile "
+		"wchar_t while");
+
+	c_keywords= _T("auto break case char const continue delete do double "
+		"else enum explicit float for goto if int long register "
+		"return short signed sizeof static struct switch typedef"
+	);
+
+	py_keywords= _T("False class finally is return None continue for lambda "
+		"try True def from nonlocal while and del global not "
+		"with as elif if or yield assert else import pass "
+		"break except in raise");
 }
 
 IniCtrl::~IniCtrl()
@@ -53,9 +72,9 @@ void IniCtrl::LoadKeywordsWFont(const std::wstring& keywordsLang)
 
 void IniCtrl::WriteDefaultKeywords() 
 {
-	WritePrivateProfileString(_T("keywords"), _T("cpp"), cpp_keywords.c_str(), _T("config/keywords.ini"));
-	WritePrivateProfileString(_T("keywords"), _T("c"), c_keywords.c_str(), _T("config/keywords.ini"));
-	WritePrivateProfileString(_T("keywords"), _T("python"), py_keywords.c_str(), _T("config/keywords.ini"));
+	WritePrivateProfileString(_T("keywords"), _T("cpp"), IniCtrl::cpp_keywords.c_str(), _T("config/keywords.ini"));
+	WritePrivateProfileString(_T("keywords"), _T("c"), IniCtrl::c_keywords.c_str(), _T("config/keywords.ini"));
+	WritePrivateProfileString(_T("keywords"), _T("python"), IniCtrl::py_keywords.c_str(), _T("config/keywords.ini"));
 }
 
 void IniCtrl::WriteDefaultFont(){ WritePrivateProfileString(_T("font"), _T("font"), _T("Arial"), _T("config/font.ini")); }

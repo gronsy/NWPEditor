@@ -114,3 +114,10 @@ void ScintillaCtrl::CutCopyPaste(UINT key)
 	case 0x58: SendEditor(SCI_CUT, NULL); return;
 	}
 }
+
+void ScintillaCtrl::RestoreDefaults()
+{
+	IniCtrl::WriteDefaultColours();
+	IniCtrl::WriteDefaultKeywords();
+	IniCtrl::WriteDefaultFont();
+}
