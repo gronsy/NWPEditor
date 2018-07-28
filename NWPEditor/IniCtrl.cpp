@@ -94,7 +94,7 @@ void IniCtrl::WriteDefaultColours()
 	WritePrivateProfileString(_T("colors"), _T("keywords"), std::to_wstring(RGB(102, 0, 3)).c_str(), _T("config/colors.ini"));//purple
 }
 
-const std::string& IniCtrl::GetKeywords() 
+const std::string IniCtrl::GetKeywords() 
 {
 	using convert_type = std::codecvt_utf8<wchar_t>;
 	std::wstring_convert<convert_type, wchar_t> converter;
@@ -110,7 +110,7 @@ COLORREF IniCtrl::GetColor(const std::wstring& colorName)
 	return color;
 }
 
-const std::wstring& IniCtrl::GetFont()
+const std::wstring IniCtrl::GetFont()
 {
 	std::wstring font;
 

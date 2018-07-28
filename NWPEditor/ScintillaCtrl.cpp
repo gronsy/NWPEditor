@@ -27,7 +27,7 @@ void ScintillaCtrl::SetAStyle(int style, COLORREF fore,
 		SendEditor(SCI_STYLESETSIZE, style, size);
 	else
 		//Access violation error, strlen ne zeli citat std::string, WordList.cxx koristi tu funkciju
-		SendEditor(SCI_STYLESETFONT, style, (LPARAM)(LPSTR)face.c_str());
+		SendEditor(SCI_STYLESETFONT, style, (LPARAM)face.c_str());
 }
 
 void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/) 
@@ -51,7 +51,7 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 
 void ScintillaCtrl::SetUpEditor()
 {
-	SendEditor(SCI_SETKEYWORDS, NULL, (LPARAM)(LPSTR)ini.GetKeywords().c_str());
+	SendEditor(SCI_SETKEYWORDS, NULL, (LPARAM)ini.GetKeywords().c_str());
 	
 	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("comment")));
