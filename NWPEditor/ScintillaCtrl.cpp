@@ -18,7 +18,7 @@ LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=NULL*/
 }
 
 void ScintillaCtrl::SetAStyle(int style, COLORREF fore, 
-	COLORREF back/*=RGB(255,255,255)*/, int size/*=NULL*/, std::string face/*=NULL*/)
+	COLORREF back/*=RGB(255,255,255)*/, int size/*=NULL*/, const std::string& face/*=NULL*/)
 {
 	SendEditor(SCI_STYLESETFORE, style, fore);
 	SendEditor(SCI_STYLESETBACK, style, back);
@@ -26,7 +26,6 @@ void ScintillaCtrl::SetAStyle(int style, COLORREF fore,
 	if (size >= 1)
 		SendEditor(SCI_STYLESETSIZE, style, size);
 	else
-		//Access violation error, strlen ne zeli citat std::string, WordList.cxx koristi tu funkciju
 		SendEditor(SCI_STYLESETFONT, style, (LPARAM)face.c_str());
 }
 
