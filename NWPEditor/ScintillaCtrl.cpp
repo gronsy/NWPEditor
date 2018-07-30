@@ -52,7 +52,7 @@ void ScintillaCtrl::SetUpEditor()
 {
 	SendEditor(SCI_SETKEYWORDS, NULL, (LPARAM)ini.GetKeywords().c_str());
 	
-	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));
+	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));					//Access violation
 	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTDOC, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_NUMBER, ini.GetColor(_T("number")));
