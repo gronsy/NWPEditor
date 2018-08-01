@@ -12,7 +12,7 @@ void ScintillaCtrl::SetScintillaCtrl(HWND wnd) {scintillaCtrl = wnd;}
 HWND ScintillaCtrl::GetScintillaCtrl() { return scintillaCtrl; }
 IniCtrl ScintillaCtrl::GetIni() { return ini; }
 
-LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=NULL*/)
+LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=""*/)
 {
 	return ::SendMessage(scintillaCtrl, msg, wparam, lparam);
 }
