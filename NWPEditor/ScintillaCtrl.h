@@ -8,8 +8,8 @@ protected:
 	IniCtrl ini;
 protected:
 	void SetUpEditor();
-	void SetAStyle(int style, COLORREF fore, COLORREF back=RGB(255,255,255), int size=NULL, const std::string& face="");
-	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL);
+	void SetAStyle(int style, COLORREF fore, COLORREF back=RGB(255,255,255), int size=NULL, const std::string& face="")const;
+	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL) const;
 public:
 	//construction and deconstruction
 	ScintillaCtrl();
@@ -20,8 +20,8 @@ public:
 	void LoadDefaultState();
 	void UpdateColor(TCHAR* field);
 	void AutoCompKey(UINT key);
-	void CheckTab();
-	void CutCopyPaste(UINT key);
+	void CheckTab()const;
+	void CutCopyPaste(UINT key)const;
 	void RestoreDefaults();
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();

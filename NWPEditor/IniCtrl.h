@@ -15,7 +15,7 @@ public:
 	IniCtrl();
 	~IniCtrl();
 	void SendIni(int lang, bool clang=false);
-	const std::string GetKeywords();
+	const std::string GetKeywords() const;
 	COLORREF GetColor(const std::wstring& colorName);
 	const std::wstring GetFont();
 	void ChangeColor(const COLORREF color, const std::wstring& field);

@@ -12,13 +12,13 @@ void ScintillaCtrl::SetScintillaCtrl(HWND wnd) {scintillaCtrl = wnd;}
 HWND ScintillaCtrl::GetScintillaCtrl() { return scintillaCtrl; }
 IniCtrl ScintillaCtrl::GetIni() { return ini; }
 
-LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=""*/)
+LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=""*/) const
 {
 	return ::SendMessage(scintillaCtrl, msg, wparam, lparam);
 }
 
 void ScintillaCtrl::SetAStyle(int style, COLORREF fore, 
-	COLORREF back/*=RGB(255,255,255)*/, int size/*=NULL*/, const std::string& face/*=NULL*/)
+	COLORREF back/*=RGB(255,255,255)*/, int size/*=NULL*/, const std::string& face/*=NULL*/) const
 {
 	SendEditor(SCI_STYLESETFORE, style, fore);
 	SendEditor(SCI_STYLESETBACK, style, back);
@@ -100,13 +100,13 @@ void ScintillaCtrl::AutoCompKey(UINT key)
 	SendEditor(SCI_AUTOCSETORDER, SC_ORDER_PERFORMSORT);
 }
 
-void ScintillaCtrl::CheckTab()
+void ScintillaCtrl::CheckTab()const
 {
 	if (SendEditor(SCI_AUTOCACTIVE, NULL))
 		SendEditor(SCI_AUTOCCOMPLETE, NULL);
 }
 
-void ScintillaCtrl::CutCopyPaste(UINT key)
+void ScintillaCtrl::CutCopyPaste(UINT key)const
 {
 	switch (key) {
 	case 0x43: SendEditor(SCI_COPY, NULL); return;
