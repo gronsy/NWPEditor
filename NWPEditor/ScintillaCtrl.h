@@ -8,7 +8,7 @@ protected:
 	IniCtrl ini;
 protected:
 	void SetUpEditor();
-	void SetAStyle(int style, COLORREF fore, COLORREF back=RGB(255,255,255), int size=NULL, const std::string& face=NULL);
+	void SetAStyle(int style, COLORREF fore, COLORREF back=RGB(255,255,255), int size=NULL, const std::string& face="");
 	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL);
 public:
 	//construction and deconstruction

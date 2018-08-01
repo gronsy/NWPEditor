@@ -26,7 +26,7 @@ void ScintillaCtrl::SetAStyle(int style, COLORREF fore,
 	if (size >= 1)
 		SendEditor(SCI_STYLESETSIZE, style, size);
 	else
-		SendEditor(SCI_STYLESETFONT, style, (LPARAM)face.c_str());
+		SendEditor(SCI_STYLESETFONT, style, reinterpret_cast<LPARAM>(face.c_str()));
 }
 
 void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/) 
@@ -50,9 +50,9 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 
 void ScintillaCtrl::SetUpEditor()
 {
-	SendEditor(SCI_SETKEYWORDS, NULL, (LPARAM)ini.GetKeywords().c_str());
+	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(ini.GetKeywords().c_str()));
 	
-	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));					//Access violation
+	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTDOC, ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_NUMBER, ini.GetColor(_T("number")));
