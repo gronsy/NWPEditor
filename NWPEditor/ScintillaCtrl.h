@@ -18,7 +18,7 @@ public:
 	void SetScintillaCtrl(HWND wnd);
 	void SetLang(int langm, bool clang=false);
 	void LoadDefaultState();
-	void UpdateColor(TCHAR* field);
+	void UpdateColor(const std::wstring& field);
 	void AutoCompKey(UINT key);
 	void CheckTab()const;
 	void CutCopyPaste(UINT key)const;
