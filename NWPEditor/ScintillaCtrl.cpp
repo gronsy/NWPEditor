@@ -95,8 +95,9 @@ void ScintillaCtrl::UpdateColor(const std::wstring& field)
 
 void ScintillaCtrl::AutoCompKey(UINT key)
 {
+	SendEditor(SCI_AUTOCGETAUTOHIDE, true);
 	SendEditor(SCI_AUTOCSHOW, 1, (LPARAM)(LPSTR)ini.GetKeywords().c_str());
-	//SendEditor(SCI_AUTOCSETIGNORECASE, true);
+	SendEditor(SCI_AUTOCSETIGNORECASE, true);
 	SendEditor(SCI_AUTOCSETORDER, SC_ORDER_PERFORMSORT);
 }
 
@@ -121,3 +122,6 @@ void ScintillaCtrl::RestoreDefaults()
 	IniCtrl::WriteDefaultKeywords();
 	IniCtrl::WriteDefaultFont();
 }
+
+void ScintillaCtrl::Undo()const { SendEditor(SCI_UNDO, NULL); }
+void ScintillaCtrl::Redo()const { SendEditor(SCI_REDO, NULL); }

@@ -23,6 +23,7 @@ public:
 	void CheckTab()const;
 	void CutCopyPaste(UINT key)const;
 	void RestoreDefaults();
+	void Undo()const;
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };
