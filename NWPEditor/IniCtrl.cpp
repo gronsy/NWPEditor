@@ -48,7 +48,7 @@ void IniCtrl::SendIni(int lang, bool clang)
 		keywords = py_keywords;
 		break;
 	default:
-		keywords = nullptr;
+		keywords = _T("");
 	}
 	
 	LoadKeywordsWFont(keywordsLang);

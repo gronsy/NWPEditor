@@ -43,6 +43,7 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 		break;
 	case SCLEX_NULL:
 		SendEditor(SCI_SETLEXER, SCLEX_NULL);
+		return;
 	}
 
 	SetUpEditor();
@@ -113,7 +114,7 @@ void ScintillaCtrl::CutCopyPaste(UINT key)const
 	switch (key) {
 	case 0x43: SendEditor(SCI_COPY, NULL); return;
 	case 0x56: SendEditor(SCI_PASTE, NULL); return;
-	case 0x58: SendEditor(SCI_CUT, NULL); return;
+	case 0x58: SendEditor(SCI_CUT, NULL);
 	}
 }
 
