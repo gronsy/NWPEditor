@@ -97,7 +97,7 @@ void ScintillaCtrl::UpdateColor(const std::wstring& field)
 
 void ScintillaCtrl::AutoCompKey(int wordLength)const
 {
-	SendEditor(SCI_AUTOCGETAUTOHIDE, true);
+	SendEditor(SCI_AUTOCSETAUTOHIDE, true);
 	SendEditor(SCI_AUTOCSHOW, wordLength-1, (LPARAM)(LPSTR)ini.GetKeywords().c_str());
 	SendEditor(SCI_AUTOCSETIGNORECASE, true);
 	SendEditor(SCI_AUTOCSETORDER, SC_ORDER_PERFORMSORT);
