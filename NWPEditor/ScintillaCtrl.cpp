@@ -95,10 +95,10 @@ void ScintillaCtrl::UpdateColor(const std::wstring& field)
 	else if (field == _T("selection"))SetAStyle(SCI_SETSELBACK,TRUE, ini.GetColor(field));
 }
 
-void ScintillaCtrl::AutoCompKey(UINT key)
+void ScintillaCtrl::AutoCompKey(int wordLength)const
 {
 	SendEditor(SCI_AUTOCGETAUTOHIDE, true);
-	SendEditor(SCI_AUTOCSHOW, 1, (LPARAM)(LPSTR)ini.GetKeywords().c_str());
+	SendEditor(SCI_AUTOCSHOW, wordLength-1, (LPARAM)(LPSTR)ini.GetKeywords().c_str());
 	SendEditor(SCI_AUTOCSETIGNORECASE, true);
 	SendEditor(SCI_AUTOCSETORDER, SC_ORDER_PERFORMSORT);
 }
