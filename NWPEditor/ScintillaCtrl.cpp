@@ -126,3 +126,9 @@ void ScintillaCtrl::RestoreDefaults()
 }
 
 void ScintillaCtrl::Undo()const { SendEditor(SCI_UNDO, NULL); }
+
+void ScintillaCtrl::LoadFromFile(const std::wstring& data, int bytesRead)
+{
+	//TODO: Convert data to LPARAM
+	SendEditor(SCI_ADDTEXT, bytesRead, NULL);
+}

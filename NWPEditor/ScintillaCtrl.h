@@ -24,6 +24,7 @@ public:
 	void CutCopyPaste(UINT key)const;
 	void RestoreDefaults();
 	void Undo()const;
+	void LoadFromFile(const std::wstring& data, int bytesRead);
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };
