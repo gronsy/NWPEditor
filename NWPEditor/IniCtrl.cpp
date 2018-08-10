@@ -72,9 +72,9 @@ void IniCtrl::LoadKeywordsWFont(const std::wstring& keywordsLang)
 
 void IniCtrl::WriteDefaultKeywords() 
 {
-	WritePrivateProfileString(_T("keywords"), _T("cpp"), IniCtrl::cpp_keywords.c_str(), _T("config/keywords.ini"));
-	WritePrivateProfileString(_T("keywords"), _T("c"), IniCtrl::c_keywords.c_str(), _T("config/keywords.ini"));
-	WritePrivateProfileString(_T("keywords"), _T("python"), IniCtrl::py_keywords.c_str(), _T("config/keywords.ini"));
+	WritePrivateProfileString(_T("keywords"), _T("cpp"), cpp_keywords.c_str(), _T("config/keywords.ini"));
+	WritePrivateProfileString(_T("keywords"), _T("c"), c_keywords.c_str(), _T("config/keywords.ini"));
+	WritePrivateProfileString(_T("keywords"), _T("python"), py_keywords.c_str(), _T("config/keywords.ini"));
 }
 
 void IniCtrl::WriteDefaultFont(){ WritePrivateProfileString(_T("font"), _T("font"), _T("Arial"), _T("config/font.ini")); }
