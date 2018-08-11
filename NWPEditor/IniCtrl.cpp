@@ -13,7 +13,7 @@ std::wstring IniCtrl::cpp_keywords=_T("asm auto bool break case catch char class
 
 std::wstring IniCtrl::c_keywords= _T("auto break case char const continue delete do double "
 	"else enum explicit float for goto if int long register "
-	"return short signed sizeof static struct switch typedef");
+	"return short signed sizeof static struct switch typedef while");
 
 std::wstring IniCtrl::py_keywords = _T("False class finally is return None continue for lambda "
 	"try True def from nonlocal while and del global not "

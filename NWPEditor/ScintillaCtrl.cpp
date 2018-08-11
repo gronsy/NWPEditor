@@ -138,3 +138,20 @@ void ScintillaCtrl::SetUpFOEditor() const
 	SendEditor(SCI_SETSAVEPOINT, NULL);
 	SendEditor(SCI_GOTOPOS, 0);
 }
+
+//Returns true if editor is empty, false if it isn't empty.
+bool ScintillaCtrl::EditorIsEmpty()
+{
+	char chkBuffer[2];
+	chkBuffer[0] = '\0';
+	SendEditor(SCI_GETTEXT, 2, reinterpret_cast<LPARAM>(chkBuffer));
+
+	if (chkBuffer[0]) return false;
+
+	return true;
+}
+
+void ScintillaCtrl::ClearEditor()const
+{
+	SendEditor(SCI_CLEARALL, NULL);
+}

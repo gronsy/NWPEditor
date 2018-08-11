@@ -26,6 +26,8 @@ public:
 	void Undo()const;
 	void LoadFromFile(const std::string& data, int bytesRead)const;
 	void SetUpFOEditor()const;
+	bool EditorIsEmpty();
+	void ClearEditor()const;
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };
