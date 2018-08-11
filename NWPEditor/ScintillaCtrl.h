@@ -25,6 +25,7 @@ public:
 	void RestoreDefaults();
 	void Undo()const;
 	void LoadFromFile(const std::string& data, int bytesRead)const;
+	void SetUpFOEditor()const;
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };

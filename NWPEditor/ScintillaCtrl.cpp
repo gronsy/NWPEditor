@@ -131,3 +131,10 @@ void ScintillaCtrl::LoadFromFile(const std::string& data, int bytesRead)const
 {
 	SendEditor(SCI_ADDTEXT, bytesRead, reinterpret_cast<LPARAM>(data.c_str()));
 }
+
+void ScintillaCtrl::SetUpFOEditor() const
+{
+	SendEditor(SCI_SETUNDOCOLLECTION, 1);
+	SendEditor(SCI_SETSAVEPOINT, NULL);
+	SendEditor(SCI_GOTOPOS, 0);
+}
