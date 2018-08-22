@@ -28,6 +28,7 @@ public:
 	void SetUpFOEditor()const;
 	bool EditorIsEmpty();
 	void ClearEditor()const;
+	void SaveFile(const CString& path);
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };

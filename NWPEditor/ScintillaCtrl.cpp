@@ -155,3 +155,17 @@ void ScintillaCtrl::ClearEditor()const
 {
 	SendEditor(SCI_CLEARALL, NULL);
 }
+
+void ScintillaCtrl::SaveFile(const CString& path)
+{
+	SendEditor(SCI_SETSAVEPOINT, NULL);
+
+	int docSize = SendEditor(SCI_GETLENGTH, NULL);
+	char* buffer=new char[docSize+1];
+	SendEditor(SCI_GETTEXT, docSize, reinterpret_cast<LPARAM>(buffer));
+
+	CFile saveFile;
+	saveFile.Open(path, CFile::modeWrite|CFile::modeCreate);
+	saveFile.Write(buffer, docSize);
+	saveFile.Close();
+}
