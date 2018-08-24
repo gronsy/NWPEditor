@@ -6,6 +6,7 @@ class ScintillaCtrl {
 protected:
 	HWND scintillaCtrl;
 	IniCtrl ini;
+	int indent;
 protected:
 	void SetUpEditor();
 	void SetAStyle(int style, COLORREF fore, COLORREF back=RGB(255,255,255), int size=NULL, const std::string& face="")const;
@@ -29,6 +30,8 @@ public:
 	bool EditorIsEmpty();
 	void ClearEditor()const;
 	void SaveFile(const CString& path);
+	void AddIndent();
+	void RmIndent();
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };

@@ -3,7 +3,7 @@
 
 
 //construction and deconstruction
-ScintillaCtrl::ScintillaCtrl() {}
+ScintillaCtrl::ScintillaCtrl() { indent = 0; }
 
 ScintillaCtrl::~ScintillaCtrl() {}
 
@@ -168,4 +168,19 @@ void ScintillaCtrl::SaveFile(const CString& path)
 	saveFile.Open(path, CFile::modeWrite|CFile::modeCreate);
 	saveFile.Write(buffer, docSize);
 	saveFile.Close();
+}
+
+void ScintillaCtrl::AddIndent()
+{
+	indent += 4;
+	SendEditor(SCI_SETINDENT, indent);
+	SendEditor(SCI_SETTABINDENTS, true);
+	SendEditor(SCI_SETBACKSPACEUNINDENTS, true);
+	SendEditor(SCI_SETLINEINDENTATION, indent);
+}
+
+void ScintillaCtrl::RmIndent()
+{
+	indent -= 4;
+	SendEditor(SCI_SETINDENT, indent);
 }
