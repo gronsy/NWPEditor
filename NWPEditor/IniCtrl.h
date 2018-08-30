@@ -3,7 +3,8 @@
 #include <locale>
 #include <codecvt>
 
-class IniCtrl {
+class IniCtrl 
+{
 protected:
 	std::wstring  keywords;
 	static std::wstring cpp_keywords, c_keywords, py_keywords;

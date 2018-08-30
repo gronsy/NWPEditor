@@ -12,7 +12,7 @@ void ScintillaCtrl::SetScintillaCtrl(HWND wnd) {scintillaCtrl = wnd;}
 HWND ScintillaCtrl::GetScintillaCtrl() { return scintillaCtrl; }
 IniCtrl ScintillaCtrl::GetIni() { return ini; }
 
-LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=""*/) const
+LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=NULL*/) const
 {
 	return ::SendMessage(scintillaCtrl, msg, wparam, lparam);
 }
@@ -68,7 +68,7 @@ void ScintillaCtrl::SetUpEditor()
 void ScintillaCtrl::LoadDefaultState()
 {
 	SendEditor(SCI_SETLEXER, SCLEX_NULL);
-	SendEditor(SCI_SETTABWIDTH,4);
+	SendEditor(SCI_SETTABWIDTH, TAB_WIDTH);
 	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, "Arial");
 	SendEditor(SCI_SETCARETFORE, RGB(0, 0, 0));
 	SendEditor(SCI_STYLECLEARALL, NULL);
@@ -172,15 +172,19 @@ void ScintillaCtrl::SaveFile(const CString& path)
 
 void ScintillaCtrl::AddIndent()
 {
-	indent += 4;
-	SendEditor(SCI_SETINDENT, indent);
-	SendEditor(SCI_SETTABINDENTS, true);
-	SendEditor(SCI_SETBACKSPACEUNINDENTS, true);
-	SendEditor(SCI_SETLINEINDENTATION, indent);
+	++indent;
 }
 
 void ScintillaCtrl::RmIndent()
 {
-	indent -= 4;
-	SendEditor(SCI_SETINDENT, indent);
+	if (!indent)	
+		return;
+
+	--indent;
+}
+
+void ScintillaCtrl::Indent()
+{
+	for(int i=0;i<indent;++i)
+		SendEditor(WM_KEYDOWN, VK_TAB);
 }

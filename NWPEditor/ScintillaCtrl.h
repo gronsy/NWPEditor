@@ -2,7 +2,10 @@
 #include "IniCtrl.h"
 #include <string>
 
-class ScintillaCtrl {
+#define TAB_WIDTH	4
+
+class ScintillaCtrl 
+{
 protected:
 	HWND scintillaCtrl;
 	IniCtrl ini;
@@ -32,6 +35,7 @@ public:
 	void SaveFile(const CString& path);
 	void AddIndent();
 	void RmIndent();
+	void Indent();
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };
