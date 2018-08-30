@@ -3,7 +3,10 @@
 
 
 //construction and deconstruction
-ScintillaCtrl::ScintillaCtrl() { indent = 0; }
+ScintillaCtrl::ScintillaCtrl()
+{
+	indent = 0;
+}
 
 ScintillaCtrl::~ScintillaCtrl() {}
 
