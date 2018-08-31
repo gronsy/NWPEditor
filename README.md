@@ -4,7 +4,7 @@ Stvari koje rade:
   -copy, cut, paste
   -support za 3 jezika (c, c++, python)
   
-Stvari koje treba napravitiČ
+Stvari koje treba napraviti
   -printanje
   -završiti autocomplete
   -promjena fontova
