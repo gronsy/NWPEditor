@@ -23,6 +23,7 @@ public:
 	void SetLang(int langm, bool clang=false);
 	void LoadDefaultState();
 	void UpdateColor(const std::wstring& field);
+	void UpdateFont();
 	void AutoCompKey(int wordLength)const;
 	void CheckTab()const;
 	void CutCopyPaste(UINT key)const;

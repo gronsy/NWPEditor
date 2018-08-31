@@ -72,7 +72,7 @@ void ScintillaCtrl::LoadDefaultState()
 {
 	SendEditor(SCI_SETLEXER, SCLEX_NULL);
 	SendEditor(SCI_SETTABWIDTH, TAB_WIDTH);
-	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, "Arial");
+	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, ini.GetFont());
 	SendEditor(SCI_SETCARETFORE, RGB(0, 0, 0));
 	SendEditor(SCI_STYLECLEARALL, NULL);
 	SendEditor(SCI_SETSELBACK, TRUE, ini.GetColor(_T("selection")));
@@ -96,6 +96,11 @@ void ScintillaCtrl::UpdateColor(const std::wstring& field)
 	else if (field==_T("preprocessor"))SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(field));
 	else if (field==_T("keywords"))SetAStyle(SCE_C_WORD, ini.GetColor(field));
 	else if (field == _T("selection"))SendEditor(SCI_SETSELBACK,TRUE, ini.GetColor(field));
+}
+
+void ScintillaCtrl::UpdateFont()
+{
+	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, ini.GetFont());
 }
 
 void ScintillaCtrl::AutoCompKey(int wordLength)const

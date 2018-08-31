@@ -23,6 +23,14 @@ std::wstring IniCtrl::py_keywords = _T("False class finally is return None conti
 IniCtrl::IniCtrl()
 {
 	keywords = _T("");
+	if (!PathFileExists(_T("config/colors.ini")))
+		WriteDefaultColours();
+
+	if (!PathFileExists(_T("config/keywords.ini")))
+		WriteDefaultKeywords();
+
+	if (!PathFileExists(_T("config/font.ini")))
+		WriteDefaultFont();
 }
 
 IniCtrl::~IniCtrl()
@@ -50,24 +58,6 @@ void IniCtrl::SendIni(int lang, bool clang)
 	default:
 		keywords = _T("");
 	}
-	
-	LoadKeywordsWFont(keywordsLang);
-	LoadColours(keywordsLang);
-}
-
-void IniCtrl::LoadColours(const std::wstring& keywordsLang)
-{
-	if (!PathFileExists(_T("config/colors.ini")))
-		WriteDefaultColours();
-}
-
-void IniCtrl::LoadKeywordsWFont(const std::wstring& keywordsLang)
-{
-	if (!PathFileExists(_T("config/keywords.ini")))
-		WriteDefaultKeywords();
-
-	if (!PathFileExists(_T("config/font.ini")))
-		WriteDefaultFont();
 }
 
 void IniCtrl::WriteDefaultKeywords() 
@@ -108,12 +98,12 @@ COLORREF IniCtrl::GetColor(const std::wstring& colorName)
 	return color;
 }
 
-const std::wstring IniCtrl::GetFont()
+const std::string IniCtrl::GetFont()
 {
 	std::wstring font;
 
 	GetPrivateProfileString(_T("font"), _T("font"), _T("Arial"), &font[0], 50, _T("config/font.ini"));
-	return font;
+	return std::string(font.begin(), font.end());
 }
 
 void IniCtrl::ChangeColor(const COLORREF color, const std::wstring& field)
