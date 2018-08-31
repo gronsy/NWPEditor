@@ -95,7 +95,7 @@ void ScintillaCtrl::UpdateColor(const std::wstring& field)
 	else if (field==_T("operators"))SetAStyle(SCE_C_OPERATOR, ini.GetColor(field));
 	else if (field==_T("preprocessor"))SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(field));
 	else if (field==_T("keywords"))SetAStyle(SCE_C_WORD, ini.GetColor(field));
-	else if (field == _T("selection"))SetAStyle(SCI_SETSELBACK,TRUE, ini.GetColor(field));
+	else if (field == _T("selection"))SendEditor(SCI_SETSELBACK,TRUE, ini.GetColor(field));
 }
 
 void ScintillaCtrl::AutoCompKey(int wordLength)const
