@@ -37,6 +37,7 @@ public:
 	void AddIndent();
 	void RmIndent();
 	void Indent();
+	void SavePosition()const;
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };

@@ -142,10 +142,16 @@ void ScintillaCtrl::LoadFromFile(const std::string& data, int bytesRead)const
 
 void ScintillaCtrl::SetUpFOEditor() const
 {
-	SendEditor(SCI_SETUNDOCOLLECTION, 1);
-	SendEditor(SCI_SETSAVEPOINT, NULL);
+	SavePosition();
 	SendEditor(SCI_GOTOPOS, 0);
 }
+
+void ScintillaCtrl::SavePosition() const
+{
+	SendEditor(SCI_SETUNDOCOLLECTION, 1);
+	SendEditor(SCI_SETSAVEPOINT, NULL);
+}
+
 
 //Returns true if editor is empty, false if it isn't empty.
 bool ScintillaCtrl::EditorIsEmpty()
