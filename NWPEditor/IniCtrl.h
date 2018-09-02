@@ -6,9 +6,9 @@
 class IniCtrl 
 {
 protected:
-	std::wstring  keywords;
+	std::wstring  m_keywords;
 	static std::wstring cpp_keywords, c_keywords, py_keywords;
-	int lang;
+	int m_lang;
 
 public:
 	IniCtrl();

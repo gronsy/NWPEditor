@@ -22,11 +22,11 @@ std::wstring IniCtrl::py_keywords = _T("False class finally is return None conti
 
 IniCtrl::IniCtrl()
 {
-	keywords = _T("");
+	m_keywords = _T("");
 	if (!PathFileExists(_T("config/colors.ini")))
 		WriteDefaultColours();
 
-	if (!PathFileExists(_T("config/keywords.ini")))
+	if (!PathFileExists(_T("config/m_keywords.ini")))
 		WriteDefaultKeywords();
 
 	if (!PathFileExists(_T("config/font.ini")))
@@ -44,19 +44,19 @@ void IniCtrl::SendIni(int lang, bool clang)
 	switch (lang) {
 	case SCLEX_CPP:
 		if (clang) {
-			keywords = c_keywords;
+			m_keywords = c_keywords;
 			keywordsLang = _T("c");
 			break;
 		}
 		keywordsLang = _T("cpp");
-		keywords = cpp_keywords;
+		m_keywords = cpp_keywords;
 		break;
 	case SCLEX_PYTHON:
 		keywordsLang = _T("python");
-		keywords = py_keywords;
+		m_keywords = py_keywords;
 		break;
 	default:
-		keywords = _T("");
+		m_keywords = _T("");
 	}
 }
 
@@ -81,7 +81,7 @@ void IniCtrl::WriteDefaultColours()
 	WritePrivateProfileString(_T("colors"), _T("number"), std::to_wstring(RGB(255, 0, 255)).c_str(), _T("config/colors.ini"));		//magenta
 	WritePrivateProfileString(_T("colors"), _T("uuid"), std::to_wstring(RGB(0, 255, 255)).c_str(), _T("config/colors.ini"));		//cyan
 	WritePrivateProfileString(_T("colors"), _T("preprocessor"), std::to_wstring(RGB(77, 77, 51)).c_str(), _T("config/colors.ini"));	//gray
-	WritePrivateProfileString(_T("colors"), _T("keywords"), std::to_wstring(RGB(102, 0, 3)).c_str(), _T("config/colors.ini"));		//purple
+	WritePrivateProfileString(_T("colors"), _T("m_keywords"), std::to_wstring(RGB(102, 0, 3)).c_str(), _T("config/colors.ini"));		//purple
 }
 
 const std::string IniCtrl::GetKeywords() const
@@ -89,7 +89,7 @@ const std::string IniCtrl::GetKeywords() const
 	using convert_type = std::codecvt_utf8<wchar_t>;
 	std::wstring_convert<convert_type, wchar_t> converter;
 
-	return converter.to_bytes(keywords);
+	return converter.to_bytes(m_keywords);
 }
 
 COLORREF IniCtrl::GetColor(const std::wstring& colorName) 

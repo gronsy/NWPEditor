@@ -5,19 +5,19 @@
 //construction and deconstruction
 ScintillaCtrl::ScintillaCtrl()
 {
-	indent = 0;
+	m_indent = 0;
 }
 
 ScintillaCtrl::~ScintillaCtrl() {}
 
 //general methods implementation(public)
-void ScintillaCtrl::SetScintillaCtrl(HWND wnd) {scintillaCtrl = wnd;}
-HWND ScintillaCtrl::GetScintillaCtrl() { return scintillaCtrl; }
-IniCtrl ScintillaCtrl::GetIni() { return ini; }
+void ScintillaCtrl::SetScintillaCtrl(HWND wnd) {m_scintilla_ctrl = wnd;}
+HWND ScintillaCtrl::GetScintillaCtrl() { return m_scintilla_ctrl; }
+IniCtrl ScintillaCtrl::GetIni() { return m_ini; }
 
 LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=NULL*/) const
 {
-	return ::SendMessage(scintillaCtrl, msg, wparam, lparam);
+	return ::SendMessage(m_scintilla_ctrl, msg, wparam, lparam);
 }
 
 void ScintillaCtrl::SetAStyle(int style, COLORREF fore, 
@@ -37,12 +37,12 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 	switch (lex) {
 	case SCLEX_CPP:
 		SendEditor(SCI_SETLEXER, SCLEX_CPP, NULL);
-		if (clang) ini.SendIni(SCLEX_CPP, true);
-		else ini.SendIni(SCLEX_CPP);
+		if (clang) m_ini.SendIni(SCLEX_CPP, true);
+		else m_ini.SendIni(SCLEX_CPP);
 		break;
 	case SCLEX_PYTHON:
 		SendEditor(SCI_SETLEXER, SCLEX_PYTHON, NULL);
-		ini.SendIni(SCLEX_PYTHON);
+		m_ini.SendIni(SCLEX_PYTHON);
 		break;
 	case SCLEX_NULL:
 		SendEditor(SCI_SETLEXER, SCLEX_NULL);
@@ -54,59 +54,59 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 
 void ScintillaCtrl::SetUpEditor()
 {
-	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(ini.GetKeywords().c_str()));
+	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(m_ini.GetKeywords().c_str()));
 	
-	SetAStyle(SCE_C_COMMENT, ini.GetColor(_T("comment")));
-	SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(_T("comment")));
-	SetAStyle(SCE_C_COMMENTDOC, ini.GetColor(_T("comment")));
-	SetAStyle(SCE_C_NUMBER, ini.GetColor(_T("number")));
-	SetAStyle(SCE_C_STRING, ini.GetColor(_T("string")));
-	SetAStyle(SCE_C_CHARACTER, ini.GetColor(_T("string")));
-	SetAStyle(SCE_C_UUID, ini.GetColor(_T("uuid")));
-	SetAStyle(SCE_C_OPERATOR, ini.GetColor(_T("operators")));
-	SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(_T("preprocessor")));
-	SetAStyle(SCE_C_WORD, ini.GetColor(_T("keywords")));
+	SetAStyle(SCE_C_COMMENT, m_ini.GetColor(_T("comment")));
+	SetAStyle(SCE_C_COMMENTLINE, m_ini.GetColor(_T("comment")));
+	SetAStyle(SCE_C_COMMENTDOC, m_ini.GetColor(_T("comment")));
+	SetAStyle(SCE_C_NUMBER, m_ini.GetColor(_T("number")));
+	SetAStyle(SCE_C_STRING, m_ini.GetColor(_T("string")));
+	SetAStyle(SCE_C_CHARACTER, m_ini.GetColor(_T("string")));
+	SetAStyle(SCE_C_UUID, m_ini.GetColor(_T("uuid")));
+	SetAStyle(SCE_C_OPERATOR, m_ini.GetColor(_T("operators")));
+	SetAStyle(SCE_C_PREPROCESSOR, m_ini.GetColor(_T("preprocessor")));
+	SetAStyle(SCE_C_WORD, m_ini.GetColor(_T("keywords")));
 }
 
 void ScintillaCtrl::LoadDefaultState()
 {
 	SendEditor(SCI_SETLEXER, SCLEX_NULL);
 	SendEditor(SCI_SETTABWIDTH, TAB_WIDTH);
-	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, ini.GetFont());
+	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, m_ini.GetFont());
 	SendEditor(SCI_SETCARETFORE, RGB(0, 0, 0));
 	SendEditor(SCI_STYLECLEARALL, NULL);
-	SendEditor(SCI_SETSELBACK, TRUE, ini.GetColor(_T("selection")));
+	SendEditor(SCI_SETSELBACK, TRUE, m_ini.GetColor(_T("selection")));
 }
 
 void ScintillaCtrl::UpdateColor(const std::wstring& field)
 {
 	if (field==_T("comment"))
 	{
-		SetAStyle(SCE_C_COMMENT, ini.GetColor(field));
-		SetAStyle(SCE_C_COMMENTLINE, ini.GetColor(field));
-		SetAStyle(SCE_C_COMMENTDOC, ini.GetColor(field));
+		SetAStyle(SCE_C_COMMENT, m_ini.GetColor(field));
+		SetAStyle(SCE_C_COMMENTLINE, m_ini.GetColor(field));
+		SetAStyle(SCE_C_COMMENTDOC, m_ini.GetColor(field));
 	}else if (field==_T("string"))
 	{
-		SetAStyle(SCE_C_STRING, ini.GetColor(field));
-		SetAStyle(SCE_C_CHARACTER, ini.GetColor(field));
+		SetAStyle(SCE_C_STRING, m_ini.GetColor(field));
+		SetAStyle(SCE_C_CHARACTER, m_ini.GetColor(field));
 	}
-	else if (field==_T("number")) SetAStyle(SCE_C_NUMBER, ini.GetColor(field));
-	else if (field==_T("uuid"))SetAStyle(SCE_C_UUID, ini.GetColor(field));
-	else if (field==_T("operators"))SetAStyle(SCE_C_OPERATOR, ini.GetColor(field));
-	else if (field==_T("preprocessor"))SetAStyle(SCE_C_PREPROCESSOR, ini.GetColor(field));
-	else if (field==_T("keywords"))SetAStyle(SCE_C_WORD, ini.GetColor(field));
-	else if (field == _T("selection"))SendEditor(SCI_SETSELBACK,TRUE, ini.GetColor(field));
+	else if (field==_T("number")) SetAStyle(SCE_C_NUMBER, m_ini.GetColor(field));
+	else if (field==_T("uuid"))SetAStyle(SCE_C_UUID, m_ini.GetColor(field));
+	else if (field==_T("operators"))SetAStyle(SCE_C_OPERATOR, m_ini.GetColor(field));
+	else if (field==_T("preprocessor"))SetAStyle(SCE_C_PREPROCESSOR, m_ini.GetColor(field));
+	else if (field==_T("keywords"))SetAStyle(SCE_C_WORD, m_ini.GetColor(field));
+	else if (field == _T("selection"))SendEditor(SCI_SETSELBACK,TRUE, m_ini.GetColor(field));
 }
 
 void ScintillaCtrl::UpdateFont()
 {
-	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, ini.GetFont());
+	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, m_ini.GetFont());
 }
 
-void ScintillaCtrl::AutoCompKey(int wordLength)const
+void ScintillaCtrl::AutoCompKey(int word_length)const
 {
 	SendEditor(SCI_AUTOCSETAUTOHIDE, true);
-	SendEditor(SCI_AUTOCSHOW, wordLength-1, (LPARAM)(LPSTR)ini.GetKeywords().c_str());
+	SendEditor(SCI_AUTOCSHOW, word_length-1, (LPARAM)(LPSTR)m_ini.GetKeywords().c_str());
 	SendEditor(SCI_AUTOCSETIGNORECASE, true);
 	SendEditor(SCI_AUTOCSETORDER, SC_ORDER_PERFORMSORT);
 }
@@ -135,9 +135,9 @@ void ScintillaCtrl::RestoreDefaults()
 
 void ScintillaCtrl::Undo()const { SendEditor(SCI_UNDO, NULL); }
 
-void ScintillaCtrl::LoadFromFile(const std::string& data, int bytesRead)const
+void ScintillaCtrl::LoadFromFile(const std::string& data, int bytes_read)const
 {
-	SendEditor(SCI_ADDTEXT, bytesRead, reinterpret_cast<LPARAM>(data.c_str()));
+	SendEditor(SCI_ADDTEXT, bytes_read, reinterpret_cast<LPARAM>(data.c_str()));
 }
 
 void ScintillaCtrl::SetUpFOEditor() const
@@ -156,11 +156,11 @@ void ScintillaCtrl::SavePosition() const
 //Returns true if editor is empty, false if it isn't empty.
 bool ScintillaCtrl::EditorIsEmpty()
 {
-	char chkBuffer[2];
-	chkBuffer[0] = '\0';
-	SendEditor(SCI_GETTEXT, 2, reinterpret_cast<LPARAM>(chkBuffer));
+	char chk_buffer[2];
+	chk_buffer[0] = '\0';
+	SendEditor(SCI_GETTEXT, 2, reinterpret_cast<LPARAM>(chk_buffer));
 
-	if (chkBuffer[0]) return false;
+	if (chk_buffer[0]) return false;
 
 	return true;
 }
@@ -174,31 +174,34 @@ void ScintillaCtrl::SaveFile(const CString& path)
 {
 	SendEditor(SCI_SETSAVEPOINT, NULL);
 
-	int docSize = SendEditor(SCI_GETLENGTH, NULL);
-	char* buffer=new char[docSize+1];
-	SendEditor(SCI_GETTEXT, docSize, reinterpret_cast<LPARAM>(buffer));
+	int doc_size = SendEditor(SCI_GETLENGTH, NULL);
+	char* buffer=new char[doc_size+1];
+	SendEditor(SCI_GETTEXT, doc_size, reinterpret_cast<LPARAM>(buffer));
 
-	CFile saveFile;
-	saveFile.Open(path, CFile::modeWrite|CFile::modeCreate);
-	saveFile.Write(buffer, docSize);
-	saveFile.Close();
+	CFile save_file;
+	save_file.Open(path, CFile::modeWrite|CFile::modeCreate);
+	save_file.Write(buffer, doc_size);
+	save_file.Close();
 }
 
 void ScintillaCtrl::AddIndent()
 {
-	++indent;
+	++m_indent;
 }
 
 void ScintillaCtrl::RmIndent()
 {
-	if (!indent)	
+	if (!m_indent)	
 		return;
 
-	--indent;
+	--m_indent;
 }
 
 void ScintillaCtrl::Indent()
 {
-	for(int i=0;i<indent;++i)
-		SendEditor(WM_KEYDOWN, VK_TAB);
+	SendEditor(SCI_SETINDENT, m_indent*TAB_WIDTH);
+	SendEditor(SCI_SETTABINDENTS, false);
+	int current_line = SendEditor(SCI_GETCURRENTPOS, NULL);
+	current_line = SendEditor(SCI_LINEFROMPOSITION, current_line)+ LINE_MOVE_INDEX;
+	SendEditor(SCI_SETLINEINDENTATION, current_line+1, m_indent);
 }
