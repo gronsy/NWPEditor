@@ -34,21 +34,8 @@ void ScintillaCtrl::SetAStyle(int style, COLORREF fore,
 
 void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/) 
 {
-	switch (lex) {
-	case SCLEX_CPP:
-		SendEditor(SCI_SETLEXER, SCLEX_CPP, NULL);
-		if (clang) m_ini.SendIni(SCLEX_CPP, true);
-		else m_ini.SendIni(SCLEX_CPP);
-		break;
-	case SCLEX_PYTHON:
-		SendEditor(SCI_SETLEXER, SCLEX_PYTHON, NULL);
-		m_ini.SendIni(SCLEX_PYTHON);
-		break;
-	case SCLEX_NULL:
-		SendEditor(SCI_SETLEXER, SCLEX_NULL);
-		return;
-	}
-
+	SendEditor(SCI_SETLEXER, lex, NULL);
+	m_ini.SendIni(lex, clang);
 	SetUpEditor();
 }
 

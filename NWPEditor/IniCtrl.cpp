@@ -37,7 +37,7 @@ IniCtrl::~IniCtrl()
 {
 }
 
-void IniCtrl::SendIni(int lang, bool clang) 
+void IniCtrl::SendIni(int lang, bool clang/*=false*/) 
 {
 	std::wstring keywordsLang;
 
