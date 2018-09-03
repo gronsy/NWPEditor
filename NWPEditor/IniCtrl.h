@@ -2,6 +2,7 @@
 #include <string>
 #include <locale>
 #include <codecvt>
+#include "resource.h"
 
 class IniCtrl 
 {
@@ -9,6 +10,7 @@ protected:
 	std::wstring  m_keywords;
 	static std::wstring cpp_keywords, c_keywords, py_keywords;
 	int m_lang;
+	static CString LoadPath(int id);
 
 public:
 	IniCtrl();
