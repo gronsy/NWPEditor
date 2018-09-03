@@ -182,6 +182,7 @@ void ScintillaCtrl::SaveFile(const CString& path)
 	save_file.Open(path, CFile::modeWrite|CFile::modeCreate);
 	save_file.Write(buffer, doc_size);
 	save_file.Close();
+	delete[] buffer;
 }
 
 void ScintillaCtrl::AddIndent()
