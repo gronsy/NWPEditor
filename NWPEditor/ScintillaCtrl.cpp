@@ -104,20 +104,20 @@ void ScintillaCtrl::CheckTab()const
 		SendEditor(SCI_AUTOCCOMPLETE, NULL);
 }
 
-void ScintillaCtrl::CutCopyPaste(UINT key)const
+void ScintillaCtrl::CutCopyPaste(int msg)const
 {
-	switch (key) {
-	case 0x43: SendEditor(SCI_COPY, NULL); return;
-	case 0x56: SendEditor(SCI_PASTE, NULL); return;
-	case 0x58: SendEditor(SCI_CUT, NULL);
+	switch (msg) {
+	case MSG_COPY: SendEditor(SCI_COPY, NULL); return;
+	case MSG_PASTE: SendEditor(SCI_PASTE, NULL); return;
+	case MSG_CUT: SendEditor(SCI_CUT, NULL);
 	}
 }
 
 void ScintillaCtrl::RestoreDefaults()
 {
-	IniCtrl::WriteDefaultColours();
-	IniCtrl::WriteDefaultKeywords();
-	IniCtrl::WriteDefaultFont();
+	m_ini.WriteDefaultColours();
+	m_ini.WriteDefaultKeywords();
+	m_ini.WriteDefaultFont();
 }
 
 void ScintillaCtrl::Undo()const { SendEditor(SCI_UNDO, NULL); }
@@ -159,7 +159,7 @@ void ScintillaCtrl::ClearEditor()const
 
 void ScintillaCtrl::SaveFile(const CString& path)
 {
-	SendEditor(SCI_SETSAVEPOINT, NULL);
+	SavePosition();
 
 	int doc_size = SendEditor(SCI_GETLENGTH, NULL);
 	char* buffer=new char[doc_size+1];

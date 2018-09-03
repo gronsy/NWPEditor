@@ -23,13 +23,16 @@ std::wstring IniCtrl::py_keywords = _T("False class finally is return None conti
 IniCtrl::IniCtrl()
 {
 	m_keywords = _T("");
-	if (!PathFileExists(_T("config/colors.ini")))
+	m_ini_path.LoadStringW(IDS_INI_COLOR_PATH);
+	if (!PathFileExists(m_ini_path))
 		WriteDefaultColours();
 
-	if (!PathFileExists(_T("config/m_keywords.ini")))
+	m_ini_path.LoadStringW(IDS_INI_KW_PATH);
+	if (!PathFileExists(m_ini_path))
 		WriteDefaultKeywords();
 
-	if (!PathFileExists(_T("config/font.ini")))
+	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
+	if (!PathFileExists(m_ini_path))
 		WriteDefaultFont();
 }
 
@@ -60,41 +63,33 @@ void IniCtrl::SendIni(int lang, bool clang/*=false*/)
 	}
 }
 
-CString IniCtrl::LoadPath(int id)
-{
-	CString path;
-	path.LoadString(id);
-	return path;
-}
-
 void IniCtrl::WriteDefaultKeywords() 
 {
-	CString path=LoadPath(IDS_INI_KW_PATH);
-	WritePrivateProfileString(_T("keywords"), _T("cpp"), cpp_keywords.c_str(), path);
-	WritePrivateProfileString(_T("keywords"), _T("c"), c_keywords.c_str(), path);
-	WritePrivateProfileString(_T("keywords"), _T("python"), py_keywords.c_str(), path);
+	m_ini_path.LoadString(IDS_INI_KW_PATH);
+	WritePrivateProfileString(_T("keywords"), _T("cpp"), cpp_keywords.c_str(), m_ini_path);
+	WritePrivateProfileString(_T("keywords"), _T("c"), c_keywords.c_str(), m_ini_path);
+	WritePrivateProfileString(_T("keywords"), _T("python"), py_keywords.c_str(), m_ini_path);
 }
 
 void IniCtrl::WriteDefaultFont()
 {
-	CString path=LoadPath(IDS_INI_FONT_PATH);
-
-	WritePrivateProfileString(_T("font"), _T("font"), _T("Arial"), path);
+	m_ini_path.LoadString(IDS_INI_FONT_PATH);
+	WritePrivateProfileString(_T("font"), _T("font"), _T("Arial"), m_ini_path);
 }
 
 void IniCtrl::WriteDefaultColours() 
 {
 	std::wstring buffer;
-	CString path=LoadPath(IDS_INI_COLOR_PATH);
-	WritePrivateProfileString(_T("colors"), _T("plain"), std::to_wstring(RGB(0, 0, 0)).c_str(), path);				//black
-	WritePrivateProfileString(_T("colors"), _T("comment"), std::to_wstring(RGB(0, 255, 0)).c_str(), path);			//green
-	WritePrivateProfileString(_T("colors"), _T("operators"), std::to_wstring(RGB(255, 0, 0)).c_str(), path);		//red
-	WritePrivateProfileString(_T("colors"), _T("selection"), std::to_wstring(RGB(51, 153, 255)).c_str(), path);		//light-blue
-	WritePrivateProfileString(_T("colors"), _T("string"), std::to_wstring(RGB(255, 255, 0)).c_str(), path);			//yellow
-	WritePrivateProfileString(_T("colors"), _T("number"), std::to_wstring(RGB(255, 0, 255)).c_str(), path);			//magenta
-	WritePrivateProfileString(_T("colors"), _T("uuid"), std::to_wstring(RGB(0, 255, 255)).c_str(), path);			//cyan
-	WritePrivateProfileString(_T("colors"), _T("preprocessor"), std::to_wstring(RGB(77, 77, 51)).c_str(), path);	//gray
-	WritePrivateProfileString(_T("colors"), _T("m_keywords"), std::to_wstring(RGB(102, 0, 3)).c_str(), path);		//purple
+	m_ini_path.LoadString(IDS_INI_COLOR_PATH);
+	WritePrivateProfileString(_T("colors"), _T("plain"), std::to_wstring(RGB(0, 0, 0)).c_str(), m_ini_path);				//black
+	WritePrivateProfileString(_T("colors"), _T("comment"), std::to_wstring(RGB(0, 255, 0)).c_str(), m_ini_path);			//green
+	WritePrivateProfileString(_T("colors"), _T("operators"), std::to_wstring(RGB(255, 0, 0)).c_str(), m_ini_path);		//red
+	WritePrivateProfileString(_T("colors"), _T("selection"), std::to_wstring(RGB(51, 153, 255)).c_str(), m_ini_path);		//light-blue
+	WritePrivateProfileString(_T("colors"), _T("string"), std::to_wstring(RGB(255, 255, 0)).c_str(), m_ini_path);			//yellow
+	WritePrivateProfileString(_T("colors"), _T("number"), std::to_wstring(RGB(255, 0, 255)).c_str(), m_ini_path);			//magenta
+	WritePrivateProfileString(_T("colors"), _T("uuid"), std::to_wstring(RGB(0, 255, 255)).c_str(), m_ini_path);			//cyan
+	WritePrivateProfileString(_T("colors"), _T("preprocessor"), std::to_wstring(RGB(77, 77, 51)).c_str(), m_ini_path);	//gray
+	WritePrivateProfileString(_T("colors"), _T("m_keywords"), std::to_wstring(RGB(102, 0, 3)).c_str(), m_ini_path);		//purple
 }
 
 const std::string IniCtrl::GetKeywords() const
@@ -107,8 +102,8 @@ const std::string IniCtrl::GetKeywords() const
 
 COLORREF IniCtrl::GetColor(const std::wstring& colorName) 
 { 
-	CString path = LoadPath(IDS_INI_COLOR_PATH);
-	COLORREF color=GetPrivateProfileInt(_T("colors"), colorName.c_str(), RGB(0, 0, 0), path);
+	m_ini_path.LoadString(IDS_INI_COLOR_PATH);
+	COLORREF color=GetPrivateProfileInt(_T("colors"), colorName.c_str(), RGB(0, 0, 0), m_ini_path);
 	return color;
 }
 
@@ -116,8 +111,8 @@ const std::string IniCtrl::GetFont()
 {
 	std::wstring font;
 
-	CString path = LoadPath(IDS_INI_FONT_PATH);
-	GetPrivateProfileString(_T("font"), _T("font"), _T("Arial"), &font[0], 50, path);
+	m_ini_path.LoadString(IDS_INI_FONT_PATH);
+	GetPrivateProfileString(_T("font"), _T("font"), _T("Arial"), &font[0], 50, m_ini_path);
 	return std::string(font.begin(), font.end());
 }
 
@@ -125,12 +120,12 @@ void IniCtrl::ChangeColor(const COLORREF color, const std::wstring& field)
 {
 	std::wstring buffer;
 
-	CString path = LoadPath(IDS_INI_COLOR_PATH);
-	WritePrivateProfileString(_T("colors"), field.c_str(), std::to_wstring(color).c_str(), path);
+	m_ini_path.LoadString(IDS_INI_COLOR_PATH);
+	WritePrivateProfileString(_T("colors"), field.c_str(), std::to_wstring(color).c_str(), m_ini_path);
 }
 
-void IniCtrl::ChangeFont(const std::wstring& font)const
-{
-	CString path = LoadPath(IDS_INI_FONT_PATH);
-	WritePrivateProfileString(_T("font"), _T("font"), font.c_str(), path);
-}
+//void IniCtrl::ChangeFont(const std::wstring& font)const
+//{
+//	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
+//	WritePrivateProfileString(_T("font"), _T("font"), font.c_str(), m_ini_path);
+//}

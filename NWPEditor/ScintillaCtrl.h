@@ -6,6 +6,11 @@
 #define MARGIN_PIXEL_WIDTH	16
 #define LINE_MOVE_INDEX		1
 
+//Message defines
+#define MSG_COPY			100
+#define MSG_CUT				101
+#define MSG_PASTE			102
+
 class ScintillaCtrl 
 {
 protected:
@@ -28,7 +33,7 @@ public:
 	void UpdateFont();
 	void AutoCompKey(int wordLength)const;
 	void CheckTab()const;
-	void CutCopyPaste(UINT key)const;
+	void CutCopyPaste(int msg)const;
 	void RestoreDefaults();
 	void Undo()const;
 	void LoadFromFile(const std::string& data, int bytesRead)const;
