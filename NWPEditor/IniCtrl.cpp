@@ -124,8 +124,8 @@ void IniCtrl::ChangeColor(const COLORREF color, const std::wstring& field)
 	WritePrivateProfileString(_T("colors"), field.c_str(), std::to_wstring(color).c_str(), m_ini_path);
 }
 
-//void IniCtrl::ChangeFont(const std::wstring& font)const
-//{
-//	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
-//	WritePrivateProfileString(_T("font"), _T("font"), font.c_str(), m_ini_path);
-//}
+void IniCtrl::ChangeFont(const std::wstring& font)
+{
+	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
+	WritePrivateProfileString(_T("font"), _T("font"), font.c_str(), m_ini_path);
+}

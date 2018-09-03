@@ -20,7 +20,7 @@ public:
 	COLORREF GetColor(const std::wstring& colorName);
 	const std::string GetFont();
 	void ChangeColor(const COLORREF color, const std::wstring& field);
-	//void ChangeFont(const std::wstring& font)const;
+	void ChangeFont(const std::wstring& font);
 
 	void WriteDefaultKeywords();
 	void WriteDefaultColours();
