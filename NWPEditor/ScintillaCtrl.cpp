@@ -11,7 +11,12 @@ ScintillaCtrl::ScintillaCtrl()
 ScintillaCtrl::~ScintillaCtrl() {}
 
 //general methods implementation(public)
-void ScintillaCtrl::SetScintillaCtrl(HWND wnd) {m_scintilla_ctrl = wnd;}
+void ScintillaCtrl::SetScintillaCtrl(HWND wnd)
+{
+	m_scintilla_ctrl = wnd;
+	DisableShortcuts();
+}
+
 HWND ScintillaCtrl::GetScintillaCtrl() { return m_scintilla_ctrl; }
 IniCtrl ScintillaCtrl::GetIni() { return m_ini; }
 
@@ -64,6 +69,12 @@ void ScintillaCtrl::LoadDefaultState()
 	SendEditor(SCI_STYLECLEARALL, NULL);
 	SendEditor(SCI_SETSELBACK, TRUE, m_ini.GetColor(_T("selection")));
 }
+
+void ScintillaCtrl::DisableShortcuts()
+{
+	SendEditor(SCI_CLEARCMDKEY, VK_CONTROL | 0x46);
+}
+
 
 void ScintillaCtrl::UpdateColor(const std::wstring& field)
 {

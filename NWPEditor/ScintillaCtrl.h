@@ -18,6 +18,7 @@ protected:
 	IniCtrl m_ini;
 	int m_indent;
 protected:
+	void DisableShortcuts();
 	void SetUpEditor();
 	void SetAStyle(int style, COLORREF fore, COLORREF back=RGB(255,255,255), int size=NULL, const std::string& face="")const;
 	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL) const;
