@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "IniCtrl.h"
 
-std::wstring IniCtrl::cpp_keywords=_T("asm auto bool break case catch char class const "
+std::wstring IniCtrl::cpp_keywords=L"asm auto bool break case catch char class const "
 	"dynamic_cast else enum explicit extern false finally "
 	"float for friend goto if inline int long mutable "
 	"namespace new operator private protected public "
@@ -9,20 +9,20 @@ std::wstring IniCtrl::cpp_keywords=_T("asm auto bool break case catch char class
 	"sizeof static static_cast struct switch template "
 	"this throw true try typedef typeid typename "
 	"union unsigned using virtual void volatile "
-	"wchar_t while");
+	"wchar_t while";
 
-std::wstring IniCtrl::c_keywords= _T("auto break case char const continue delete do double "
+std::wstring IniCtrl::c_keywords= L"auto break case char const continue delete do double "
 	"else enum explicit float for goto if int long register "
-	"return short signed sizeof static struct switch typedef while");
+	"return short signed sizeof static struct switch typedef while";
 
-std::wstring IniCtrl::py_keywords = _T("False class finally is return None continue for lambda "
+std::wstring IniCtrl::py_keywords = L"False class finally is return None continue for lambda "
 	"try True def from nonlocal while and del global not "
 	"with as elif if or yield assert else import pass "
-	"break except in raise");
+	"break except in raise";
 
 IniCtrl::IniCtrl()
 {
-	m_keywords = _T("");
+	m_keywords = L"";
 	m_ini_path.LoadStringW(IDS_INI_COLOR_PATH);
 	if (!PathFileExists(m_ini_path))
 		WriteDefaultColours();
@@ -48,18 +48,18 @@ void IniCtrl::SendIni(int lang, bool clang/*=false*/)
 	case SCLEX_CPP:
 		if (clang) {
 			m_keywords = c_keywords;
-			keywordsLang = _T("c");
+			keywordsLang = L"c";
 			break;
 		}
-		keywordsLang = _T("cpp");
+		keywordsLang = L"cpp";
 		m_keywords = cpp_keywords;
 		break;
 	case SCLEX_PYTHON:
-		keywordsLang = _T("python");
+		keywordsLang = L"python";
 		m_keywords = py_keywords;
 		break;
 	default:
-		m_keywords = _T("");
+		m_keywords = L"";
 	}
 }
 
@@ -112,7 +112,7 @@ const std::string IniCtrl::GetFont()
 	std::wstring font;
 
 	m_ini_path.LoadString(IDS_INI_FONT_PATH);
-	GetPrivateProfileString(_T("font"), _T("font"), _T("Arial"), &font[0], 50, m_ini_path);
+	GetPrivateProfileString(L"font", L"font", L"Arial", &font[0], 50, m_ini_path);
 	return std::string(font.begin(), font.end());
 }
 
