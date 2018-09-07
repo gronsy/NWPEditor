@@ -54,7 +54,6 @@ public:
 	void AddIndent();
 	void RmIndent();
 	void Indent();
-	int GetMaxPage();
 	void SavePosition()const;
 	void PreparePrinting(CDC* pDC, CPrintInfo* pInfo);
 	void SetUpPrintInfo(CDC* pDC);

@@ -252,7 +252,7 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 
 	while(m_print_info.lines_printed<= m_print_info.lines_per_page && !EditorIsEmpty())
 	{
-		int line_length = SendEditor(SCI_LINELENGTH, m_print_info.lines_printed);
+		int line_length = SendEditor(SCI_LINELENGTH, cur_line);
 		
 		char *buffer = new char[line_length+1];
 		SendEditor(SCI_GETLINE, cur_line, reinterpret_cast<LPARAM>(buffer));
