@@ -6,6 +6,7 @@
 ScintillaCtrl::ScintillaCtrl()
 {
 	m_indent = 0;
+	m_print_info.initialised = false;
 }
 
 ScintillaCtrl::~ScintillaCtrl() {}
@@ -205,16 +206,28 @@ void ScintillaCtrl::Indent()
 	SendEditor(SCI_SETLINEINDENTATION, current_line+1, m_indent);
 }
 
-void ScintillaCtrl::PreparePrinting(const RECT& rect)
+void ScintillaCtrl::PreparePrinting(CDC* pDC,CPrintInfo* pInfo)
 {
-	m_print_info.lines_printed = 0;
-	m_print_info.data_printed = 0;
-	m_print_info.rect.left = rect.left;
-	m_print_info.rect.top = rect.top;
-	m_print_info.rect.right = rect.right;
-	m_print_info.rect.bottom = rect.bottom;
-	m_print_info.range.chrg.cpMin = 0;
-	m_print_info.range.chrg.cpMax = SendEditor(SCI_GETLENGTH, NULL);
+	if (!(m_print_info.initialised))
+	{
+		m_print_info.rect.left = pInfo->m_rectDraw.left;
+		m_print_info.rect.right = pInfo->m_rectDraw.right;
+		m_print_info.rect.top = pInfo->m_rectDraw.top;
+		m_print_info.rect.bottom = pInfo->m_rectDraw.bottom;
+		m_print_info.range.chrg.cpMin = 0;
+		m_print_info.range.chrg.cpMax = SendEditor(SCI_GETLENGTH, NULL);
+
+	
+		m_print_info.line_height = SendEditor(SCI_TEXTHEIGHT, 0);
+		m_print_info.line_height = MulDiv(m_print_info.line_height, pDC->GetDeviceCaps(LOGPIXELSY), 72);
+		m_print_info.lines_per_page = m_print_info.rect.bottom/m_print_info.line_height;
+		int pages = SendEditor(SCI_GETLINECOUNT, NULL);
+		pages *= m_print_info.line_height;
+		pages /= m_print_info.rect.bottom;
+		pInfo->SetMaxPage(pages);
+
+		m_print_info.initialised = true;
+	}
 }
 
 void ScintillaCtrl::SetUpPrintInfo(CDC* pDC)
@@ -228,41 +241,32 @@ void ScintillaCtrl::SetUpPrintInfo(CDC* pDC)
 	SendEditor(SCI_FORMATRANGE, false, reinterpret_cast<LPARAM>(&m_print_info));
 }
 
-void ScintillaCtrl::Print(CDC* pDC)
+void ScintillaCtrl::Print(CDC* pDC, int page)
 {
-	int line_height = SendEditor(SCI_TEXTHEIGHT, 0);
-	line_height = MulDiv(line_height, pDC->GetDeviceCaps(LOGPIXELSY), 72);
-	int dist = line_height;
+	int dist = m_print_info.line_height;
 	bool page_transition = true;
 	SendEditor(SCI_GOTOPOS, 0);
 	pDC->SetTextAlign(TA_TOP);
+	m_print_info.lines_printed = 0;
+	int cur_line = page * m_print_info.lines_per_page - m_print_info.lines_per_page;
 
-	while(m_print_info.data_printed< m_print_info.range.chrg.cpMax && !EditorIsEmpty())
+	while(m_print_info.lines_printed<= m_print_info.lines_per_page && !EditorIsEmpty())
 	{
-		if (page_transition)
-		{
-			pDC->StartPage();
-			page_transition = false;
-		}
-
 		int line_length = SendEditor(SCI_LINELENGTH, m_print_info.lines_printed);
 		
 		char *buffer = new char[line_length+1];
-		SendEditor(SCI_GETLINE, m_print_info.lines_printed, reinterpret_cast<LPARAM>(buffer));
+		SendEditor(SCI_GETLINE, cur_line, reinterpret_cast<LPARAM>(buffer));
 
 		buffer[line_length] = '\0';
 		
 		pDC->TextOut(m_print_info.rect.left+50, dist, CString(buffer));
 
-		if (m_print_info.rect.bottom-50>dist)
-		{
-			pDC->EndPage();
-			page_transition = true;
-		}
 
 		++m_print_info.lines_printed;
-		m_print_info.data_printed += line_length;
-		dist += line_height;
+		++cur_line;
+		dist += m_print_info.line_height;
 		delete[] buffer;
 	}
 }
+
+void ScintillaCtrl::RmInit() { m_print_info.initialised = false; }

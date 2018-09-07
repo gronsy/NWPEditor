@@ -14,7 +14,8 @@
 
 struct Sci_Print_Info
 {
-	int lines_printed, data_printed;
+	int lines_printed, line_height, lines_per_page;
+	bool initialised;
 	Sci_Rectangle rect;
 	Sci_RangeToFormat range;
 };
@@ -53,10 +54,12 @@ public:
 	void AddIndent();
 	void RmIndent();
 	void Indent();
+	int GetMaxPage();
 	void SavePosition()const;
-	void PreparePrinting(const RECT& rect);
+	void PreparePrinting(CDC* pDC, CPrintInfo* pInfo);
 	void SetUpPrintInfo(CDC* pDC);
-	void Print(CDC* pDC);
+	void Print(CDC* pDC, int page);
+	void RmInit();
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 };
