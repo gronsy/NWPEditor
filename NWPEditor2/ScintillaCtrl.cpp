@@ -221,9 +221,12 @@ void ScintillaCtrl::PreparePrinting(CDC* pDC,CPrintInfo* pInfo)
 		m_print_info.line_height = SendEditor(SCI_TEXTHEIGHT, 0);
 		m_print_info.line_height = MulDiv(m_print_info.line_height, pDC->GetDeviceCaps(LOGPIXELSY), 72);
 		m_print_info.lines_per_page = m_print_info.rect.bottom/m_print_info.line_height;
-		int pages = SendEditor(SCI_GETLINECOUNT, NULL);
+		unsigned pages = SendEditor(SCI_GETLINECOUNT, NULL);
 		pages *= m_print_info.line_height;
 		pages /= m_print_info.rect.bottom;
+		++pages;
+		if (m_print_info.lines_per_page*pages < SendEditor(SCI_GETLINECOUNT, NULL))
+			++pages;
 		pInfo->SetMaxPage(pages);
 
 		m_print_info.initialised = true;
