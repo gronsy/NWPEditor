@@ -246,6 +246,8 @@ void ScintillaCtrl::SetUpPrintInfo(CDC* pDC)
 
 void ScintillaCtrl::Print(CDC* pDC, int page)
 {
+	//TODO: fix character overlaping
+	//TODO: fix line going over paper edge
 	int dist = m_print_info.line_height;
 	bool page_transition = true;
 	SendEditor(SCI_GOTOPOS, 0);
