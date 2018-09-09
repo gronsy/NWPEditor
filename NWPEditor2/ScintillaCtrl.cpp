@@ -99,7 +99,10 @@ void ScintillaCtrl::UpdateColor(const std::wstring& field)
 
 void ScintillaCtrl::UpdateFont()
 {
-	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, m_ini.GetFont());
+	//SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, m_ini.GetFont());
+	//SendEditor(SCI_STYLECLEARALL, NULL);
+	SendEditor(SCI_STYLESETFONT, STYLE_DEFAULT, reinterpret_cast<LPARAM>(m_ini.GetFont().c_str()));
+	SendEditor(SCI_STYLECLEARALL, NULL);
 }
 
 void ScintillaCtrl::AutoCompKey(int word_length)const
@@ -184,6 +187,18 @@ void ScintillaCtrl::SaveFile(const CString& path)
 	delete[] buffer;
 }
 
+std::string ScintillaCtrl::GetLineText(int line)
+{
+	int line_length=SendEditor(SCI_LINELENGTH, line);
+	char* buffer = new char[line_length + 1];
+	SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
+	buffer[line_length] = '\0';
+	std::string buffer_ret(buffer);
+	delete[] buffer;
+
+	return buffer_ret;
+}
+
 void ScintillaCtrl::AddIndent()
 {
 	++m_indent;
@@ -199,11 +214,17 @@ void ScintillaCtrl::RmIndent()
 
 void ScintillaCtrl::Indent()
 {
-	SendEditor(SCI_SETINDENT, m_indent*TAB_WIDTH);
-	SendEditor(SCI_SETTABINDENTS, false);
+	//SendEditor(SCI_SETINDENT, m_indent*TAB_WIDTH);
+	//SendEditor(SCI_SETTABINDENTS, false);
 	int current_line = SendEditor(SCI_GETCURRENTPOS, NULL);
-	current_line = SendEditor(SCI_LINEFROMPOSITION, current_line)+ LINE_MOVE_INDEX;
-	SendEditor(SCI_SETLINEINDENTATION, current_line+1, m_indent);
+	current_line = SendEditor(SCI_LINEFROMPOSITION, current_line);
+	//std::string buffer_conv(GetLineText(current_line));
+	SendEditor(SCI_SETLINEINDENTATION, current_line, m_indent);
+	/*char tab = '\t';
+	int carret_pos = SendEditor(SCI_GETCURRENTPOS, NULL)-1;
+	for (int i=0; i < m_indent; ++i)
+		SendEditor(SCI_ADDTEXT, 1, reinterpret_cast<LPARAM>(&tab));*/
+	SendEditor(SCI_ADDTABSTOP, current_line+1, m_indent*TAB_WIDTH);
 }
 
 void ScintillaCtrl::PreparePrinting(CDC* pDC,CPrintInfo* pInfo)
@@ -263,7 +284,7 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 		SendEditor(SCI_GETLINE, cur_line, reinterpret_cast<LPARAM>(buffer));
 
 		buffer[line_length] = '\0';
-		
+
 		pDC->TextOut(m_print_info.rect.left+50, dist, CString(buffer));
 
 

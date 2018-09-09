@@ -4,7 +4,6 @@
 
 #define TAB_WIDTH			4
 #define MARGIN_PIXEL_WIDTH	16
-#define LINE_MOVE_INDEX		1
 #define PRINTING_LINE_FIT	30
 
 //Message defines
@@ -32,6 +31,7 @@ protected:
 	void SetUpEditor();
 	void SetAStyle(int style, COLORREF fore, COLORREF back=RGB(255,255,255), int size=NULL, const std::string& face="")const;
 	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL) const;
+	std::string GetLineText(int line);
 public:
 	ScintillaCtrl();
 	~ScintillaCtrl();

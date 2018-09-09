@@ -112,7 +112,7 @@ const std::string IniCtrl::GetFont()
 	std::wstring font;
 
 	m_ini_path.LoadString(IDS_INI_FONT_PATH);
-	GetPrivateProfileString(L"font", L"font", L"Arial", &font[0], 50, m_ini_path);
+	GetPrivateProfileString(L"font", L"font", L"Arial", &font[0], CHARS_TO_READ, m_ini_path);
 	return std::string(font.begin(), font.end());
 }
 
@@ -127,5 +127,7 @@ void IniCtrl::ChangeColor(const COLORREF color, const std::wstring& field)
 void IniCtrl::ChangeFont(const std::wstring& font)
 {
 	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
+
+	//std::wstring font_name(font.substr(0, font.find(L" ")));
 	WritePrivateProfileString(_T("font"), _T("font"), font.c_str(), m_ini_path);
 }

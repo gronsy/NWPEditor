@@ -4,6 +4,8 @@
 #include <codecvt>
 #include "resource.h"
 
+#define CHARS_TO_READ 1024
+
 class IniCtrl 
 {
 protected:
