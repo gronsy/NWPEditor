@@ -20,7 +20,6 @@ public:
 	void SendIni(int lang, bool clang=false);
 	const std::string GetKeywords() const;
 	COLORREF GetColor(const std::wstring& colorName);
-	const std::string GetFont();
 	void ChangeColor(const COLORREF color, const std::wstring& field);
 	void ChangeFont(const LOGFONT& lf, int size);
 	LOGFONT GetFontProps();

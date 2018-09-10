@@ -115,15 +115,6 @@ COLORREF IniCtrl::GetColor(const std::wstring& colorName)
 	return color;
 }
 
-//const std::string IniCtrl::GetFont()
-//{
-//	std::wstring font;
-//
-//	m_ini_path.LoadString(IDS_INI_FONT_PATH);
-//	GetPrivateProfileString(L"font", L"font", L"Arial", &font[0], CHARS_TO_READ, m_ini_path);
-//	return std::string(font.begin(), font.end());
-//}
-
 void IniCtrl::ChangeColor(const COLORREF color, const std::wstring& field)
 {
 	std::wstring buffer;
@@ -150,9 +141,6 @@ void IniCtrl::ChangeFont(const LOGFONT& lf, int size)
 		WritePrivateProfileString(_T("font"), _T("isUnderline"), _T("1"), m_ini_path);
 	else
 		WritePrivateProfileString(_T("font"), _T("isUnderline"), _T("0"), m_ini_path);
-
-	//std::wstring font_name(font.substr(0, font.find(L" ")));
-	//WritePrivateProfileString(_T("font"), _T("font"), font.c_str(), m_ini_path);
 }
 
 LOGFONT IniCtrl::GetFontProps()
