@@ -15,7 +15,6 @@ ScintillaCtrl::~ScintillaCtrl() {}
 void ScintillaCtrl::SetScintillaCtrl(HWND wnd)
 {
 	m_scintilla_ctrl = wnd;
-	DisableShortcuts();
 }
 
 HWND ScintillaCtrl::GetScintillaCtrl() { return m_scintilla_ctrl; }
@@ -68,11 +67,6 @@ void ScintillaCtrl::LoadDefaultState()
 	UpdateFont();
 	SendEditor(SCI_SETCARETFORE, RGB(0, 0, 0));
 	SendEditor(SCI_SETSELBACK, TRUE, m_ini.GetColor(_T("selection")));
-}
-
-void ScintillaCtrl::DisableShortcuts()
-{
-	SendEditor(SCI_CLEARCMDKEY, VK_CONTROL | 0x46);
 }
 
 
