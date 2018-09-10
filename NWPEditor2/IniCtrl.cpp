@@ -97,7 +97,7 @@ void IniCtrl::WriteDefaultColours()
 	WritePrivateProfileString(_T("colors"), _T("number"), std::to_wstring(RGB(255, 0, 255)).c_str(), m_ini_path);			//magenta
 	WritePrivateProfileString(_T("colors"), _T("uuid"), std::to_wstring(RGB(0, 255, 255)).c_str(), m_ini_path);			//cyan
 	WritePrivateProfileString(_T("colors"), _T("preprocessor"), std::to_wstring(RGB(77, 77, 51)).c_str(), m_ini_path);	//gray
-	WritePrivateProfileString(_T("colors"), _T("m_keywords"), std::to_wstring(RGB(102, 0, 3)).c_str(), m_ini_path);		//purple
+	WritePrivateProfileString(_T("colors"), _T("keywords"), std::to_wstring(RGB(102, 0, 3)).c_str(), m_ini_path);		//purple
 }
 
 const std::string IniCtrl::GetKeywords() const
