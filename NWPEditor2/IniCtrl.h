@@ -12,7 +12,7 @@ protected:
 	std::wstring  m_keywords;
 	static std::wstring cpp_keywords, c_keywords, py_keywords;
 	int m_lang;
-	CString m_ini_path, m_exe_path;
+	CString m_ini_path;
 
 public:
 	IniCtrl();
