@@ -132,12 +132,13 @@ void IniCtrl::ChangeColor(const COLORREF color, const std::wstring& field)
 	WritePrivateProfileString(_T("colors"), field.c_str(), std::to_wstring(color).c_str(), m_ini_path);
 }
 
-void IniCtrl::ChangeFont(const LOGFONT& lf)
+void IniCtrl::ChangeFont(const LOGFONT& lf, int size)
 {
 	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
 
 	WritePrivateProfileString(_T("font"), _T("font"), lf.lfFaceName, m_ini_path);
-	WritePrivateProfileString(_T("font"), _T("size"), std::to_wstring(lf.lfHeight).c_str(), m_ini_path);
+	if(size<=72)
+		WritePrivateProfileString(_T("font"), _T("size"), std::to_wstring(size).c_str(), m_ini_path);
 	WritePrivateProfileString(_T("font"), _T("weight"), std::to_wstring(lf.lfWeight).c_str(), m_ini_path);
 
 	if(lf.lfItalic==TRUE)
@@ -159,6 +160,7 @@ LOGFONT IniCtrl::GetFontProps()
 	LOGFONT lf;
 	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
 	GetPrivateProfileString(_T("font"), _T("font"), _T("Arial"), lf.lfFaceName, LF_FACESIZE, m_ini_path);
+	//Filling Height property of lfHeight so i can just transfer size with structure
 	lf.lfHeight = GetPrivateProfileInt(_T("font"), _T("size"), 12, m_ini_path);
 	lf.lfItalic = GetPrivateProfileInt(_T("font"), _T("isItalic"), FALSE, m_ini_path);
 	lf.lfUnderline = GetPrivateProfileInt(_T("font"), _T("Italic"), FALSE, m_ini_path);

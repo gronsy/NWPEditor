@@ -65,10 +65,10 @@ void ScintillaCtrl::LoadDefaultState()
 {
 	SendEditor(SCI_SETLEXER, SCLEX_NULL);
 	SendEditor(SCI_SETTABWIDTH, TAB_WIDTH);
-	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, m_ini.GetFontProps().lfFaceName);
+	//SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 12, m_ini.GetFontProps().lfFaceName);
 	UpdateFont();
 	SendEditor(SCI_SETCARETFORE, RGB(0, 0, 0));
-	SendEditor(SCI_STYLECLEARALL, NULL);
+	//SendEditor(SCI_STYLECLEARALL, NULL);
 	SendEditor(SCI_SETSELBACK, TRUE, m_ini.GetColor(_T("selection")));
 }
 
@@ -101,7 +101,6 @@ void ScintillaCtrl::UpdateColor(const std::wstring& field)
 void ScintillaCtrl::UpdateFont()
 {
 	LOGFONT lf = m_ini.GetFontProps();
-	lf.lfHeight *= -1;
 	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), lf.lfHeight, lf.lfFaceName);
 	SendEditor(SCI_STYLESETSIZE, STYLE_DEFAULT, lf.lfHeight);
 	SendEditor(SCI_STYLESETITALIC, STYLE_DEFAULT, lf.lfItalic ? true : false);
