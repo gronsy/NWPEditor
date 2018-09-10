@@ -180,7 +180,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ColorPickDlg.h" />
-    <ClInclude Include="FileOpenDlg.h" />
     <ClInclude Include="IniCtrl.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="NWPEditor2.h" />
@@ -193,7 +192,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ColorPickDlg.cpp" />
-    <ClCompile Include="FileOpenDlg.cpp" />
     <ClCompile Include="IniCtrl.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="NWPEditor2.cpp" />
