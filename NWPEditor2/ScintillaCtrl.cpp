@@ -187,18 +187,6 @@ void ScintillaCtrl::SaveFile(const CString& path)
 	delete[] buffer;
 }
 
-std::string ScintillaCtrl::GetLineText(int line)
-{
-	int line_length=SendEditor(SCI_LINELENGTH, line);
-	char* buffer = new char[line_length + 1];
-	SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
-	buffer[line_length] = '\0';
-	std::string buffer_ret(buffer);
-	delete[] buffer;
-
-	return buffer_ret;
-}
-
 void ScintillaCtrl::AddIndent()
 {
 	++m_indent;
@@ -214,17 +202,13 @@ void ScintillaCtrl::RmIndent()
 
 void ScintillaCtrl::Indent()
 {
-	//SendEditor(SCI_SETINDENT, m_indent*TAB_WIDTH);
-	//SendEditor(SCI_SETTABINDENTS, false);
+	SendEditor(SCI_SETINDENT, m_indent*TAB_WIDTH);
 	int current_line = SendEditor(SCI_GETCURRENTPOS, NULL);
 	current_line = SendEditor(SCI_LINEFROMPOSITION, current_line);
-	//std::string buffer_conv(GetLineText(current_line));
-	SendEditor(SCI_SETLINEINDENTATION, current_line, m_indent);
-	/*char tab = '\t';
-	int carret_pos = SendEditor(SCI_GETCURRENTPOS, NULL)-1;
-	for (int i=0; i < m_indent; ++i)
-		SendEditor(SCI_ADDTEXT, 1, reinterpret_cast<LPARAM>(&tab));*/
-	SendEditor(SCI_ADDTABSTOP, current_line+1, m_indent*TAB_WIDTH);
+
+	SendEditor(SCI_SETTABINDENTS, true);
+	SendEditor(SCI_SETLINEINDENTATION, current_line, m_indent*TAB_WIDTH);
+	SendEditor(SCI_ADDTABSTOP, current_line, m_indent*TAB_WIDTH);
 }
 
 void ScintillaCtrl::PreparePrinting(CDC* pDC,CPrintInfo* pInfo)
@@ -267,8 +251,6 @@ void ScintillaCtrl::SetUpPrintInfo(CDC* pDC)
 
 void ScintillaCtrl::Print(CDC* pDC, int page)
 {
-	//TODO: fix character overlaping
-	//TODO: fix line going over paper edge
 	int dist = m_print_info.line_height;
 	bool page_transition = true;
 	SendEditor(SCI_GOTOPOS, 0);
