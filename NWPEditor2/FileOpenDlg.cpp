@@ -16,6 +16,5 @@ BOOL FileOpenDlg::OnInitDialog()
 		GetDlgItem(IDOK)->SetWindowText(_T("Create"));
 
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-				  // EXCEPTION: OCX Property Pages should return FALSE
+	return TRUE;
 }

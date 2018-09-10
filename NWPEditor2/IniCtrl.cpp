@@ -24,6 +24,10 @@ IniCtrl::IniCtrl()
 {
 	m_keywords = L"";
 	m_ini_path.LoadStringW(IDS_INI_COLOR_PATH);
+
+	if (GetFileAttributesA("config") == INVALID_FILE_ATTRIBUTES)
+		CreateDirectoryA("config", NULL);
+
 	if (!PathFileExists(m_ini_path))
 		WriteDefaultColours();
 
@@ -75,6 +79,10 @@ void IniCtrl::WriteDefaultFont()
 {
 	m_ini_path.LoadString(IDS_INI_FONT_PATH);
 	WritePrivateProfileString(_T("font"), _T("font"), _T("Arial"), m_ini_path);
+	WritePrivateProfileString(_T("font"), _T("size"), _T("12"), m_ini_path);
+	WritePrivateProfileString(_T("font"), _T("isItalic"), _T("0"), m_ini_path);
+	WritePrivateProfileString(_T("font"), _T("isUnderline"), _T("0"), m_ini_path);
+	WritePrivateProfileString(_T("font"), _T("weight"), _T("400"), m_ini_path);	//Normal weight accordint to msdn
 }
 
 void IniCtrl::WriteDefaultColours() 
@@ -107,14 +115,14 @@ COLORREF IniCtrl::GetColor(const std::wstring& colorName)
 	return color;
 }
 
-const std::string IniCtrl::GetFont()
-{
-	std::wstring font;
-
-	m_ini_path.LoadString(IDS_INI_FONT_PATH);
-	GetPrivateProfileString(L"font", L"font", L"Arial", &font[0], CHARS_TO_READ, m_ini_path);
-	return std::string(font.begin(), font.end());
-}
+//const std::string IniCtrl::GetFont()
+//{
+//	std::wstring font;
+//
+//	m_ini_path.LoadString(IDS_INI_FONT_PATH);
+//	GetPrivateProfileString(L"font", L"font", L"Arial", &font[0], CHARS_TO_READ, m_ini_path);
+//	return std::string(font.begin(), font.end());
+//}
 
 void IniCtrl::ChangeColor(const COLORREF color, const std::wstring& field)
 {
@@ -124,10 +132,37 @@ void IniCtrl::ChangeColor(const COLORREF color, const std::wstring& field)
 	WritePrivateProfileString(_T("colors"), field.c_str(), std::to_wstring(color).c_str(), m_ini_path);
 }
 
-void IniCtrl::ChangeFont(const std::wstring& font)
+void IniCtrl::ChangeFont(const LOGFONT& lf)
 {
 	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
 
+	WritePrivateProfileString(_T("font"), _T("font"), lf.lfFaceName, m_ini_path);
+	WritePrivateProfileString(_T("font"), _T("size"), std::to_wstring(lf.lfHeight).c_str(), m_ini_path);
+	WritePrivateProfileString(_T("font"), _T("weight"), std::to_wstring(lf.lfWeight).c_str(), m_ini_path);
+
+	if(lf.lfItalic==TRUE)
+		WritePrivateProfileString(_T("font"), _T("isItalic"), _T("1"), m_ini_path);
+	else
+		WritePrivateProfileString(_T("font"), _T("isItalic"), _T("0"), m_ini_path);
+
+	if (lf.lfUnderline == TRUE)
+		WritePrivateProfileString(_T("font"), _T("isUnderline"), _T("1"), m_ini_path);
+	else
+		WritePrivateProfileString(_T("font"), _T("isUnderline"), _T("0"), m_ini_path);
+
 	//std::wstring font_name(font.substr(0, font.find(L" ")));
-	WritePrivateProfileString(_T("font"), _T("font"), font.c_str(), m_ini_path);
+	//WritePrivateProfileString(_T("font"), _T("font"), font.c_str(), m_ini_path);
+}
+
+LOGFONT IniCtrl::GetFontProps()
+{
+	LOGFONT lf;
+	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
+	GetPrivateProfileString(_T("font"), _T("font"), _T("Arial"), lf.lfFaceName, LF_FACESIZE, m_ini_path);
+	lf.lfHeight = GetPrivateProfileInt(_T("font"), _T("size"), 12, m_ini_path);
+	lf.lfItalic = GetPrivateProfileInt(_T("font"), _T("isItalic"), FALSE, m_ini_path);
+	lf.lfUnderline = GetPrivateProfileInt(_T("font"), _T("Italic"), FALSE, m_ini_path);
+	lf.lfWeight = GetPrivateProfileInt(_T("font"), _T("weight"), FW_NORMAL, m_ini_path);
+
+	return lf;
 }

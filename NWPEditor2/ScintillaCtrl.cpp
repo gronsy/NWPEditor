@@ -27,7 +27,7 @@ LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=NULL*/
 }
 
 void ScintillaCtrl::SetAStyle(int style, COLORREF fore, 
-	COLORREF back/*=RGB(255,255,255)*/, int size/*=NULL*/, const std::string& face/*=NULL*/) const
+	COLORREF back/*=RGB(255,255,255)*/, int size/*=NULL*/, const std::wstring& face/*=NULL*/) const
 {
 	SendEditor(SCI_STYLESETFORE, style, fore);
 	SendEditor(SCI_STYLESETBACK, style, back);
@@ -65,7 +65,8 @@ void ScintillaCtrl::LoadDefaultState()
 {
 	SendEditor(SCI_SETLEXER, SCLEX_NULL);
 	SendEditor(SCI_SETTABWIDTH, TAB_WIDTH);
-	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, m_ini.GetFont());
+	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, m_ini.GetFontProps().lfFaceName);
+	UpdateFont();
 	SendEditor(SCI_SETCARETFORE, RGB(0, 0, 0));
 	SendEditor(SCI_STYLECLEARALL, NULL);
 	SendEditor(SCI_SETSELBACK, TRUE, m_ini.GetColor(_T("selection")));
@@ -99,9 +100,14 @@ void ScintillaCtrl::UpdateColor(const std::wstring& field)
 
 void ScintillaCtrl::UpdateFont()
 {
-	//SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), 10, m_ini.GetFont());
-	//SendEditor(SCI_STYLECLEARALL, NULL);
-	SendEditor(SCI_STYLESETFONT, STYLE_DEFAULT, reinterpret_cast<LPARAM>(m_ini.GetFont().c_str()));
+	LOGFONT lf = m_ini.GetFontProps();
+	lf.lfHeight *= -1;
+	SetAStyle(STYLE_DEFAULT, RGB(0, 0, 0), RGB(255, 255, 255), lf.lfHeight, lf.lfFaceName);
+	SendEditor(SCI_STYLESETSIZE, STYLE_DEFAULT, lf.lfHeight);
+	SendEditor(SCI_STYLESETITALIC, STYLE_DEFAULT, lf.lfItalic ? true : false);
+	SendEditor(SCI_STYLESETBOLD, STYLE_DEFAULT, lf.lfWeight > FW_NORMAL ? true : false);
+	SendEditor(SCI_STYLESETUNDERLINE, STYLE_DEFAULT, lf.lfUnderline ? true : false);
+
 	SendEditor(SCI_STYLECLEARALL, NULL);
 }
 
