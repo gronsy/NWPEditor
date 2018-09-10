@@ -45,6 +45,9 @@
     <ClInclude Include="ColorPickDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FileOpenDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NWPEditor2.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ColorPickDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileOpenDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
