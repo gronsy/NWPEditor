@@ -2,7 +2,7 @@
 #include "FileOpenDlg.h"
 
 FileOpenDlg::FileOpenDlg(CWnd* pParent/*=nullptr*/)
-	:CFileDialog(FALSE, _T(""), _T(""), 
+	:CFileDialog(TRUE, _T(""), _T(""), 
 		OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT, _T(""), pParent)
 {
 	
