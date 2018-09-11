@@ -1,10 +1,2 @@
 # NWPEditor
-Stvari koje rade:
-  -highlightanje sintakse
-  -copy, cut, paste
-  -support za 3 jezika (c, c++, python)
-  
-Stvari koje treba napraviti
-  -printanje
-  -završiti autocomplete
-  -promjena fontova
+Editor that is meant for code editing and supports three programming languages: C, C++ and Python. It has configurable colors for keywords, numbers, operators, uuid's, comments... Editor also supports printig, opening and saving files from and to disk. It can also create new files.
