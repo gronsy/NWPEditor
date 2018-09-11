@@ -22,7 +22,7 @@ public:
 	COLORREF GetColor(const std::wstring& colorName);
 	void ChangeColor(const COLORREF color, const std::wstring& field);
 	void ChangeFont(const LOGFONT& lf, int size);
-	LOGFONT GetFontProps();
+	LOGFONT GetFontProps(bool width_height=false);
 
 	void WriteDefaultKeywords();
 	void WriteDefaultColours();

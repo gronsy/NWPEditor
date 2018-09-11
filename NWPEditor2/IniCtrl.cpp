@@ -140,9 +140,12 @@ void IniCtrl::ChangeFont(const LOGFONT& lf, int size)
 		WritePrivateProfileString(_T("font"), _T("isUnderline"), _T("1"), m_ini_path);
 	else
 		WritePrivateProfileString(_T("font"), _T("isUnderline"), _T("0"), m_ini_path);
+
+	WritePrivateProfileString(_T("font"), _T("height"), std::to_wstring(lf.lfHeight).c_str(), m_ini_path);
+	WritePrivateProfileString(_T("font"), _T("width"), std::to_wstring(lf.lfWidth).c_str(), m_ini_path);
 }
 
-LOGFONT IniCtrl::GetFontProps()
+LOGFONT IniCtrl::GetFontProps(bool width_height/*=false*/)
 {
 	LOGFONT lf;
 	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
@@ -152,6 +155,12 @@ LOGFONT IniCtrl::GetFontProps()
 	lf.lfItalic = GetPrivateProfileInt(_T("font"), _T("isItalic"), FALSE, m_ini_path);
 	lf.lfUnderline = GetPrivateProfileInt(_T("font"), _T("Italic"), FALSE,m_ini_path);
 	lf.lfWeight = GetPrivateProfileInt(_T("font"), _T("weight"), FW_NORMAL, m_ini_path);
+
+	if(width_height)
+	{
+		lf.lfHeight = GetPrivateProfileInt(_T("font"), _T("height"), -12, m_ini_path);
+		lf.lfWidth = GetPrivateProfileInt(_T("font"), _T("width"), 0, m_ini_path);
+	}
 
 	return lf;
 }
