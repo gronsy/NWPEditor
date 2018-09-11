@@ -20,23 +20,27 @@ std::wstring IniCtrl::py_keywords = L"False class finally is return None continu
 	"with as elif if or yield assert else import pass "
 	"break except in raise";
 
-IniCtrl::IniCtrl()
+IniCtrl::IniCtrl(bool init/*=true*/)
 {
-	m_keywords = L"";
-	
-	if (GetFileAttributesA("config") == INVALID_FILE_ATTRIBUTES)
-		CreateDirectoryA("config", NULL);
+	if (init)
+	{
+		m_keywords = L"";
 
-	if (!PathFileExists(m_ini_path))
-		WriteDefaultColours();
+		if (GetFileAttributesA("config") == INVALID_FILE_ATTRIBUTES)
+			CreateDirectoryA("config", NULL);
 
-	m_ini_path.LoadStringW(IDS_INI_KW_PATH);
-	if (!PathFileExists(m_ini_path))
-		WriteDefaultKeywords();
+		m_ini_path.LoadStringW(IDS_INI_COLOR_PATH);
+		if (!PathFileExists(m_ini_path))
+			WriteDefaultColours();
 
-	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
-	if (!PathFileExists(m_ini_path))
-		WriteDefaultFont();
+		m_ini_path.LoadStringW(IDS_INI_KW_PATH);
+		if (!PathFileExists(m_ini_path))
+			WriteDefaultKeywords();
+
+		m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
+		if (!PathFileExists(m_ini_path))
+			WriteDefaultFont();
+	}
 }
 
 IniCtrl::~IniCtrl()

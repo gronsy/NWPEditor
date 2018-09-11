@@ -15,7 +15,7 @@ protected:
 	CString m_ini_path;
 
 public:
-	IniCtrl();
+	IniCtrl(bool init=true);
 	~IniCtrl();
 	void SendIni(int lang, bool clang=false);
 	const std::string GetKeywords() const;
