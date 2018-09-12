@@ -166,5 +166,14 @@ LOGFONT IniCtrl::GetFontProps(bool width_height/*=false*/)
 		lf.lfWidth = GetPrivateProfileInt(_T("font"), _T("width"), 0, m_ini_path);
 	}
 
+	lf.lfCharSet = NULL;
+	lf.lfClipPrecision = NULL;
+	lf.lfEscapement = NULL;
+	lf.lfOrientation = NULL;
+	lf.lfOutPrecision = NULL;
+	lf.lfPitchAndFamily = NULL;
+	lf.lfQuality = NULL;
+	lf.lfStrikeOut = NULL;
+
 	return lf;
 }
