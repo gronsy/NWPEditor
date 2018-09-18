@@ -253,9 +253,7 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 	LOGFONT lf = m_ini.GetFontProps(true);
 	SendEditor(SCI_GOTOPOS, 0);
 	CFont font;
-	font.CreateFont(lf.lfHeight, lf.lfWidth, lf.lfEscapement, lf.lfOrientation, lf.lfWeight,
-		lf.lfItalic, lf.lfUnderline, lf.lfStrikeOut, lf.lfCharSet, lf.lfOutPrecision, lf.lfClipPrecision,
-		lf.lfQuality, lf.lfPitchAndFamily, lf.lfFaceName);
+	font.CreateFontIndirect(&lf);
 	pDC->SetTextAlign(TA_TOP);
 	CFont* old=pDC->SelectObject(&font);
 	m_print_info.lines_printed = 0;
@@ -271,7 +269,6 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 		buffer[line_length] = '\0';
 
 		pDC->TextOut(m_print_info.rect.left+50, dist, CString(buffer));
-		//pDC->DrawText(CString(buffer), , DT_SINGLELINE | DT_CENTER | DT_VCENTER)
 
 
 		++m_print_info.lines_printed;
