@@ -252,11 +252,12 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 	bool page_transition = true;
 	LOGFONT lf = m_ini.GetFontProps(true);
 	SendEditor(SCI_GOTOPOS, 0);
-	/*HFONT hf = CreateFont(lf.lfHeight, lf.lfWidth, lf.lfEscapement, lf.lfOrientation, lf.lfWeight,
+	CFont font;
+	font.CreateFont(lf.lfHeight, lf.lfWidth, lf.lfEscapement, lf.lfOrientation, lf.lfWeight,
 		lf.lfItalic, lf.lfUnderline, lf.lfStrikeOut, lf.lfCharSet, lf.lfOutPrecision, lf.lfClipPrecision,
 		lf.lfQuality, lf.lfPitchAndFamily, lf.lfFaceName);
-	HGDIOBJ old=pDC->SelectObject(hf);*/
 	pDC->SetTextAlign(TA_TOP);
+	CFont* old=pDC->SelectObject(&font);
 	m_print_info.lines_printed = 0;
 	int cur_line = page * m_print_info.lines_per_page - m_print_info.lines_per_page;
 
@@ -270,6 +271,7 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 		buffer[line_length] = '\0';
 
 		pDC->TextOut(m_print_info.rect.left+50, dist, CString(buffer));
+		//pDC->DrawText(CString(buffer), , DT_SINGLELINE | DT_CENTER | DT_VCENTER)
 
 
 		++m_print_info.lines_printed;
@@ -278,7 +280,7 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 		delete[] buffer;
 	}
 
-	//pDC->SelectObject(old);
+	pDC->SelectObject(old);
 }
 
 void ScintillaCtrl::RmInit() { m_print_info.initialised = false; }
