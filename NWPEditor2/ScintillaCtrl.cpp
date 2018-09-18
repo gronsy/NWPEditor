@@ -219,9 +219,11 @@ void ScintillaCtrl::PreparePrinting(CDC* pDC,CPrintInfo* pInfo)
 		m_print_info.range.chrg.cpMin = 0;
 		m_print_info.range.chrg.cpMax = SendEditor(SCI_GETLENGTH, NULL);
 	
-		m_print_info.text_height = SendEditor(SCI_TEXTHEIGHT, 0);
+		//m_print_info.text_height = SendEditor(SCI_TEXTHEIGHT, 0);
+		m_print_info.text_height = m_ini.GetFontHeight();
 		m_print_info.text_height = MulDiv(m_print_info.text_height, pDC->GetDeviceCaps(LOGPIXELSY), 72);
-		m_print_info.lines_per_page = m_print_info.rect.bottom/m_print_info.text_height;
+		m_print_info.lines_per_page = m_print_info.rect.bottom/m_print_info.text_height-PRINT_OVERFLOW;
+
 		unsigned pages = SendEditor(SCI_GETLINECOUNT, NULL);
 		pages *= m_print_info.text_height;
 		pages /= m_print_info.rect.bottom;
@@ -261,7 +263,7 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 	m_print_info.lines_printed = 0;
 	int cur_line = page * m_print_info.lines_per_page - m_print_info.lines_per_page;
 
-	while(m_print_info.lines_printed<= m_print_info.lines_per_page && !EditorIsEmpty())
+	while(m_print_info.lines_printed< m_print_info.lines_per_page && !EditorIsEmpty())
 	{
 		int line_length = SendEditor(SCI_LINELENGTH, cur_line);
 		

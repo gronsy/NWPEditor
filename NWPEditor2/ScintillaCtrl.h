@@ -3,6 +3,7 @@
 #include <string>
 
 #define TAB_WIDTH			4
+#define PRINT_OVERFLOW		7
 #define MARGIN_PIXEL_WIDTH	16
 #define PRINTING_LINE_FIT	30
 

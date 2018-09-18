@@ -177,3 +177,9 @@ LOGFONT IniCtrl::GetFontProps(bool width_height/*=false*/)
 
 	return lf;
 }
+
+int IniCtrl::GetFontHeight()
+{
+	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
+	return -GetPrivateProfileInt(_T("font"), _T("height"), -12, m_ini_path);
+}
