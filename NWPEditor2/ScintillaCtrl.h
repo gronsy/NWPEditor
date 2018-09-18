@@ -13,7 +13,7 @@
 
 struct Sci_Print_Info
 {
-	int lines_printed, line_height, lines_per_page;
+	int lines_printed, text_height, lines_per_page;
 	bool initialised;
 	Sci_Rectangle rect;
 	Sci_RangeToFormat range;

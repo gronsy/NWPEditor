@@ -218,13 +218,12 @@ void ScintillaCtrl::PreparePrinting(CDC* pDC,CPrintInfo* pInfo)
 		m_print_info.rect.bottom = pInfo->m_rectDraw.bottom;
 		m_print_info.range.chrg.cpMin = 0;
 		m_print_info.range.chrg.cpMax = SendEditor(SCI_GETLENGTH, NULL);
-
 	
-		m_print_info.line_height = SendEditor(SCI_TEXTHEIGHT, 0);
-		m_print_info.line_height = MulDiv(m_print_info.line_height, pDC->GetDeviceCaps(LOGPIXELSY), 72);
-		m_print_info.lines_per_page = m_print_info.rect.bottom/m_print_info.line_height;
+		m_print_info.text_height = SendEditor(SCI_TEXTHEIGHT, 0);
+		m_print_info.text_height = MulDiv(m_print_info.text_height, pDC->GetDeviceCaps(LOGPIXELSY), 72);
+		m_print_info.lines_per_page = m_print_info.rect.bottom/m_print_info.text_height;
 		unsigned pages = SendEditor(SCI_GETLINECOUNT, NULL);
-		pages *= m_print_info.line_height;
+		pages *= m_print_info.text_height;
 		pages /= m_print_info.rect.bottom;
 		++pages;
 		if (m_print_info.lines_per_page*pages < SendEditor(SCI_GETLINECOUNT, NULL))
@@ -243,17 +242,20 @@ void ScintillaCtrl::SetUpPrintInfo(CDC* pDC)
 	m_print_info.range.rcPage = m_print_info.rect;
 
 	SendEditor(SCI_SETPRINTCOLOURMODE, SC_PRINT_NORMAL);
-	SendEditor(SCI_FORMATRANGE, false, reinterpret_cast<LPARAM>(&m_print_info));
+	SendEditor(SCI_FORMATRANGE, false, reinterpret_cast<LPARAM>(&m_print_info.range));
 }
 
 void ScintillaCtrl::Print(CDC* pDC, int page)
 {
-	int dist = m_print_info.line_height;
+	int dist = 1;
 	bool page_transition = true;
 	LOGFONT lf = m_ini.GetFontProps(true);
 	SendEditor(SCI_GOTOPOS, 0);
+
 	CFont font;
-	font.CreateFontIndirect(&lf);
+	font.CreateFont(-m_print_info.text_height, lf.lfWidth, lf.lfEscapement, lf.lfOrientation, lf.lfWeight,
+		lf.lfItalic, lf.lfUnderline, lf.lfStrikeOut, lf.lfCharSet, lf.lfOutPrecision, lf.lfClipPrecision,
+		lf.lfQuality, lf.lfPitchAndFamily, lf.lfFaceName);
 	pDC->SetTextAlign(TA_TOP);
 	CFont* old=pDC->SelectObject(&font);
 	m_print_info.lines_printed = 0;
@@ -268,12 +270,11 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 
 		buffer[line_length] = '\0';
 
-		pDC->TextOut(m_print_info.rect.left+50, dist, CString(buffer));
-
+		pDC->TextOut(m_print_info.rect.left+50, pDC->GetTextExtent(CString(buffer)).cy*dist, CString(buffer));
 
 		++m_print_info.lines_printed;
 		++cur_line;
-		dist += m_print_info.line_height;
+		++dist;
 		delete[] buffer;
 	}
 
