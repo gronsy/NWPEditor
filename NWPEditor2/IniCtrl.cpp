@@ -1,24 +1,24 @@
 #include "stdafx.h"
 #include "IniCtrl.h"
 
-std::wstring IniCtrl::cpp_keywords=L"asm auto bool break case catch char class const "
-	"dynamic_cast else enum explicit extern false finally "
-	"float for friend goto if inline int long mutable "
-	"namespace new operator private protected public "
-	"register reinterpret_cast register return short signed "
-	"sizeof static static_cast struct switch template "
-	"this throw true try typedef typeid typename "
-	"union unsigned using virtual void volatile "
-	"wchar_t while";
+std::wstring IniCtrl::cpp_keywords = L"asm auto bool break case catch char class const "
+"dynamic_cast else enum explicit extern false finally "
+"float for friend goto if inline int long mutable "
+"namespace new operator private protected public "
+"register reinterpret_cast register return short signed "
+"sizeof static static_cast struct switch template "
+"this throw true try typedef typeid typename "
+"union unsigned using virtual void volatile "
+"wchar_t while";
 
-std::wstring IniCtrl::c_keywords= L"auto break case char const continue delete do double "
-	"else enum explicit float for goto if int long register "
-	"return short signed sizeof static struct switch typedef while";
+std::wstring IniCtrl::c_keywords = L"auto break case char const continue delete do double "
+"else enum explicit float for goto if int long register "
+"return short signed sizeof static struct switch typedef while";
 
 std::wstring IniCtrl::py_keywords = L"False class finally is return None continue for lambda "
-	"try True def from nonlocal while and del global not "
-	"with as elif if or yield assert else import pass "
-	"break except in raise";
+"try True def from nonlocal while and del global not "
+"with as elif if or yield assert else import pass "
+"break except in raise";
 
 IniCtrl::IniCtrl(bool init/*=true*/)
 {
@@ -47,7 +47,7 @@ IniCtrl::~IniCtrl()
 {
 }
 
-void IniCtrl::SendIni(int lang, bool clang/*=false*/) 
+void IniCtrl::SendIni(int lang, bool clang/*=false*/)
 {
 	std::wstring keywordsLang;
 
@@ -70,7 +70,7 @@ void IniCtrl::SendIni(int lang, bool clang/*=false*/)
 	}
 }
 
-void IniCtrl::WriteDefaultKeywords() 
+void IniCtrl::WriteDefaultKeywords()
 {
 	m_ini_path.LoadString(IDS_INI_KW_PATH);
 	WritePrivateProfileString(_T("keywords"), _T("cpp"), cpp_keywords.c_str(), m_ini_path);
@@ -88,7 +88,7 @@ void IniCtrl::WriteDefaultFont()
 	WritePrivateProfileString(_T("font"), _T("weight"), _T("400"), m_ini_path);	//Normal weight according to msdn
 }
 
-void IniCtrl::WriteDefaultColours() 
+void IniCtrl::WriteDefaultColours()
 {
 	std::wstring buffer;
 	m_ini_path.LoadString(IDS_INI_COLOR_PATH);
@@ -111,10 +111,10 @@ const std::string IniCtrl::GetKeywords() const
 	return converter.to_bytes(m_keywords);
 }
 
-COLORREF IniCtrl::GetColor(const std::wstring& colorName) 
-{ 
+COLORREF IniCtrl::GetColor(const std::wstring& colorName)
+{
 	m_ini_path.LoadString(IDS_INI_COLOR_PATH);
-	COLORREF color=GetPrivateProfileInt(_T("colors"), colorName.c_str(), RGB(0, 0, 0), m_ini_path);
+	COLORREF color = GetPrivateProfileInt(_T("colors"), colorName.c_str(), RGB(0, 0, 0), m_ini_path);
 	return color;
 }
 
@@ -131,11 +131,11 @@ void IniCtrl::ChangeFont(const LOGFONT& lf, int size)
 	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
 
 	WritePrivateProfileString(_T("font"), _T("font"), lf.lfFaceName, m_ini_path);
-	if(size<=72)
+	if (size <= 72)
 		WritePrivateProfileString(_T("font"), _T("size"), std::to_wstring(size).c_str(), m_ini_path);
 	WritePrivateProfileString(_T("font"), _T("weight"), std::to_wstring(lf.lfWeight).c_str(), m_ini_path);
 
-	if(lf.lfItalic==TRUE)
+	if (lf.lfItalic == TRUE)
 		WritePrivateProfileString(_T("font"), _T("isItalic"), _T("1"), m_ini_path);
 	else
 		WritePrivateProfileString(_T("font"), _T("isItalic"), _T("0"), m_ini_path);
@@ -157,10 +157,10 @@ LOGFONT IniCtrl::GetFontProps(bool width_height/*=false*/)
 	//Filling Height property of lfHeight so i can just transfer size with structure
 	lf.lfHeight = GetPrivateProfileInt(_T("font"), _T("size"), 12, m_ini_path);
 	lf.lfItalic = GetPrivateProfileInt(_T("font"), _T("isItalic"), FALSE, m_ini_path);
-	lf.lfUnderline = GetPrivateProfileInt(_T("font"), _T("Italic"), FALSE,m_ini_path);
+	lf.lfUnderline = GetPrivateProfileInt(_T("font"), _T("Italic"), FALSE, m_ini_path);
 	lf.lfWeight = GetPrivateProfileInt(_T("font"), _T("weight"), FW_NORMAL, m_ini_path);
 
-	if(width_height)
+	if (width_height)
 	{
 		lf.lfHeight = GetPrivateProfileInt(_T("font"), _T("height"), -12, m_ini_path);
 		lf.lfWidth = GetPrivateProfileInt(_T("font"), _T("width"), 0, m_ini_path);
@@ -182,4 +182,11 @@ int IniCtrl::GetFontHeight()
 {
 	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
 	return -GetPrivateProfileInt(_T("font"), _T("height"), -12, m_ini_path);
+}
+
+void IniCtrl::AddBookmarkEntry(const std::wstring& bookmarkName,
+	const std::wstring& fileName,
+	const int line)
+{
+	m_ini_path.LoadStringW(IDS_INI_BOOKMARKS_PATH);
 }
