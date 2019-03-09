@@ -1,5 +1,6 @@
 #pragma once
 #include "IniCtrl.h"
+#include "Bookmark.h"
 #include <string>
 
 #define TAB_WIDTH			4
@@ -60,4 +61,5 @@ public:
 	void RmInit();
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
+	void GiveBookmarkInfo(std::wstring filename);
 };

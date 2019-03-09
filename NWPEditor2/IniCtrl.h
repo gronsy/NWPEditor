@@ -13,7 +13,6 @@ protected:
 	static std::wstring cpp_keywords, c_keywords, py_keywords;
 	int m_lang;
 	CString m_ini_path;
-	static IniCtrl& m_instance;
 
 public:
 	IniCtrl(bool init = true);
