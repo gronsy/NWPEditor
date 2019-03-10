@@ -287,5 +287,4 @@ void ScintillaCtrl::RmInit() { m_print_info.initialised = false; }
 
 void ScintillaCtrl::GiveBookmarkInfo(std::wstring filename)
 {
-
 }
