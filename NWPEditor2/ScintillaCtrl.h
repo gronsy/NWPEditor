@@ -21,7 +21,7 @@ struct Sci_Print_Info
 	Sci_RangeToFormat range;
 };
 
-class ScintillaCtrl 
+class ScintillaCtrl
 {
 protected:
 	HWND m_scintilla_ctrl;
@@ -30,14 +30,14 @@ protected:
 	int m_indent;
 protected:
 	void SetUpEditor();
-	void SetAStyle(int style, COLORREF fore, COLORREF back=RGB(255,255,255), int size=NULL, const std::wstring& face=L"")const;
+	void SetAStyle(int style, COLORREF fore, COLORREF back = RGB(255, 255, 255), int size = NULL, const std::wstring& face = L"")const;
 	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL) const;
 public:
 	ScintillaCtrl();
 	~ScintillaCtrl();
 
 	void SetScintillaCtrl(HWND wnd);
-	void SetLang(int langm, bool clang=false);
+	void SetLang(int langm, bool clang = false);
 	void LoadDefaultState();
 	void UpdateColor(const std::wstring& field);
 	void UpdateFont();
@@ -61,5 +61,5 @@ public:
 	void RmInit();
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
-	void GiveBookmarkInfo(std::wstring filename);
+	void GiveBookmarkInfo(const std::wstring& filePath, const std::wstring& bookmarkName);
 };

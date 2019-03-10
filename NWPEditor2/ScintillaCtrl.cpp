@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "ScintillaCtrl.h"
 
-
 //construction and deconstruction
 ScintillaCtrl::ScintillaCtrl()
 {
@@ -25,7 +24,7 @@ LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=NULL*/
 	return ::SendMessage(m_scintilla_ctrl, msg, wparam, lparam);
 }
 
-void ScintillaCtrl::SetAStyle(int style, COLORREF fore, 
+void ScintillaCtrl::SetAStyle(int style, COLORREF fore,
 	COLORREF back/*=RGB(255,255,255)*/, int size/*=NULL*/, const std::wstring& face/*=NULL*/) const
 {
 	SendEditor(SCI_STYLESETFORE, style, fore);
@@ -37,7 +36,7 @@ void ScintillaCtrl::SetAStyle(int style, COLORREF fore,
 		SendEditor(SCI_STYLESETFONT, style, reinterpret_cast<LPARAM>(face.c_str()));
 }
 
-void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/) 
+void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 {
 	SendEditor(SCI_SETLEXER, lex, NULL);
 	m_ini.SendIni(lex, clang);
@@ -47,7 +46,7 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 void ScintillaCtrl::SetUpEditor()
 {
 	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(m_ini.GetKeywords().c_str()));
-	
+
 	SetAStyle(SCE_C_COMMENT, m_ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTLINE, m_ini.GetColor(_T("comment")));
 	SetAStyle(SCE_C_COMMENTDOC, m_ini.GetColor(_T("comment")));
@@ -69,25 +68,25 @@ void ScintillaCtrl::LoadDefaultState()
 	SendEditor(SCI_SETSELBACK, TRUE, m_ini.GetColor(_T("selection")));
 }
 
-
 void ScintillaCtrl::UpdateColor(const std::wstring& field)
 {
-	if (field==_T("comment"))
+	if (field == _T("comment"))
 	{
 		SetAStyle(SCE_C_COMMENT, m_ini.GetColor(field));
 		SetAStyle(SCE_C_COMMENTLINE, m_ini.GetColor(field));
 		SetAStyle(SCE_C_COMMENTDOC, m_ini.GetColor(field));
-	}else if (field==_T("string"))
+	}
+	else if (field == _T("string"))
 	{
 		SetAStyle(SCE_C_STRING, m_ini.GetColor(field));
 		SetAStyle(SCE_C_CHARACTER, m_ini.GetColor(field));
 	}
-	else if (field==_T("number")) SetAStyle(SCE_C_NUMBER, m_ini.GetColor(field));
-	else if (field==_T("uuid"))SetAStyle(SCE_C_UUID, m_ini.GetColor(field));
-	else if (field==_T("operators"))SetAStyle(SCE_C_OPERATOR, m_ini.GetColor(field));
-	else if (field==_T("preprocessor"))SetAStyle(SCE_C_PREPROCESSOR, m_ini.GetColor(field));
-	else if (field==_T("keywords"))SetAStyle(SCE_C_WORD, m_ini.GetColor(field));
-	else if (field == _T("selection"))SendEditor(SCI_SETSELBACK,TRUE, m_ini.GetColor(field));
+	else if (field == _T("number")) SetAStyle(SCE_C_NUMBER, m_ini.GetColor(field));
+	else if (field == _T("uuid"))SetAStyle(SCE_C_UUID, m_ini.GetColor(field));
+	else if (field == _T("operators"))SetAStyle(SCE_C_OPERATOR, m_ini.GetColor(field));
+	else if (field == _T("preprocessor"))SetAStyle(SCE_C_PREPROCESSOR, m_ini.GetColor(field));
+	else if (field == _T("keywords"))SetAStyle(SCE_C_WORD, m_ini.GetColor(field));
+	else if (field == _T("selection"))SendEditor(SCI_SETSELBACK, TRUE, m_ini.GetColor(field));
 }
 
 void ScintillaCtrl::UpdateFont()
@@ -105,7 +104,7 @@ void ScintillaCtrl::UpdateFont()
 void ScintillaCtrl::AutoCompKey(int word_length)const
 {
 	SendEditor(SCI_AUTOCSETAUTOHIDE, true);
-	SendEditor(SCI_AUTOCSHOW, word_length-1, (LPARAM)(LPSTR)m_ini.GetKeywords().c_str());
+	SendEditor(SCI_AUTOCSHOW, word_length - 1, (LPARAM)(LPSTR)m_ini.GetKeywords().c_str());
 	SendEditor(SCI_AUTOCSETIGNORECASE, true);
 	SendEditor(SCI_AUTOCSETORDER, SC_ORDER_PERFORMSORT);
 }
@@ -151,7 +150,6 @@ void ScintillaCtrl::SavePosition() const
 	SendEditor(SCI_SETSAVEPOINT, NULL);
 }
 
-
 //Returns true if editor is empty, false if it isn't empty.
 bool ScintillaCtrl::EditorIsEmpty()
 {
@@ -174,11 +172,11 @@ void ScintillaCtrl::SaveFile(const CString& path)
 	SavePosition();
 
 	int doc_size = SendEditor(SCI_GETLENGTH, NULL);
-	char* buffer=new char[doc_size+1];
+	char* buffer = new char[doc_size + 1];
 	SendEditor(SCI_GETTEXT, doc_size, reinterpret_cast<LPARAM>(buffer));
 
 	CFile save_file;
-	save_file.Open(path, CFile::modeWrite|CFile::modeCreate);
+	save_file.Open(path, CFile::modeWrite | CFile::modeCreate);
 	save_file.Write(buffer, doc_size);
 	save_file.Close();
 	delete[] buffer;
@@ -191,7 +189,7 @@ void ScintillaCtrl::AddIndent()
 
 void ScintillaCtrl::RmIndent()
 {
-	if (!m_indent)	
+	if (!m_indent)
 		return;
 
 	--m_indent;
@@ -208,7 +206,7 @@ void ScintillaCtrl::Indent()
 	SendEditor(SCI_ADDTABSTOP, current_line, m_indent*TAB_WIDTH);
 }
 
-void ScintillaCtrl::PreparePrinting(CDC* pDC,CPrintInfo* pInfo)
+void ScintillaCtrl::PreparePrinting(CDC* pDC, CPrintInfo* pInfo)
 {
 	if (!(m_print_info.initialised))
 	{
@@ -218,11 +216,11 @@ void ScintillaCtrl::PreparePrinting(CDC* pDC,CPrintInfo* pInfo)
 		m_print_info.rect.bottom = pInfo->m_rectDraw.bottom;
 		m_print_info.range.chrg.cpMin = 0;
 		m_print_info.range.chrg.cpMax = SendEditor(SCI_GETLENGTH, NULL);
-	
+
 		//m_print_info.text_height = SendEditor(SCI_TEXTHEIGHT, 0);
 		m_print_info.text_height = m_ini.GetFontHeight();
 		m_print_info.text_height = MulDiv(m_print_info.text_height, pDC->GetDeviceCaps(LOGPIXELSY), 72);
-		m_print_info.lines_per_page = m_print_info.rect.bottom/m_print_info.text_height-PRINT_OVERFLOW;
+		m_print_info.lines_per_page = m_print_info.rect.bottom / m_print_info.text_height - PRINT_OVERFLOW;
 
 		unsigned pages = SendEditor(SCI_GETLINECOUNT, NULL);
 		pages *= m_print_info.text_height;
@@ -259,20 +257,20 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 		lf.lfItalic, lf.lfUnderline, lf.lfStrikeOut, lf.lfCharSet, lf.lfOutPrecision, lf.lfClipPrecision,
 		lf.lfQuality, lf.lfPitchAndFamily, lf.lfFaceName);
 	pDC->SetTextAlign(TA_TOP);
-	CFont* old=pDC->SelectObject(&font);
+	CFont* old = pDC->SelectObject(&font);
 	m_print_info.lines_printed = 0;
 	int cur_line = page * m_print_info.lines_per_page - m_print_info.lines_per_page;
 
-	while(m_print_info.lines_printed< m_print_info.lines_per_page && !EditorIsEmpty())
+	while (m_print_info.lines_printed < m_print_info.lines_per_page && !EditorIsEmpty())
 	{
 		int line_length = SendEditor(SCI_LINELENGTH, cur_line);
-		
-		char *buffer = new char[line_length+1];
+
+		char *buffer = new char[line_length + 1];
 		SendEditor(SCI_GETLINE, cur_line, reinterpret_cast<LPARAM>(buffer));
 
 		buffer[line_length] = '\0';
 
-		pDC->TextOut(m_print_info.rect.left+50, pDC->GetTextExtent(CString(buffer)).cy*dist, CString(buffer));
+		pDC->TextOut(m_print_info.rect.left + 50, pDC->GetTextExtent(CString(buffer)).cy*dist, CString(buffer));
 
 		++m_print_info.lines_printed;
 		++cur_line;
@@ -285,6 +283,10 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 
 void ScintillaCtrl::RmInit() { m_print_info.initialised = false; }
 
-void ScintillaCtrl::GiveBookmarkInfo(std::wstring filename)
+void ScintillaCtrl::GiveBookmarkInfo(const std::wstring& filePath, const std::wstring& bookmarkName)
 {
+	int line = SendEditor(SCI_GETCURRENTPOS, NULL);
+	line = SendEditor(SCI_LINEFROMPOSITION, line);
+
+	m_ini.AddBookmarkEntry(bookmarkName, filePath, line);
 }

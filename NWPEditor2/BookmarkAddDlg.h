@@ -15,7 +15,7 @@ public:
 	BookmarkAddDlg(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~BookmarkAddDlg();
 
-// Dialog Data
+	// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_BOOKMARKADD };
 #endif
@@ -29,4 +29,6 @@ protected:
 public:
 	afx_msg void OnBtnClickedOk();
 	afx_msg void OnBnClickedCancel();
+
+	std::wstring GetBmName() const;
 };

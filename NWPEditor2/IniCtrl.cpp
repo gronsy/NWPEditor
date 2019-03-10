@@ -185,8 +185,16 @@ int IniCtrl::GetFontHeight()
 }
 
 void IniCtrl::AddBookmarkEntry(const std::wstring& bookmarkName,
-	const std::wstring& fileName,
+	const std::wstring& filePath,
 	const int line)
 {
 	m_ini_path.LoadStringW(IDS_INI_BOOKMARKS_PATH);
+	std::wstring fileName =
+}
+
+std::wstring IniCtrl::ExtractFileName(const std::wstring& filePath)
+{
+	std::wstring fileName = L"";
+
+	return fileName;
 }

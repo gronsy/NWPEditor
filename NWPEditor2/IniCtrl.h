@@ -14,6 +14,7 @@ protected:
 	int m_lang;
 	CString m_ini_path;
 
+	std::wstring ExtractFileName(const std::wstring& filePath);
 public:
 	IniCtrl(bool init = true);
 	~IniCtrl();

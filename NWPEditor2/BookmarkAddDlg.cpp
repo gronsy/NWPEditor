@@ -5,7 +5,6 @@
 #include "BookmarkAddDlg.h"
 #include "afxdialogex.h"
 
-
 // BookmarkAddDlg dialog
 
 IMPLEMENT_DYNAMIC(BookmarkAddDlg, CDialogEx)
@@ -26,6 +25,10 @@ void BookmarkAddDlg::FillBmName()
 	m_bookmark_name = std::wstring(buffer);
 }
 
+std::wstring BookmarkAddDlg::GetBmName()const
+{
+	return m_bookmark_name;
+}
 
 void BookmarkAddDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -33,12 +36,10 @@ void BookmarkAddDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDITBOOKMARKNAME, m_bookmark_name_eb);
 }
 
-
 BEGIN_MESSAGE_MAP(BookmarkAddDlg, CDialogEx)
 	ON_BN_CLICKED(IDOK, &BookmarkAddDlg::OnBtnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, &BookmarkAddDlg::OnBnClickedCancel)
 END_MESSAGE_MAP()
-
 
 void BookmarkAddDlg::OnBtnClickedOk()
 {
@@ -48,7 +49,7 @@ void BookmarkAddDlg::OnBtnClickedOk()
 		CString msg, title;
 		msg.LoadStringW(IDS_BOOKMARKADD_OK_MSGEMPTY);
 		title.LoadStringW(IDS_BOOKMARKADD_WARNING);
-		if (MessageBox(msg,title, MB_YESNO | MB_ICONWARNING) == IDYES)
+		if (MessageBox(msg, title, MB_YESNO | MB_ICONWARNING) == IDYES)
 			EndDialog(IDCANCEL);
 		else
 			return;
@@ -60,7 +61,7 @@ void BookmarkAddDlg::OnBtnClickedOk()
 void BookmarkAddDlg::OnBnClickedCancel()
 {
 	FillBmName();
-	if(m_bookmark_name!=L"")
+	if (m_bookmark_name != L"")
 	{
 		CString msg, title;
 		msg.LoadStringW(IDS_BOOKMARKADD_CANCEL_NOTEMPTY);
