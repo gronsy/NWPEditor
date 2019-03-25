@@ -62,4 +62,5 @@ public:
 	IniCtrl GetIni();
 	HWND GetScintillaCtrl();
 	void GiveBookmarkInfo(const std::wstring& filePath, const std::wstring& bookmarkName);
+	void LoadBookmarks(const std::wstring& fileName);
 };

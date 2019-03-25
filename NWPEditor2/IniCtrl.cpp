@@ -189,12 +189,14 @@ void IniCtrl::AddBookmarkEntry(const std::wstring& bookmarkName,
 	const int line)
 {
 	m_ini_path.LoadStringW(IDS_INI_BOOKMARKS_PATH);
-	std::wstring fileName =
+	WritePrivateProfileString(filePath.c_str(), bookmarkName.c_str(), std::to_wstring(line).c_str(), m_ini_path);
 }
 
-std::wstring IniCtrl::ExtractFileName(const std::wstring& filePath)
+void IniCtrl::GetBookmarks(const std::wstring& fileName)
 {
-	std::wstring fileName = L"";
+	m_ini_path.LoadStringW(IDS_INI_BOOKMARKS_PATH);
+	WCHAR buffer[BOOKMARK_BUFFER_SIZE];
 
-	return fileName;
+	GetPrivateProfileSection(fileName.c_str(), buffer, BOOKMARK_BUFFER_SIZE, m_ini_path);
+	//TODO: Implement spliting paths and returning bookmarks
 }

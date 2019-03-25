@@ -290,3 +290,8 @@ void ScintillaCtrl::GiveBookmarkInfo(const std::wstring& filePath, const std::ws
 
 	m_ini.AddBookmarkEntry(bookmarkName, filePath, line);
 }
+
+void ScintillaCtrl::LoadBookmarks(const std::wstring& fileName)
+{
+	m_ini.GetBookmarks(fileName);
+}

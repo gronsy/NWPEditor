@@ -1,14 +1,11 @@
 #include "stdafx.h"
 #include "Bookmark.h"
 
-Bookmark::Bookmark(std::wstring name, int bm_line):
+Bookmark::Bookmark(std::wstring name, int bm_line) :
 	bookmark_name(name), line(bm_line)
 {}
 
-
-int Bookmark::get_bookmark_index(std::wstring bookmark_name)
+int Bookmark::GetBookmarkLine()
 {
-	int index=FAIL_CODE;
-
-	return index;
+	return 1;
 }

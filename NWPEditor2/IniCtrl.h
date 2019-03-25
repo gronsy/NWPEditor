@@ -2,9 +2,11 @@
 #include <string>
 #include <locale>
 #include <codecvt>
+#include <vector>
 #include "resource.h"
 
 #define CHARS_TO_READ 1024
+#define BOOKMARK_BUFFER_SIZE 32767
 
 class IniCtrl
 {
@@ -13,8 +15,6 @@ protected:
 	static std::wstring cpp_keywords, c_keywords, py_keywords;
 	int m_lang;
 	CString m_ini_path;
-
-	std::wstring ExtractFileName(const std::wstring& filePath);
 public:
 	IniCtrl(bool init = true);
 	~IniCtrl();
@@ -33,4 +33,5 @@ public:
 	void AddBookmarkEntry(const std::wstring& bookmarkName,
 		const std::wstring& fileName,
 		const int line);
+	void GetBookmarks(const std::wstring& fileName);
 };
