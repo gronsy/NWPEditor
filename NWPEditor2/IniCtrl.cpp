@@ -111,14 +111,14 @@ const std::string IniCtrl::GetKeywords() const
 	return converter.to_bytes(m_keywords);
 }
 
-COLORREF IniCtrl::GetColor(const std::wstring& colorName)
+COLORREF IniCtrl::GetColor(const std::wstring & colorName)
 {
 	m_ini_path.LoadString(IDS_INI_COLOR_PATH);
 	COLORREF color = GetPrivateProfileInt(_T("colors"), colorName.c_str(), RGB(0, 0, 0), m_ini_path);
 	return color;
 }
 
-void IniCtrl::ChangeColor(const COLORREF color, const std::wstring& field)
+void IniCtrl::ChangeColor(const COLORREF color, const std::wstring & field)
 {
 	std::wstring buffer;
 
@@ -126,7 +126,7 @@ void IniCtrl::ChangeColor(const COLORREF color, const std::wstring& field)
 	WritePrivateProfileString(_T("colors"), field.c_str(), std::to_wstring(color).c_str(), m_ini_path);
 }
 
-void IniCtrl::ChangeFont(const LOGFONT& lf, int size)
+void IniCtrl::ChangeFont(const LOGFONT & lf, int size)
 {
 	m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
 
@@ -184,19 +184,26 @@ int IniCtrl::GetFontHeight()
 	return -GetPrivateProfileInt(_T("font"), _T("height"), -12, m_ini_path);
 }
 
-void IniCtrl::AddBookmarkEntry(const std::wstring& bookmarkName,
-	const std::wstring& filePath,
+void IniCtrl::AddBookmarkEntry(const std::wstring & bookmarkName,
+	const std::wstring & filePath,
 	const int line)
 {
 	m_ini_path.LoadStringW(IDS_INI_BOOKMARKS_PATH);
 	WritePrivateProfileString(filePath.c_str(), bookmarkName.c_str(), std::to_wstring(line).c_str(), m_ini_path);
 }
 
-void IniCtrl::GetBookmarks(const std::wstring& fileName)
+void IniCtrl::GetBookmarks(const std::wstring & fileName)
 {
 	m_ini_path.LoadStringW(IDS_INI_BOOKMARKS_PATH);
 	WCHAR buffer[BOOKMARK_BUFFER_SIZE];
 
-	GetPrivateProfileSection(fileName.c_str(), buffer, BOOKMARK_BUFFER_SIZE, m_ini_path);
-	//TODO: Implement spliting paths and returning bookmarks
+	GetPrivateProfileString(fileName.c_str(), NULL, NULL, buffer, BOOKMARK_BUFFER_SIZE, m_ini_path);
+	//TODO: Fix buffer null terminator bug
+
+	std::vector<Bookmark> bookmarks;
+	for (auto iter = wcstok(buffer, '\0'); iter != NULL; iter = wcstok(NULL, '\0'))
+	{
+		WCHAR lineBuffer[CHARS_TO_READ];
+		bookmarks.push_back(Bookmark(iter, GetPrivateProfileString(fileName.c_str(), iter, NULL, lineBuffer, CHARS_TO_READ, m_ini_path)));
+	}
 }
