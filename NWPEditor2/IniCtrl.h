@@ -16,6 +16,9 @@ protected:
 	static std::wstring cpp_keywords, c_keywords, py_keywords;
 	int m_lang;
 	CString m_ini_path;
+
+protected:
+	std::vector<std::wstring> CreateStringArray(const wchar_t* buffer);
 public:
 	IniCtrl(bool init = true);
 	~IniCtrl();

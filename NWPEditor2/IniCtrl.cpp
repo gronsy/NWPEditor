@@ -195,15 +195,35 @@ void IniCtrl::AddBookmarkEntry(const std::wstring & bookmarkName,
 void IniCtrl::GetBookmarks(const std::wstring & fileName)
 {
 	m_ini_path.LoadStringW(IDS_INI_BOOKMARKS_PATH);
-	WCHAR buffer[BOOKMARK_BUFFER_SIZE];
+	wchar_t buffer[BOOKMARK_BUFFER_SIZE];
 
 	GetPrivateProfileString(fileName.c_str(), NULL, NULL, buffer, BOOKMARK_BUFFER_SIZE, m_ini_path);
 	//TODO: Fix buffer null terminator bug
 
 	std::vector<Bookmark> bookmarks;
-	for (auto iter = wcstok(buffer, '\0'); iter != NULL; iter = wcstok(NULL, '\0'))
+	for (wchar_t* iter = wcstok(buffer, '\0'); iter != NULL; iter = wcstok(NULL, '\0'))
 	{
 		WCHAR lineBuffer[CHARS_TO_READ];
 		bookmarks.push_back(Bookmark(iter, GetPrivateProfileString(fileName.c_str(), iter, NULL, lineBuffer, CHARS_TO_READ, m_ini_path)));
 	}
+}
+
+std::vector<std::wstring> IniCtrl::CreateStringArray(const wchar_t* buffer)
+{
+	std::vector<std::wstring> stringCollection;
+	std::wstring bufferConv(L"");
+	for (int i = 0;; ++i)
+	{
+		if (buffer[i] == L'\0')
+		{
+			buffer += buffer[i];
+			stringCollection.push_back(buffer);
+			buffer = L"";
+			if (buffer[i + 1] == L'\0')
+				break;
+		}
+		buffer += buffer[i];
+	}
+
+	return stringCollection;
 }
