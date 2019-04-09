@@ -198,31 +198,42 @@ void IniCtrl::GetBookmarks(const std::wstring & fileName)
 	wchar_t buffer[BOOKMARK_BUFFER_SIZE];
 
 	GetPrivateProfileString(fileName.c_str(), NULL, NULL, buffer, BOOKMARK_BUFFER_SIZE, m_ini_path);
-	//TODO: Fix buffer null terminator bug
+	//TODO: Implement buffer iterator loop
 
 	std::vector<Bookmark> bookmarks;
-	for (wchar_t* iter = wcstok(buffer, '\0'); iter != NULL; iter = wcstok(NULL, '\0'))
+	//auto bufferArr = TokenizeBmBuffer(buffer);
+	while (buffer)
 	{
-		WCHAR lineBuffer[CHARS_TO_READ];
-		bookmarks.push_back(Bookmark(iter, GetPrivateProfileString(fileName.c_str(), iter, NULL, lineBuffer, CHARS_TO_READ, m_ini_path)));
 	}
+	//for (wchar_t* iter = wcstok(buffer, '\0'); iter != NULL; iter = wcstok(NULL, '\0'))
+	//{
+	//	WCHAR lineBuffer[CHARS_TO_READ];
+	//	bookmarks.push_back(Bookmark(iter, GetPrivateProfileString(fileName.c_str(), iter, NULL, lineBuffer, CHARS_TO_READ, m_ini_path)));
+	//}
 }
 
-std::vector<std::wstring> IniCtrl::CreateStringArray(const wchar_t* buffer)
+std::vector<std::wstring> IniCtrl::TokenizeBmBuffer(wchar_t* buffer)
 {
 	std::vector<std::wstring> stringCollection;
 	std::wstring bufferConv(L"");
-	for (int i = 0;; ++i)
+	//for (int i = 0;; ++i)
+	//{
+	//	if (buffer[i] == L'\0')
+	//	{
+	//		buffer += buffer[i];
+	//		stringCollection.push_back(buffer);
+	//		buffer = L"";
+	//		if (buffer[i + 1] == L'\0')
+	//			break;
+	//	}
+	//	bufferConv += buffer[i];
+	//}
+	wchar_t* bufferPtr = buffer;
+	while (bufferPtr)
 	{
-		if (buffer[i] == L'\0')
-		{
-			buffer += buffer[i];
-			stringCollection.push_back(buffer);
-			buffer = L"";
-			if (buffer[i + 1] == L'\0')
-				break;
-		}
-		buffer += buffer[i];
+		stringCollection.push_back(std::wstring(bufferPtr));
+		bufferPtr = (bufferPtr, L'\0');
+		++bufferPtr;
 	}
 
 	return stringCollection;

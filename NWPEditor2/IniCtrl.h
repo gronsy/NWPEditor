@@ -18,7 +18,7 @@ protected:
 	CString m_ini_path;
 
 protected:
-	std::vector<std::wstring> CreateStringArray(const wchar_t* buffer);
+	std::vector<std::wstring> TokenizeBmBuffer(wchar_t* buffer);
 public:
 	IniCtrl(bool init = true);
 	~IniCtrl();
