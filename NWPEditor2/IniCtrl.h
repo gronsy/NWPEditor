@@ -17,8 +17,6 @@ protected:
 	int m_lang;
 	CString m_ini_path;
 
-protected:
-	std::vector<std::wstring> TokenizeBmBuffer(wchar_t* buffer);
 public:
 	IniCtrl(bool init = true);
 	~IniCtrl();
@@ -37,5 +35,5 @@ public:
 	void AddBookmarkEntry(const std::wstring& bookmarkName,
 		const std::wstring& fileName,
 		const int line);
-	void GetBookmarks(const std::wstring& fileName);
+	std::vector<Bookmark> GetBookmarks(const std::wstring& fileName);
 };
