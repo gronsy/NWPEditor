@@ -291,7 +291,11 @@ void ScintillaCtrl::GiveBookmarkInfo(const std::wstring& filePath, const std::ws
 	m_ini.AddBookmarkEntry(bookmarkName, filePath, line);
 }
 
-void ScintillaCtrl::LoadBookmarks(const std::wstring& fileName)
+void ScintillaCtrl::LoadBookmarks(const CMenu* menu, const std::wstring& fileName)
 {
-	m_ini.GetBookmarks(fileName);
+	auto bookmarks=m_ini.GetBookmarks(fileName);
+	for(auto bookmark:bookmarks)
+	{
+		
+	}
 }
