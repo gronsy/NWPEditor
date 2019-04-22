@@ -9,3 +9,5 @@ int Bookmark::GetBookmarkLine()
 {
 	return 1;
 }
+
+std::wstring Bookmark::GetBookmarkName() { return bookmark_name; }
