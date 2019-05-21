@@ -8,4 +8,5 @@ private:
 public:
 	Bookmark(std::wstring name, int bm_line);
 	int GetBookmarkLine();
+	std::wstring GetBookmarkName();
 };

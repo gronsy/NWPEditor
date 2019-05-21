@@ -7,5 +7,10 @@ Bookmark::Bookmark(std::wstring name, int bm_line) :
 
 int Bookmark::GetBookmarkLine()
 {
-	return 1;
+	return line;
+}
+
+std::wstring Bookmark::GetBookmarkName()
+{
+	return bookmark_name;
 }
