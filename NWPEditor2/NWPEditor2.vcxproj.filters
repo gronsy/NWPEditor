@@ -51,6 +51,9 @@
     <ClInclude Include="BookmarkAddDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RenameDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NWPEditor2.cpp">
@@ -81,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BookmarkAddDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenameDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
