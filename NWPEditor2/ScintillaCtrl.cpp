@@ -197,13 +197,13 @@ void ScintillaCtrl::RmIndent()
 
 void ScintillaCtrl::Indent()
 {
-	SendEditor(SCI_SETINDENT, m_indent*TAB_WIDTH);
+	SendEditor(SCI_SETINDENT, m_indent * TAB_WIDTH);
 	int current_line = SendEditor(SCI_GETCURRENTPOS, NULL);
 	current_line = SendEditor(SCI_LINEFROMPOSITION, current_line);
 
 	SendEditor(SCI_SETTABINDENTS, true);
-	SendEditor(SCI_SETLINEINDENTATION, current_line, m_indent*TAB_WIDTH);
-	SendEditor(SCI_ADDTABSTOP, current_line, m_indent*TAB_WIDTH);
+	SendEditor(SCI_SETLINEINDENTATION, current_line, m_indent * TAB_WIDTH);
+	SendEditor(SCI_ADDTABSTOP, current_line, m_indent * TAB_WIDTH);
 }
 
 void ScintillaCtrl::PreparePrinting(CDC* pDC, CPrintInfo* pInfo)
@@ -226,7 +226,7 @@ void ScintillaCtrl::PreparePrinting(CDC* pDC, CPrintInfo* pInfo)
 		pages *= m_print_info.text_height;
 		pages /= m_print_info.rect.bottom;
 		++pages;
-		if (m_print_info.lines_per_page*pages < SendEditor(SCI_GETLINECOUNT, NULL))
+		if (m_print_info.lines_per_page * pages < SendEditor(SCI_GETLINECOUNT, NULL))
 			++pages;
 		pInfo->SetMaxPage(pages);
 
@@ -265,12 +265,12 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 	{
 		int line_length = SendEditor(SCI_LINELENGTH, cur_line);
 
-		char *buffer = new char[line_length + 1];
+		char* buffer = new char[line_length + 1];
 		SendEditor(SCI_GETLINE, cur_line, reinterpret_cast<LPARAM>(buffer));
 
 		buffer[line_length] = '\0';
 
-		pDC->TextOut(m_print_info.rect.left + 50, pDC->GetTextExtent(CString(buffer)).cy*dist, CString(buffer));
+		pDC->TextOut(m_print_info.rect.left + 50, pDC->GetTextExtent(CString(buffer)).cy * dist, CString(buffer));
 
 		++m_print_info.lines_printed;
 		++cur_line;
@@ -293,7 +293,8 @@ void ScintillaCtrl::GiveBookmarkInfo(const std::wstring& filePath, const std::ws
 
 void ScintillaCtrl::LoadBookmarks(CMenu* menu, const std::wstring& fileName)
 {
-	auto bookmarks=m_ini.GetBookmarks(fileName);
-	for(auto bookmark:bookmarks)
+	//TODO: Finish implementing bookmarks
+	auto bookmarks = m_ini.GetBookmarks(fileName);
+	for (auto bookmark : bookmarks)
 		menu->AppendMenuW(MF_STRING | MF_SEPARATOR, NULL, bookmark.GetBookmarkName().c_str());
 }
