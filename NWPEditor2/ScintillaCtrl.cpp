@@ -43,6 +43,13 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 	SetUpEditor();
 }
 
+int ScintillaCtrl::GetCurrentLine()
+{
+	int position = SendEditor(SCI_GETCURRENTPOS, NULL);
+
+	return SendEditor(SCI_LINEFROMPOSITION, position);
+}
+
 void ScintillaCtrl::SetUpEditor()
 {
 	SendEditor(SCI_SETKEYWORDS, NULL, reinterpret_cast<LPARAM>(m_ini.GetKeywords().c_str()));
@@ -285,8 +292,7 @@ void ScintillaCtrl::RmInit() { m_print_info.initialised = false; }
 
 void ScintillaCtrl::GiveBookmarkInfo(const std::wstring& filePath, const std::wstring& bookmarkName)
 {
-	int line = SendEditor(SCI_GETCURRENTPOS, NULL);
-	line = SendEditor(SCI_LINEFROMPOSITION, line);
+	auto line = GetCurrentLine();
 
 	m_ini.AddBookmarkEntry(bookmarkName, filePath, line);
 }
@@ -295,6 +301,11 @@ void ScintillaCtrl::LoadBookmarks(CMenu* menu, const std::wstring& fileName)
 {
 	//TODO: Finish implementing bookmarks
 	auto bookmarks = m_ini.GetBookmarks(fileName);
-	for (auto bookmark : bookmarks)
-		menu->AppendMenuW(MF_STRING | MF_SEPARATOR, NULL, bookmark.GetBookmarkName().c_str());
+	for (auto bookmark : bookmarks) {}
+	//menu->AppendMenuW(MF_STRING | MF_SEPARATOR, NULL, bookmark.GetBookmarkName().c_str());
+}
+
+void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo)
+{
+	int line = GetCurrentLine();
 }

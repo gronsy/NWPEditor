@@ -2,6 +2,7 @@
 #include "IniCtrl.h"
 #include "Bookmark.h"
 #include <string>
+#include <regex>
 
 #define TAB_WIDTH			4
 #define PRINT_OVERFLOW		7
@@ -32,6 +33,7 @@ protected:
 	void SetUpEditor();
 	void SetAStyle(int style, COLORREF fore, COLORREF back = RGB(255, 255, 255), int size = NULL, const std::wstring& face = L"")const;
 	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL) const;
+	int GetCurrentLine();
 public:
 	ScintillaCtrl();
 	~ScintillaCtrl();
@@ -63,4 +65,5 @@ public:
 	HWND GetScintillaCtrl();
 	void GiveBookmarkInfo(const std::wstring& filePath, const std::wstring& bookmarkName);
 	void LoadBookmarks(CMenu* menu, const std::wstring& fileName);
+	void RenameVariableOrFunction(const CString& renameTo);
 };
