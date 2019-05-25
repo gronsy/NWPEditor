@@ -23,7 +23,6 @@ RenameDlg::~RenameDlg()
 void RenameDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_EDITBOX_RENAMEFROM, m_rename_from_eb);
 	DDX_Control(pDX, IDC_EDITBOX_RENAMETO, m_rename_to_eb);
 }
 
@@ -36,10 +35,9 @@ END_MESSAGE_MAP()
 
 void RenameDlg::OnBtnClickedOk()
 {
-	m_rename_to_eb.GetWindowTextW(m_rename_to_string);
-	m_rename_from_eb.GetWindowTextW(m_rename_from_string);
+	m_rename_to_eb.GetWindowTextW(m_rename_to);
 
-	if (CheckRenameCondition())
+	if (m_rename_to.IsEmpty())
 	{
 		CString msg, title;
 		msg.LoadStringW(IDS_RENAMEDLG_MSG);
@@ -59,15 +57,5 @@ void RenameDlg::OnBtnClickedCancel()
 
 CString RenameDlg::GetRenameTo()const
 {
-	return m_rename_to_string;
-}
-
-CString RenameDlg::GetRenameFrom()const
-{
-	return m_rename_from_string;
-}
-
-bool RenameDlg::CheckRenameCondition()const
-{
-	return m_rename_to_string.IsEmpty() || m_rename_from_string.IsEmpty();
+	return m_rename_to;
 }

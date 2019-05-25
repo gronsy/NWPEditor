@@ -21,17 +21,12 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 private:
-	CEdit m_rename_from_eb;
 	CEdit m_rename_to_eb;
 
-	CString m_rename_to_string;
-	CString m_rename_from_string;
+	CString m_rename_to;
 public:
 	afx_msg void OnBtnClickedOk();
 	afx_msg void OnBtnClickedCancel();
 
 	CString GetRenameTo()const;
-	CString GetRenameFrom()const;
-
-	bool CheckRenameCondition()const;
 };
