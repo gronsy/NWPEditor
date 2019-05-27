@@ -308,4 +308,9 @@ void ScintillaCtrl::LoadBookmarks(CMenu* menu, const std::wstring& fileName)
 void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo)
 {
 	int line = GetCurrentLine();
+	int lineLength = SendEditor(SCI_LINELENGTH, line);
+	char* buffer = new char[lineLength];
+
+	SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
+	std::regex regex;
 }
