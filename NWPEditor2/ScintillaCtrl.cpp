@@ -312,5 +312,10 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo)
 	char* buffer = new char[lineLength];
 
 	SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
-	std::regex regex;
+
+	std::regex regex("");
+	std::smatch match;
+	for (int i = 1; i <= SendEditor(SCI_GETLINECOUNT, NULL); ++i)
+	{
+	}
 }
