@@ -188,6 +188,7 @@
     <ClInclude Include="NWPEditor2.h" />
     <ClInclude Include="NWPEditor2Doc.h" />
     <ClInclude Include="NWPEditor2View.h" />
+    <ClInclude Include="RegexHandler.h" />
     <ClInclude Include="RenameDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ScintillaCtrl.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="NWPEditor2.cpp" />
     <ClCompile Include="NWPEditor2Doc.cpp" />
     <ClCompile Include="NWPEditor2View.cpp" />
+    <ClCompile Include="RegexHandler.cpp" />
     <ClCompile Include="RenameDlg.cpp" />
     <ClCompile Include="ScintillaCtrl.cpp" />
     <ClCompile Include="stdafx.cpp">

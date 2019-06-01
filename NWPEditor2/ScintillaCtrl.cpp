@@ -305,17 +305,28 @@ void ScintillaCtrl::LoadBookmarks(CMenu* menu, const std::wstring& fileName)
 	//menu->AppendMenuW(MF_STRING | MF_SEPARATOR, NULL, bookmark.GetBookmarkName().c_str());
 }
 
-void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo)
+void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int language)
 {
-	int line = GetCurrentLine();
-	int lineLength = SendEditor(SCI_LINELENGTH, line);
-	char* buffer = new char[lineLength];
+	const int line = GetCurrentLine();
+	const int line_length = SendEditor(SCI_LINELENGTH, line);
+	char* buffer = new char[line_length];
 
 	SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
 
 	std::regex regex("");
 	std::smatch match;
-	for (int i = 1; i <= SendEditor(SCI_GETLINECOUNT, NULL); ++i)
+	const auto line_count = SendEditor(SCI_GETLINECOUNT, NULL);
+	for (int current_line = 1; current_line <= line_count; ++current_line)
 	{
+		const int current_line_length = SendEditor(SCI_LINELENGTH, current_line);
+		char* current_line_buffer = new char[current_line_length];
+		SendEditor(SCI_GETLINE, current_line, reinterpret_cast<LPARAM>(current_line_buffer));
+
+		std::string tmp(current_line_buffer);
+		std::regex_search(tmp, match, regex);
+
+
+
+		delete[] current_line_buffer;
 	}
 }
