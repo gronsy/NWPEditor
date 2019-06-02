@@ -3,14 +3,15 @@
 #include "regex"
 #include "exception"
 
-class RegexHandler 
+class RegexHandler
 {
 	std::regex regex_in_use;
 protected:
-	std::regex ParseLanguage(int lang);
+	void ParseRegex(int lang, std::string line);
 	bool ParseLine();
+	bool CheckIfVariable(std::string line, std::regex lang_regex);
+	bool CheckIfFunction(std::string line, std::regex lang_regex);
 public:
-	RegexHandler(int line, std::string);
-	bool GenerateRegex(int lang, std::string line);
-	bool CheckIfFunctionOrLine(int lang, std::string line);
+	RegexHandler(int lang, std::string line);
+	bool CheckLineMatch(std::string line);
 };
