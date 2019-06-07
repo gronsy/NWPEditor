@@ -43,7 +43,7 @@ void RegexHandler::ParseRegex(int lang, std::string line)
 {
 	switch (lang) {
 	case SCLEX_CPP:
-		if (CheckIfFunction(line, std::regex("*(*::*)?\(\)*\n?*\{*\}")))
+		if (CheckIfFunction(line, std::regex("*(*::*)?*(<*>)?\(\)*:?*\{?*\}?")))
 		{
 			regex_in_use = std::regex("");
 		}
