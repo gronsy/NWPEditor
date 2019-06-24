@@ -26,11 +26,11 @@ std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
 	switch (lang) {
 	case SCLEX_CPP:
 	{
-		std::string::iterator iter;
 		if (line.find(':') != std::string::npos)
 		{
+			/*std::string::iterator iter;
 			iter = std::find(line.begin(), line.end(), ':');
-			return ExtractCTypeName(iter + ITERATOR_CLANG_OFFSET);
+			return ExtractCTypeName(iter + ITERATOR_CLANG_OFFSET);*/
 		}
 	}
 	case SCLEX_PYTHON:
@@ -43,7 +43,8 @@ void RegexHandler::ParseRegex(int lang, std::string line)
 {
 	switch (lang) {
 	case SCLEX_CPP:
-		if (CheckIfFunction(line, std::regex("*(*::*)?*(<*>)?\(\)*:?*\{?*\}?")))
+		//Regex used to find if the current selection is function
+		if (CheckIfFunction(line, std::regex(".*(<>)?\(.*\);?")))
 		{
 			regex_in_use = std::regex("");
 		}
