@@ -16,8 +16,9 @@ void ScintillaCtrl::SetScintillaCtrl(HWND wnd)
 	m_scintilla_ctrl = wnd;
 }
 
-HWND ScintillaCtrl::GetScintillaCtrl() { return m_scintilla_ctrl; }
-IniCtrl ScintillaCtrl::GetIni() { return m_ini; }
+HWND ScintillaCtrl::GetScintillaCtrl() const { return m_scintilla_ctrl; }
+IniCtrl ScintillaCtrl::GetIni() const { return m_ini; }
+std::vector<std::string> ScintillaCtrl::GetFunctions() const { return m_functions; }
 
 LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=NULL*/) const
 {
@@ -143,6 +144,14 @@ void ScintillaCtrl::Undo()const { SendEditor(SCI_UNDO, NULL); }
 void ScintillaCtrl::LoadFromFile(const std::string& data, int bytes_read)const
 {
 	SendEditor(SCI_ADDTEXT, bytes_read, reinterpret_cast<LPARAM>(data.c_str()));
+	const std::regex functionExpression(".*(::)?\(.*\)(\{.*\}|;)?\n?");
+	std::smatch match;
+	//TODO: Look into vector clearing and finish implementing adding to vector
+
+	if(std::regex_search(data, match, functionExpression))
+	{
+		
+	}
 }
 
 void ScintillaCtrl::SetUpFOEditor() const

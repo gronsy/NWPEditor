@@ -1,7 +1,7 @@
 #pragma once
 #include "IniCtrl.h"
-#include "Bookmark.h"
 #include <string>
+#include <vector>
 #include <regex>
 
 #define TAB_WIDTH			4
@@ -29,6 +29,7 @@ protected:
 	IniCtrl m_ini;
 	Sci_Print_Info m_print_info;
 	int m_indent;
+	std::vector<std::string> m_functions;
 protected:
 	void SetUpEditor();
 	void SetAStyle(int style, COLORREF fore, COLORREF back = RGB(255, 255, 255), int size = NULL, const std::wstring& face = L"")const;
@@ -61,9 +62,11 @@ public:
 	void SetUpPrintInfo(CDC* pDC);
 	void Print(CDC* pDC, int page);
 	void RmInit();
-	IniCtrl GetIni();
-	HWND GetScintillaCtrl();
+	IniCtrl GetIni()const;
+	HWND GetScintillaCtrl()const;
 	void GiveBookmarkInfo(const std::wstring& filePath, const std::wstring& bookmarkName);
 	void LoadBookmarks(CMenu* menu, const std::wstring& fileName);
 	void RenameVariableOrFunction(const CString& renameTo, int language);
+
+	std::vector<std::string> GetFunctions()const;
 };
