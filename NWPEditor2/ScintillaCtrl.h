@@ -49,7 +49,7 @@ public:
 	void CutCopyPaste(int msg)const;
 	void RestoreDefaults();
 	void Undo()const;
-	void LoadFromFile(const std::string& data, int bytesRead)const;
+	void LoadFromFile(const std::string& data, int bytesRead);
 	void SetUpFOEditor()const;
 	bool EditorIsEmpty();
 	void ClearEditor()const;

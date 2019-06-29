@@ -20,6 +20,7 @@ HWND ScintillaCtrl::GetScintillaCtrl() const { return m_scintilla_ctrl; }
 IniCtrl ScintillaCtrl::GetIni() const { return m_ini; }
 std::vector<std::string> ScintillaCtrl::GetFunctions() const { return m_functions; }
 
+
 LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=NULL*/) const
 {
 	return ::SendMessage(m_scintilla_ctrl, msg, wparam, lparam);
@@ -141,16 +142,19 @@ void ScintillaCtrl::RestoreDefaults()
 
 void ScintillaCtrl::Undo()const { SendEditor(SCI_UNDO, NULL); }
 
-void ScintillaCtrl::LoadFromFile(const std::string& data, int bytes_read)const
+void ScintillaCtrl::LoadFromFile(const std::string& data, int bytes_read)
 {
 	SendEditor(SCI_ADDTEXT, bytes_read, reinterpret_cast<LPARAM>(data.c_str()));
-	const std::regex functionExpression(".*(::)?\(.*\)(\{.*\}|;)?\n?");
+	const std::regex functionExpression(".*(::)?\(.*\)\{(.*\}|;)?\n?");
 	std::smatch match;
-	//TODO: Look into vector clearing and finish implementing adding to vector
+	m_functions.clear();
 
 	if(std::regex_search(data, match, functionExpression))
 	{
-		
+		std::string functionName;
+		std::copy(std::find(data.begin(), data.end(), ':')+2,
+			std::find(data.begin(), data.end(), '('), functionName.begin());
+		m_functions.push_back(functionName);
 	}
 }
 
