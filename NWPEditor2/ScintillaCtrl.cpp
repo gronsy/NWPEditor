@@ -146,7 +146,8 @@ void ScintillaCtrl::LoadFromFile(const std::string& data, int bytes_read)
 {
 	SendEditor(SCI_ADDTEXT, bytes_read, reinterpret_cast<LPARAM>(data.c_str()));
 	//CPP Regex: .*(::)?\(.*\)\{(.*\}|;)?\n?
-	const std::regex functionExpression("def.*\(.*\):");
+	//Python Regex: def.*\(.*\):\n?
+	const std::regex functionExpression(".*");
 	std::smatch match;
 	m_functions.clear();
 
