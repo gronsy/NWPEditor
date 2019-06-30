@@ -145,15 +145,16 @@ void ScintillaCtrl::Undo()const { SendEditor(SCI_UNDO, NULL); }
 void ScintillaCtrl::LoadFromFile(const std::string& data, int bytes_read)
 {
 	SendEditor(SCI_ADDTEXT, bytes_read, reinterpret_cast<LPARAM>(data.c_str()));
-	const std::regex functionExpression(".*(::)?\(.*\)\{(.*\}|;)?\n?");
+	//CPP Regex: .*(::)?\(.*\)\{(.*\}|;)?\n?
+	const std::regex functionExpression("def.*\(.*\):");
 	std::smatch match;
 	m_functions.clear();
 
 	if(std::regex_search(data, match, functionExpression))
 	{
 		std::string functionName;
-		std::copy(std::find(data.begin(), data.end(), ':')+2,
-			std::find(data.begin(), data.end(), '('), functionName.begin());
+		std::copy(std::find(data.begin(), data.end(), ' ')+1,
+			std::find(data.begin(), data.end(), '('), back_inserter(functionName));
 		m_functions.push_back(functionName);
 	}
 }
