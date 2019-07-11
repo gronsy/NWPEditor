@@ -1,8 +1,8 @@
 #pragma once
-#include "string"
-#include "regex"
-#include "exception"
-#include "algorithm"
+#include <string>
+#include <regex>
+#include <exception>
+#include <algorithm>
 
 #define ITERATOR_CLANG_OFFSET 2
 
@@ -17,5 +17,6 @@ protected:
 	std::string ExtractCTypeName(std::string::iterator string_iterator);
 public:
 	RegexHandler(int lang, std::string line);
+
 	bool CheckLineMatch(std::string line);
 };

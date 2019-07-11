@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "RegexHandler.h"
 
+#using <System.dll>
+#using <System.Text.RegularExpressions.dll>
+
+#define _REGEX_MAX_STACK_COUNT 1000
+
 RegexHandler::RegexHandler(int lang, std::string line)
 {
 	ParseRegex(lang, line);
@@ -43,12 +48,17 @@ void RegexHandler::ParseRegex(int lang, std::string line)
 {
 	switch (lang) {
 	case SCLEX_CPP:
+	{
 		//Regex used to find if the current selection is function
-		if (CheckIfFunction(line, std::regex(".*(<>)?\(.*\);?")))
+		//CPP Regex: .*(::)?\(.*\)\{(.*\}|;)?\n?
+		//Python Regex: def.*\(.*\):\n?
+		System::Text::RegularExpressions::Regex^ regex = gcnew System::Text::RegularExpressions::Regex(".*(::)?\(.*\)\{(.*\}|;)?\n?");
+		if (CheckIfFunction(line, std::regex(".*(::)?(<.*>)?\(", std::regex_constants::extended)))
 		{
 			regex_in_use = std::regex("");
 		}
 		break;
+	}
 	case SCLEX_PYTHON:
 		break;
 	default:

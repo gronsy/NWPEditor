@@ -18,8 +18,6 @@ void ScintillaCtrl::SetScintillaCtrl(HWND wnd)
 
 HWND ScintillaCtrl::GetScintillaCtrl() const { return m_scintilla_ctrl; }
 IniCtrl ScintillaCtrl::GetIni() const { return m_ini; }
-std::vector<std::string> ScintillaCtrl::GetFunctions() const { return m_functions; }
-
 
 LRESULT ScintillaCtrl::SendEditor(int msg, WPARAM wparam, LPARAM lparam/*=NULL*/) const
 {
@@ -145,19 +143,6 @@ void ScintillaCtrl::Undo()const { SendEditor(SCI_UNDO, NULL); }
 void ScintillaCtrl::LoadFromFile(const std::string& data, int bytes_read)
 {
 	SendEditor(SCI_ADDTEXT, bytes_read, reinterpret_cast<LPARAM>(data.c_str()));
-	//CPP Regex: .*(::)?\(.*\)\{(.*\}|;)?\n?
-	//Python Regex: def.*\(.*\):\n?
-	const std::regex functionExpression(".*");
-	std::smatch match;
-	m_functions.clear();
-
-	if(std::regex_search(data, match, functionExpression))
-	{
-		std::string functionName;
-		std::copy(std::find(data.begin(), data.end(), ' ')+1,
-			std::find(data.begin(), data.end(), '('), back_inserter(functionName));
-		m_functions.push_back(functionName);
-	}
 }
 
 void ScintillaCtrl::SetUpFOEditor() const
@@ -327,6 +312,12 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 	char* buffer = new char[line_length];
 
 	SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
+	RegexHandler regexHandler{ language, buffer };
+	//CPP Regex: .*(::)?\(.*\)\{(.*\}|;)?\n?
+	//Python Regex: def.*\(.*\):\n?
+	/*const std::regex functionExpression(".*");
+	std::smatch match;
+	*/
 
 	std::regex regex("");
 	std::smatch match;
@@ -340,8 +331,8 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 		std::string tmp(current_line_buffer);
 		std::regex_search(tmp, match, regex);
 
-
-
 		delete[] current_line_buffer;
 	}
+
+	delete[] buffer;
 }
