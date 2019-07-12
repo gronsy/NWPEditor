@@ -311,16 +311,15 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 	const int line_length = SendEditor(SCI_LINELENGTH, line);
 	char* buffer = new char[line_length];
 
+	//Taking current cursor line and determining if it's method or variable
 	SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
-	RegexHandler regexHandler{ language, buffer };
+	RegexHandler^ regexHandler = gcnew RegexHandler(language, buffer);
 	//CPP Regex: .*(::)?\(.*\)\{(.*\}|;)?\n?
 	//Python Regex: def.*\(.*\):\n?
 	/*const std::regex functionExpression(".*");
 	std::smatch match;
 	*/
 
-	std::regex regex("");
-	std::smatch match;
 	const auto line_count = SendEditor(SCI_GETLINECOUNT, NULL);
 	for (int current_line = 1; current_line <= line_count; ++current_line)
 	{
@@ -329,7 +328,6 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 		SendEditor(SCI_GETLINE, current_line, reinterpret_cast<LPARAM>(current_line_buffer));
 
 		std::string tmp(current_line_buffer);
-		std::regex_search(tmp, match, regex);
 
 		delete[] current_line_buffer;
 	}
