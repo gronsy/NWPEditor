@@ -30,14 +30,21 @@ std::string RegexHandler::ExtractCTypeName(std::string::iterator string_iterator
 
 std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
 {
+	std::string function_name;
 	switch (lang) {
 	case SCLEX_CPP:
 	{
 		if (line.find(':') != std::string::npos)
 		{
-			/*std::string::iterator iter;
+			std::string::iterator iter;
 			iter = std::find(line.begin(), line.end(), ':');
-			return ExtractCTypeName(iter + ITERATOR_CLANG_OFFSET);*/
+
+			//Extracting function name
+			std::copy(iter + ITERATOR_CLANG_OFFSET, 
+				std::find(iter, line.end(), '('), 
+				function_name.begin());
+
+			return function_name;
 		}
 	}
 	case SCLEX_PYTHON:
@@ -55,18 +62,23 @@ void RegexHandler::ParseRegex(int lang, std::string line)
 	{
 		//Regex used to find if the current selection is function
 		//CPP Regex: .*(::)?\(.*\)\{(.*\}|;)?\n?
-		Regex^ cregex = gcnew Regex(".*(::)?\(.*\)\{(.*\}|;)?\n?");
-		if (CheckIfFunction(line, cregex))
+		Regex^ cregex = gcnew Regex(".*(::)?.*\(.*\)\{(.*\}|;)?\n?");
+		if (cregex->IsMatch(msclr::interop::marshal_as<System::String^>(line)))
 		{
+			std::string function_name = ExtractFunctionName(lang, line);
+			regex_in_use = cregex;
+			break;
 		}
+
 		break;
 	}
 	case SCLEX_PYTHON:
 	{
 		//Python Regex: def.*\(.*\):\n?
 		Regex^ pyregex = gcnew Regex("def.*\(.*\):\n?");
-		if (CheckIfFunction(line, pyregex))
+		if (pyregex->IsMatch(msclr::interop::marshal_as<System::String^>(line)))
 		{
+
 		}
 		break;
 	}
