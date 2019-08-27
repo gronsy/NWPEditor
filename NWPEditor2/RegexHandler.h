@@ -9,6 +9,7 @@
 #using <System.Text.RegularExpressions.dll>
 
 #define ITERATOR_CLANG_OFFSET 2
+#define ERASE_BEGIN_OFFSET 1
 
 public ref class RegexHandler
 {

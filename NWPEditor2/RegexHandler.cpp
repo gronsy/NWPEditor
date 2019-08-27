@@ -40,8 +40,8 @@ std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
 			iter = std::find(line.begin(), line.end(), ':');
 
 			//Extracting function name
-			std::copy(iter + ITERATOR_CLANG_OFFSET, 
-				std::find(iter, line.end(), '('), 
+			std::copy(iter + ITERATOR_CLANG_OFFSET,
+				std::find(iter, line.end(), '('),
 				function_name.begin());
 
 			return function_name;
@@ -57,12 +57,14 @@ void RegexHandler::ParseRegex(int lang, std::string line)
 {
 	using namespace System::Text::RegularExpressions;
 
+	line.erase(std::find(line.begin(), line.end(), '\n') + ERASE_BEGIN_OFFSET);
+
 	switch (lang) {
 	case SCLEX_CPP:
 	{
 		//Regex used to find if the current selection is function
-		//CPP Regex: .*(::)?\(.*\)\{(.*\}|;)?\n?
-		Regex^ cregex = gcnew Regex(".*(::)?.*\(.*\)\{(.*\}|;)?\n?");
+		//CPP Regex: .*(::)?\(.*\)\{(.*\}|;)?\r?\n?
+		Regex^ cregex = gcnew Regex(msclr::interop::marshal_as<System::String^>(".*(::)?.*\(.*\)\{(.*\}|;)?\r?\n?"));
 		if (cregex->IsMatch(msclr::interop::marshal_as<System::String^>(line)))
 		{
 			std::string function_name = ExtractFunctionName(lang, line);
@@ -74,11 +76,10 @@ void RegexHandler::ParseRegex(int lang, std::string line)
 	}
 	case SCLEX_PYTHON:
 	{
-		//Python Regex: def.*\(.*\):\n?
-		Regex^ pyregex = gcnew Regex("def.*\(.*\):\n?");
+		//Python Regex: def.*\(.*\):\r?\n?
+		Regex^ pyregex = gcnew Regex("def.*\(.*\):\r?\n?");
 		if (pyregex->IsMatch(msclr::interop::marshal_as<System::String^>(line)))
 		{
-
 		}
 		break;
 	}
