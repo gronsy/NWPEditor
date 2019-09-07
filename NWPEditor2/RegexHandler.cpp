@@ -16,7 +16,7 @@ bool RegexHandler::CheckIfVariable(std::string line, System::Text::RegularExpres
 bool RegexHandler::CheckIfFunction(std::string line, System::Text::RegularExpressions::Regex^ lang_regex, bool is_call)
 {
 	auto is_match = lang_regex->IsMatch(msclr::interop::marshal_as<System::String^>(line));
-	if(is_match && is_call)
+	if (is_match && is_call)
 		is_function_call = is_call;
 
 	if (!is_call)
@@ -38,15 +38,15 @@ std::string RegexHandler::ExtractCTypeName(std::string::iterator string_iterator
 std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
 {
 	std::string function_name;
-	switch (lang) 
+	switch (lang)
 	{
 	case SCLEX_CPP:
 	{
-		char filter= line.find(':') != std::string::npos?':':' ';
+		char filter = line.find(':') != std::string::npos ? ':' : ' ';
 
 		int offset = filter == ':' ? ITERATOR_CLANG_COLON_OFFSET : ITERATOR_CLANG_SPACE_OFFSET;
 		function_name = line.substr(line.find(filter) + offset, line.find('('));
-		function_name = function_name.substr(0, line.find(')') + ERASE_OFFSET);
+		function_name = function_name.substr(STRING_BEGINING, line.find(')') + ERASE_OFFSET);
 
 		return function_name;
 	}
@@ -59,7 +59,7 @@ std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
 void RegexHandler::ParseRegex(int lang, std::string line)
 {
 	using namespace System::Text::RegularExpressions;
-	line = line.substr(0, line.find("\n") + ERASE_OFFSET);
+	line = line.substr(STRING_BEGINING, line.find("\n") + ERASE_OFFSET);
 
 	switch (lang) {
 	case SCLEX_CPP:

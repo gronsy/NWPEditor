@@ -11,6 +11,7 @@
 #define ITERATOR_CLANG_COLON_OFFSET 2
 #define ITERATOR_CLANG_SPACE_OFFSET 1
 #define ERASE_OFFSET 1
+#define STRING_BEGINING 0
 
 public ref class RegexHandler
 {
