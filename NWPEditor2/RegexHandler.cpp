@@ -44,13 +44,17 @@ std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
 	{
 		char filter = line.find(':') != std::string::npos ? ':' : ' ';
 
-		int offset = filter == ':' ? ITERATOR_CLANG_COLON_OFFSET : ITERATOR_CLANG_SPACE_OFFSET;
+		int offset = filter == ':' ? ITERATOR_CLANG_COLON_OFFSET : ITERATOR_SPACE_OFFSET;
 		function_name = line.substr(line.find(filter) + offset, line.find('('));
 		function_name = function_name.substr(STRING_BEGINING, line.find(')') + ERASE_OFFSET);
 
 		return function_name;
 	}
 	case SCLEX_PYTHON:
+		function_name = line.substr(line.find(" ")+ITERATOR_SPACE_OFFSET, line.find('('));
+		function_name = function_name.substr(STRING_BEGINING, line.find(')') + ERASE_OFFSET);
+
+		return function_name;
 	default:
 		return "";
 	}
@@ -72,6 +76,10 @@ void RegexHandler::ParseRegex(int lang, std::string line)
 		if (CheckIfFunction(line, cregex_function_definition, false) || CheckIfFunction(line, cregex_function_call, true))
 		{
 			std::string function_name = ExtractFunctionName(lang, line);
+
+			if (function_name == "")
+				throw EmptyFunctionNameException("Function name not found.");
+			
 			regex_in_use = gcnew Regex(
 				msclr::interop::marshal_as<System::String^>(".*(::)?" + function_name + "\(.*\)\{?(.*\}|;)?\r?\n?"));
 			break;

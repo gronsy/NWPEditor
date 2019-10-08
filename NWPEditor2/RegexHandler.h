@@ -2,6 +2,7 @@
 #include <string>
 #include <regex>
 #include <exception>
+#include <exception>
 #include <algorithm>
 #include <msclr/marshal_cppstd.h>
 
@@ -9,7 +10,7 @@
 #using <System.Text.RegularExpressions.dll>
 
 #define ITERATOR_CLANG_COLON_OFFSET 2
-#define ITERATOR_CLANG_SPACE_OFFSET 1
+#define ITERATOR_SPACE_OFFSET 1
 #define ERASE_OFFSET 1
 #define STRING_BEGINING 0
 
@@ -29,4 +30,14 @@ public:
 	RegexHandler(int lang, const std::string line);
 
 	bool CheckLineMatch(std::string line);
+};
+
+public class EmptyFunctionNameException:std::exception
+{
+private:
+	std::string error_message;
+public:
+	EmptyFunctionNameException(std::string message) :error_message(message){};
+
+	std::string GetErrorMessage() { return error_message; }
 };

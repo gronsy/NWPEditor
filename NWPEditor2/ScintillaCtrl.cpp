@@ -323,13 +323,19 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 	const auto line_count = SendEditor(SCI_GETLINECOUNT, NULL);
 	for (int current_line = 1; current_line <= line_count; ++current_line)
 	{
-		const int current_line_length = SendEditor(SCI_LINELENGTH, current_line);
-		char* current_line_buffer = new char[current_line_length];
-		SendEditor(SCI_GETLINE, current_line, reinterpret_cast<LPARAM>(current_line_buffer));
+		try{		
+			const int current_line_length = SendEditor(SCI_LINELENGTH, current_line);
+			char* current_line_buffer = new char[current_line_length];
+			SendEditor(SCI_GETLINE, current_line, reinterpret_cast<LPARAM>(current_line_buffer));
 
-		std::string tmp(current_line_buffer);
+			std::string tmp(current_line_buffer);
 
-		delete[] current_line_buffer;
+			delete[] current_line_buffer;
+		}
+		catch (EmptyFunctionNameException& e){
+			delete[] buffer;
+			throw;
+		}
 	}
 
 	delete[] buffer;
