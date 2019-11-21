@@ -262,3 +262,4 @@ __pycache__/
 
 NWPEditor2/config/*
 x64/*
+/compile_commands.json
