@@ -46,13 +46,13 @@ std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
 
 		int offset = filter == ':' ? ITERATOR_CLANG_COLON_OFFSET : ITERATOR_SPACE_OFFSET;
 		function_name = line.substr(line.find(filter) + offset, line.find('('));
-		function_name = function_name.substr(STRING_BEGINING, line.find(')') + ERASE_OFFSET);
+		function_name = function_name.substr(STRING_BEGINNING, line.find(')') + ERASE_OFFSET);
 
 		return function_name;
 	}
 	case SCLEX_PYTHON:
 		function_name = line.substr(line.find(" ")+ITERATOR_SPACE_OFFSET, line.find('('));
-		function_name = function_name.substr(STRING_BEGINING, line.find(')') + ERASE_OFFSET);
+		function_name = function_name.substr(STRING_BEGINNING, line.find(')') + ERASE_OFFSET);
 
 		return function_name;
 	default:
@@ -63,7 +63,7 @@ std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
 void RegexHandler::ParseRegex(int lang, std::string line)
 {
 	using namespace System::Text::RegularExpressions;
-	line = line.substr(STRING_BEGINING, line.find("\n") + ERASE_OFFSET);
+	line = line.substr(STRING_BEGINNING, line.find("\n") + ERASE_OFFSET);
 
 	switch (lang) {
 	case SCLEX_CPP:
