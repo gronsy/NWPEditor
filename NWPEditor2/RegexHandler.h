@@ -29,15 +29,15 @@ protected:
 public:
 	RegexHandler(int lang, const std::string line);
 
-	bool CheckLineMatch(std::string line);
+	System::Text::RegularExpressions::Regex^ GetRegexInUse();
 };
 
-public class EmptyFunctionNameException:std::exception
+public class EmptyFunctionNameException :std::exception
 {
 private:
 	std::string error_message;
 public:
-	EmptyFunctionNameException(std::string message) :error_message(message){};
+	EmptyFunctionNameException(std::string message) :error_message(message) {};
 
 	std::string GetErrorMessage() { return error_message; }
 };

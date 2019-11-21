@@ -66,5 +66,6 @@ public:
 	HWND GetScintillaCtrl()const;
 	void GiveBookmarkInfo(const std::wstring& filePath, const std::wstring& bookmarkName);
 	void LoadBookmarks(CMenu* menu, const std::wstring& fileName);
+	std::wstring GetAllDocumentText();
 	void RenameVariableOrFunction(const CString& renameTo, int language);
 };

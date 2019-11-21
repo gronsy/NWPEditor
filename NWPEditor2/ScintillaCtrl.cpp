@@ -305,6 +305,11 @@ void ScintillaCtrl::LoadBookmarks(CMenu* menu, const std::wstring& fileName)
 	//menu->AppendMenuW(MF_STRING | MF_SEPARATOR, NULL, bookmark.GetBookmarkName().c_str());
 }
 
+std::wstring ScintillaCtrl::GetAllDocumentText()
+{
+	return L"";
+}
+
 void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int language)
 {
 	const int line = GetCurrentLine();
@@ -314,16 +319,11 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 	//Taking current cursor line and determining if it's method or variable
 	SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
 	RegexHandler^ regexHandler = gcnew RegexHandler(language, buffer);
-	//CPP Regex: .*(::)?\(.*\)\{(.*\}|;)?\n?
-	//Python Regex: def.*\(.*\):\n?
-	/*const std::regex functionExpression(".*");
-	std::smatch match;
-	*/
 
 	const auto line_count = SendEditor(SCI_GETLINECOUNT, NULL);
 	for (int current_line = 1; current_line <= line_count; ++current_line)
 	{
-		try{		
+		try {
 			const int current_line_length = SendEditor(SCI_LINELENGTH, current_line);
 			char* current_line_buffer = new char[current_line_length];
 			SendEditor(SCI_GETLINE, current_line, reinterpret_cast<LPARAM>(current_line_buffer));
@@ -332,7 +332,7 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 
 			delete[] current_line_buffer;
 		}
-		catch (EmptyFunctionNameException& e){
+		catch (EmptyFunctionNameException & e) {
 			delete[] buffer;
 			throw;
 		}
