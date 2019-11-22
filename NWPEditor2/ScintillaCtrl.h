@@ -34,7 +34,7 @@ protected:
 	void SetUpEditor();
 	void SetAStyle(int style, COLORREF fore, COLORREF back = RGB(255, 255, 255), int size = NULL, const std::wstring& face = L"")const;
 	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL) const;
-	int GetCurrentLine();
+	int GetCurrentLineNumber();
 public:
 	ScintillaCtrl();
 	~ScintillaCtrl();

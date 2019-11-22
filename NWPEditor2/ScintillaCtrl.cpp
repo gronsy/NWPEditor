@@ -43,7 +43,7 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 	SetUpEditor();
 }
 
-int ScintillaCtrl::GetCurrentLine()
+int ScintillaCtrl::GetCurrentLineNumber()
 {
 	int position = SendEditor(SCI_GETCURRENTPOS, NULL);
 
@@ -292,7 +292,7 @@ void ScintillaCtrl::RmInit() { m_print_info.initialised = false; }
 
 void ScintillaCtrl::GiveBookmarkInfo(const std::wstring& filePath, const std::wstring& bookmarkName)
 {
-	auto line = GetCurrentLine();
+	auto line = GetCurrentLineNumber();
 
 	m_ini.AddBookmarkEntry(bookmarkName, filePath, line);
 }
@@ -326,7 +326,7 @@ std::string ScintillaCtrl::GetAllDocumentText()
 
 void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int language)
 {
-	const int line = GetCurrentLine();
+	const int line = GetCurrentLineNumber();
 	const int line_length = SendEditor(SCI_LINELENGTH, line);
 	char* buffer = new char[line_length];
 
