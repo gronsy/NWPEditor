@@ -305,9 +305,23 @@ void ScintillaCtrl::LoadBookmarks(CMenu* menu, const std::wstring& fileName)
 	//menu->AppendMenuW(MF_STRING | MF_SEPARATOR, NULL, bookmark.GetBookmarkName().c_str());
 }
 
-std::wstring ScintillaCtrl::GetAllDocumentText()
+std::string ScintillaCtrl::GetAllDocumentText()
 {
-	return L"";
+	const auto line_count = SendEditor(SCI_GETLINECOUNT, NULL);
+	std::string document_text = "";
+	char* buffer;
+
+	for (int current_line = 1; current_line <= line_count; ++current_line)
+	{
+		const int current_line_length = SendEditor(SCI_LINELENGTH, current_line);
+		buffer = new char[current_line_length];
+
+		SendEditor(SCI_GETLINE, reinterpret_cast<LPARAM>(buffer));
+		document_text += std::string(buffer);
+		delete[] buffer;
+	}
+
+	return document_text;
 }
 
 void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int language)
@@ -316,26 +330,16 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 	const int line_length = SendEditor(SCI_LINELENGTH, line);
 	char* buffer = new char[line_length];
 
-	//Taking current cursor line and determining if it's method or variable
-	SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
-	RegexHandler^ regexHandler = gcnew RegexHandler(language, buffer);
+	const auto document_text = GetAllDocumentText();
 
-	const auto line_count = SendEditor(SCI_GETLINECOUNT, NULL);
-	for (int current_line = 1; current_line <= line_count; ++current_line)
-	{
-		try {
-			const int current_line_length = SendEditor(SCI_LINELENGTH, current_line);
-			char* current_line_buffer = new char[current_line_length];
-			SendEditor(SCI_GETLINE, current_line, reinterpret_cast<LPARAM>(current_line_buffer));
-
-			std::string tmp(current_line_buffer);
-
-			delete[] current_line_buffer;
-		}
-		catch (EmptyFunctionNameException & e) {
-			delete[] buffer;
-			throw;
-		}
+	try {
+		//Taking current cursor line and determining if it's method or variable
+		SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
+		RegexHandler^ regexHandler = gcnew RegexHandler(language, buffer);
+	}
+	catch (EmptyFunctionNameException & e) {
+		delete[] buffer;
+		throw;
 	}
 
 	delete[] buffer;
