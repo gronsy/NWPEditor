@@ -21,14 +21,13 @@ public ref class RegexHandler
 	//Set to false if rename is called from function definition in editor
 	bool is_function_call;
 protected:
-	void ParseRegex(int lang, std::string line);
+	
 	bool CheckIfVariable(std::string line, System::Text::RegularExpressions::Regex^ lang_regex);
 	bool CheckIfFunction(std::string line, System::Text::RegularExpressions::Regex^ lang_regex, bool is_call);
 	std::string ExtractFunctionName(int lang, std::string line);
 	std::string ExtractCTypeName(std::string::iterator string_iterator);
 public:
-	RegexHandler(int lang, const std::string line);
-
+	void ParseRegex(int lang, std::string line);
 	System::Text::RegularExpressions::Regex^ GetRegexInUse();
 };
 

@@ -3,9 +3,9 @@
 
 #define _REGEX_MAX_STACK_COUNT 1000
 
-RegexHandler::RegexHandler(int lang, const std::string line)
+bool RegexHandler::CheckIfVariable(std::string line, System::Text::RegularExpressions::Regex^ lang_regex)
 {
-	ParseRegex(lang, line);
+	return true;
 }
 
 System::Text::RegularExpressions::Regex^ RegexHandler::GetRegexInUse()
@@ -13,10 +13,6 @@ System::Text::RegularExpressions::Regex^ RegexHandler::GetRegexInUse()
 	return regex_in_use;
 }
 
-bool RegexHandler::CheckIfVariable(std::string line, System::Text::RegularExpressions::Regex^ lang_regex)
-{
-	return true;
-}
 
 bool RegexHandler::CheckIfFunction(std::string line, System::Text::RegularExpressions::Regex^ lang_regex, bool is_call)
 {
