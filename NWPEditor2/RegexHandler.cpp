@@ -8,12 +8,6 @@ bool RegexHandler::CheckIfVariable(std::string line, System::Text::RegularExpres
 	return true;
 }
 
-System::Text::RegularExpressions::Regex^ RegexHandler::GetRegexInUse()
-{
-	return regex_in_use;
-}
-
-
 bool RegexHandler::CheckIfFunction(std::string line, System::Text::RegularExpressions::Regex^ lang_regex, bool is_call)
 {
 	auto is_match = lang_regex->IsMatch(msclr::interop::marshal_as<System::String^>(line));
@@ -95,4 +89,12 @@ void RegexHandler::ParseRegex(int lang, std::string line)
 	default:
 		break;
 	}
+}
+
+std::string RegexHandler::ReplaceInstances(std::string document_text)
+{
+	auto replacement_string = regex_in_use->Replace(msclr::interop::marshal_as<System::String^>(document_text),
+		regex_in_use->ToString());
+
+	return "";
 }

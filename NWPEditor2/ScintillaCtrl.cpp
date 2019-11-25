@@ -336,9 +336,8 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 		SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
 		RegexHandler^ regexHandler = gcnew RegexHandler();
 		regexHandler->ParseRegex(language, buffer);
-		auto regex = regexHandler->GetRegexInUse();
 	}
-	catch (EmptyFunctionNameException& e) {
+	catch (EmptyFunctionNameException & e) {
 		delete[] buffer;
 		throw;
 	}
