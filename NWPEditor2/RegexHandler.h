@@ -3,7 +3,6 @@
 #include <regex>
 #include <exception>
 #include <exception>
-#include <algorithm>
 #include <msclr/marshal_cppstd.h>
 
 #using <System.dll>
@@ -27,7 +26,7 @@ protected:
 	std::string ExtractFunctionName(int lang, std::string line);
 	std::string ExtractCTypeName(std::string::iterator string_iterator);
 public:
-	void ParseRegex(int lang, std::string line);
+	void GenerateRegex(int lang, std::string line);
 	std::string ReplaceInstances(std::string document_text);
 };
 

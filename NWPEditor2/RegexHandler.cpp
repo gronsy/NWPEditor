@@ -50,7 +50,7 @@ std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
 	}
 }
 
-void RegexHandler::ParseRegex(int lang, std::string line)
+void RegexHandler::GenerateRegex(int lang, std::string line)
 {
 	using namespace System::Text::RegularExpressions;
 	line = line.substr(STRING_BEGINNING, line.find("\n") + ERASE_OFFSET);
