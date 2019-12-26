@@ -10,6 +10,7 @@
 
 #define ITERATOR_CLANG_COLON_OFFSET 2
 #define ITERATOR_SPACE_OFFSET 1
+#define ERASE_OFFSET
 #define STRING_BEGINNING 0
 
 public ref class RegexHandler
