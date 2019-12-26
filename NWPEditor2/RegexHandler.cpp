@@ -36,7 +36,7 @@ std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
 
 		int offset = filter == ':' ? ITERATOR_CLANG_COLON_OFFSET : ITERATOR_SPACE_OFFSET;
 		function_name = line.substr(line.find(filter) + offset, line.find('('));
-		function_name = function_name.substr(STRING_BEGINNING, function_name.find('(') + ERASE_OFFSET);
+		function_name = function_name.substr(STRING_BEGINNING, function_name.find('('));
 
 		return function_name;
 	}
@@ -72,6 +72,7 @@ void RegexHandler::GenerateRegex(int lang, std::string line)
 
 			regex_in_use = gcnew Regex(
 				msclr::interop::marshal_as<System::String^>(".*(::)?" + function_name + "\(.*\)\{?(.*\}|;)?\r?\n?"));
+			
 			break;
 		}
 
