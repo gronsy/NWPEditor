@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ScintillaCtrl.h"
+#include "Tester.h"
 
 //construction and deconstruction
 ScintillaCtrl::ScintillaCtrl()
@@ -316,7 +317,7 @@ std::string ScintillaCtrl::GetAllDocumentText()
 		const int current_line_length = SendEditor(SCI_LINELENGTH, current_line);
 		buffer = new char[current_line_length];
 
-		SendEditor(SCI_GETLINE, reinterpret_cast<LPARAM>(buffer));
+		SendEditor(SCI_GETLINE, current_line, reinterpret_cast<LPARAM>(buffer));
 		document_text += std::string(buffer);
 		delete[] buffer;
 	}
@@ -336,7 +337,8 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 		SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
 		RegexHandler^ regexHandler = gcnew RegexHandler();
 		regexHandler->GenerateRegex(language, buffer);
-		auto replaced_text=regexHandler->ReplaceInstances(document_text);		
+		auto replaced_text=regexHandler->ReplaceInstances(document_text);
+		WriteToFile(replaced_text);
 	}
 	catch (EmptyFunctionNameException & e) {
 		delete[] buffer;

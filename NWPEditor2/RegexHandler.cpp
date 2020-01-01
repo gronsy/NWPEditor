@@ -97,5 +97,5 @@ std::string RegexHandler::ReplaceInstances(std::string document_text)
 	auto replacement_string = regex_in_use->Replace(msclr::interop::marshal_as<System::String^>(document_text),
 		regex_in_use->ToString());
 
-	return "";
+	return msclr::interop::marshal_as<std::string>(replacement_string);
 }
