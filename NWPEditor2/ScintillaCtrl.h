@@ -41,7 +41,7 @@ public:
 	~ScintillaCtrl();
 
 	void SetScintillaCtrl(HWND wnd);
-	void SetLang(int langm, bool clang = false);
+	void SetLang(int lang, bool clang = false);
 	void LoadDefaultState();
 	void UpdateColor(const std::wstring& field);
 	void UpdateFont();
