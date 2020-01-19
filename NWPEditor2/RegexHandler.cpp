@@ -20,12 +20,7 @@ bool RegexHandler::CheckIfFunction(std::string line, System::Text::RegularExpres
 	return is_match;
 }
 
-std::string RegexHandler::ExtractCTypeName(std::string::iterator string_iterator)
-{
-	return "";
-}
-
-std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
+void RegexHandler::ExtractFunctionName(int lang, std::string line)
 {
 	std::string function_name;
 	switch (lang)
@@ -38,15 +33,16 @@ std::string RegexHandler::ExtractFunctionName(int lang, std::string line)
 		function_name = line.substr(line.find(filter) + offset, line.find('('));
 		function_name = function_name.substr(STRING_BEGINNING, function_name.find('('));
 
-		return function_name;
+
+		name_to_replace = function_name;
 	}
 	case SCLEX_PYTHON:
 		function_name = line.substr(line.find(" ") + ITERATOR_SPACE_OFFSET, line.find('('));
 		function_name = function_name.substr(STRING_BEGINNING, line.find(')') + ERASE_OFFSET);
 
-		return function_name;
+		name_to_replace = function_name;
 	default:
-		return "";
+		break;
 	}
 }
 
@@ -65,13 +61,13 @@ void RegexHandler::GenerateRegex(int lang, std::string line)
 
 		if (CheckIfFunction(line, cregex_function_definition, false) || CheckIfFunction(line, cregex_function_call, true))
 		{
-			std::string function_name = ExtractFunctionName(lang, line);
+			ExtractFunctionName(lang, line);
 
-			if (function_name == "")
+			if (name_to_replace == "")
 				throw EmptyFunctionNameException("Function name not found.");
 
 			regex_in_use = gcnew Regex(
-				msclr::interop::marshal_as<System::String^>(".*(::)?" + function_name + "\(.*\)\{?(.*\}|;)?\r?\n?"));
+				msclr::interop::marshal_as<System::String^>(".*(::)?" + name_to_replace + "\(.*\)\{?(.*\}|;)?\r?\n?"));
 			
 			break;
 		}
@@ -92,10 +88,21 @@ void RegexHandler::GenerateRegex(int lang, std::string line)
 	}
 }
 
-std::string RegexHandler::ReplaceInstances(std::string document_text)
+std::string RegexHandler::ReplaceInstances(std::string document_text, std::string replace_to)
 {
+	this->replace_to = replace_to;
+	
 	auto replacement_string = regex_in_use->Replace(msclr::interop::marshal_as<System::String^>(document_text),
-		regex_in_use->ToString());
+		gcnew System::Text::RegularExpressions::MatchEvaluator(this, &RegexHandler::HandleMatch));
 
 	return msclr::interop::marshal_as<std::string>(replacement_string);
+}
+
+System::String^ RegexHandler::HandleMatch(System::Text::RegularExpressions::Match^ match)
+{
+	auto match_string = match->ToString();
+	match_string=match_string->Replace(msclr::interop::marshal_as<System::String^>(name_to_replace), 
+		msclr::interop::marshal_as<System::String^>(replace_to));
+	
+	return match_string;
 }

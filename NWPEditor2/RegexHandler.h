@@ -16,18 +16,18 @@
 public ref class RegexHandler
 {
 	System::Text::RegularExpressions::Regex^ regex_in_use;
+	std::string &name_to_replace=std::string(), &replace_to=std::string();
 	//Set to true only if rename is called from the function call in editor
 	//Set to false if rename is called from function definition in editor
 	bool is_function_call;
 protected:
-
 	bool CheckIfVariable(std::string line, System::Text::RegularExpressions::Regex^ lang_regex);
 	bool CheckIfFunction(std::string line, System::Text::RegularExpressions::Regex^ lang_regex, bool is_call);
-	std::string ExtractFunctionName(int lang, std::string line);
-	std::string ExtractCTypeName(std::string::iterator string_iterator);
+	void ExtractFunctionName(int lang, std::string line);
+	System::String^ HandleMatch(System::Text::RegularExpressions::Match^ match);
 public:
 	void GenerateRegex(int lang, std::string line);
-	std::string ReplaceInstances(std::string document_text);
+	std::string ReplaceInstances(std::string document_text, std::string replace_to);
 };
 
 public class EmptyFunctionNameException :std::exception
