@@ -33,14 +33,15 @@ void RegexHandler::ExtractFunctionName(int lang, std::string line)
 		function_name = line.substr(line.find(filter) + offset, line.find('('));
 		function_name = function_name.substr(STRING_BEGINNING, function_name.find('('));
 
-
 		name_to_replace = function_name;
+		break;
 	}
 	case SCLEX_PYTHON:
 		function_name = line.substr(line.find(" ") + ITERATOR_SPACE_OFFSET, line.find('('));
 		function_name = function_name.substr(STRING_BEGINNING, line.find(')') + ERASE_OFFSET);
 
 		name_to_replace = function_name;
+		break;
 	default:
 		break;
 	}
@@ -68,7 +69,7 @@ void RegexHandler::GenerateRegex(int lang, std::string line)
 
 			regex_in_use = gcnew Regex(
 				msclr::interop::marshal_as<System::String^>(".*(::)?" + name_to_replace + "\(.*\)\{?(.*\}|;)?\r?\n?"));
-			
+
 			break;
 		}
 
@@ -91,7 +92,7 @@ void RegexHandler::GenerateRegex(int lang, std::string line)
 std::string RegexHandler::ReplaceInstances(std::string document_text, std::string replace_to)
 {
 	this->replace_to = replace_to;
-	
+
 	auto replacement_string = regex_in_use->Replace(msclr::interop::marshal_as<System::String^>(document_text),
 		gcnew System::Text::RegularExpressions::MatchEvaluator(this, &RegexHandler::HandleMatch));
 
@@ -101,8 +102,8 @@ std::string RegexHandler::ReplaceInstances(std::string document_text, std::strin
 System::String^ RegexHandler::HandleMatch(System::Text::RegularExpressions::Match^ match)
 {
 	auto match_string = match->ToString();
-	match_string=match_string->Replace(msclr::interop::marshal_as<System::String^>(name_to_replace), 
+	match_string = match_string->Replace(msclr::interop::marshal_as<System::String^>(name_to_replace),
 		msclr::interop::marshal_as<System::String^>(replace_to));
-	
+
 	return match_string;
 }
