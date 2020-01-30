@@ -312,7 +312,7 @@ std::string ScintillaCtrl::GetAllDocumentText()
 	std::string document_text = "";
 	char* buffer;
 
-	for (int current_line = 1; current_line <= line_count; ++current_line)
+	for (int current_line = 0; current_line <= line_count; ++current_line)
 	{
 		const int current_line_length = SendEditor(SCI_LINELENGTH, current_line);
 		buffer = new char[current_line_length];
@@ -337,7 +337,7 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 		SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
 		RegexHandler^ regexHandler = gcnew RegexHandler();
 		regexHandler->GenerateRegex(language, buffer);
-		const auto replaced_text=regexHandler->ReplaceInstances(document_text, std::string(CT2CA(renameTo)));
+		const auto replaced_text = regexHandler->ReplaceInstances(document_text, std::string(CT2CA(renameTo)));
 		WriteToFile(replaced_text);
 	}
 	catch (EmptyFunctionNameException & e) {

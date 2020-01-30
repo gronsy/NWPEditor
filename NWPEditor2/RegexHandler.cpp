@@ -102,6 +102,10 @@ std::string RegexHandler::ReplaceInstances(std::string document_text, std::strin
 System::String^ RegexHandler::HandleMatch(System::Text::RegularExpressions::Match^ match)
 {
 	auto match_string = match->ToString();
+
+	if (match_string->Trim()->StartsWith("#"))
+		return match_string;
+
 	match_string = match_string->Replace(msclr::interop::marshal_as<System::String^>(name_to_replace),
 		msclr::interop::marshal_as<System::String^>(replace_to));
 
