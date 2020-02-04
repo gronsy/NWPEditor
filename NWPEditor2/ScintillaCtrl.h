@@ -3,7 +3,7 @@
 #include "RegexHandler.h"
 #include <string>
 #include <vector>
-#include <regex>
+//#include <regex>
 #include <msclr/marshal_cppstd.h>
 
 #define TAB_WIDTH			4
@@ -31,6 +31,7 @@ protected:
 	IniCtrl m_ini;
 	Sci_Print_Info m_print_info;
 	int m_indent;
+	std::string m_working_file;
 protected:
 	void SetUpEditor();
 	void SetAStyle(int style, COLORREF fore, COLORREF back = RGB(255, 255, 255), int size = NULL, const std::wstring& face = L"")const;
@@ -69,4 +70,5 @@ public:
 	void LoadBookmarks(CMenu* menu, const std::wstring& fileName);
 	std::string GetAllDocumentText();
 	void RenameVariableOrFunction(const CString& renameTo, int language);
+	void SetWorkingFile(CString file_path);
 };

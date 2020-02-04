@@ -306,22 +306,33 @@ void ScintillaCtrl::LoadBookmarks(CMenu* menu, const std::wstring& fileName)
 	//menu->AppendMenuW(MF_STRING | MF_SEPARATOR, NULL, bookmark.GetBookmarkName().c_str());
 }
 
+void ScintillaCtrl::SetWorkingFile(CString file_path)
+{
+	CT2CA convertedAnsiString(file_path);
+	m_working_file = convertedAnsiString;
+}
+
 std::string ScintillaCtrl::GetAllDocumentText()
 {
 	const auto line_count = SendEditor(SCI_GETLINECOUNT, NULL);
-	std::string document_text = "";
-	char* buffer;
 
-	for (int current_line = 0; current_line <= line_count; ++current_line)
-	{
-		const int current_line_length = SendEditor(SCI_LINELENGTH, current_line);
-		buffer = new char[current_line_length];
+	std::ifstream input_file_stream(m_working_file, std::ifstream::ate | std::ifstream::binary);
+	if (!input_file_stream.is_open())
+		return "";
+	input_file_stream.seekg(0, std::ios::end);
+	int file_size = input_file_stream.tellg();
+	input_file_stream.close();
 
-		SendEditor(SCI_GETLINE, current_line, reinterpret_cast<LPARAM>(buffer));
-		document_text += std::string(buffer);
-		delete[] buffer;
-	}
+	char* buffer{ new char[file_size + 1] };
+	Sci_TextRange text_range = Sci_TextRange{
+		Sci_CharacterRange{0, -1},
+		buffer
+	};
 
+	SendEditor(SCI_GETTEXTRANGE, NULL, reinterpret_cast<LPARAM>(&text_range));
+
+	std::string document_text(buffer);
+	delete[] buffer;
 	return document_text;
 }
 
