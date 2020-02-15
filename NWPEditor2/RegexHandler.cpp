@@ -30,7 +30,15 @@ void RegexHandler::ExtractFunctionName(int lang, std::string line)
 		char filter = line.find(':') != std::string::npos ? ':' : ' ';
 
 		int offset = filter == ':' ? ITERATOR_CLANG_COLON_OFFSET : ITERATOR_SPACE_OFFSET;
-		function_name = line.substr(line.find(filter) + offset, line.find('('));
+
+		if (filter == ':') {
+			function_name = line;
+			while (function_name.find(':') != std::string::npos)
+				function_name = line.substr(function_name.find(filter) + offset, function_name.find('('));
+		}
+		else
+			function_name = line.substr(line.find(filter) + offset, line.find('('));
+			
 		function_name = function_name.substr(STRING_BEGINNING, function_name.find('('));
 
 		name_to_replace = function_name;
