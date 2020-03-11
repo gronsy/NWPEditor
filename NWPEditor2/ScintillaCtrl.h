@@ -5,6 +5,7 @@
 #include <vector>
 //#include <regex>
 #include <msclr/marshal_cppstd.h>
+#include "EmptyFunctionNameException.h"
 
 #define TAB_WIDTH			4
 #define PRINT_OVERFLOW		7

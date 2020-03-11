@@ -188,7 +188,10 @@
     <ClInclude Include="Bookmark.h" />
     <ClInclude Include="BookmarkAddDlg.h" />
     <ClInclude Include="ColorPickDlg.h" />
+    <ClInclude Include="CppLanguage.h" />
+    <ClInclude Include="EmptyFunctionNameException.h" />
     <ClInclude Include="IniCtrl.h" />
+    <ClInclude Include="AbstractLanguage.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="NWPEditor2.h" />
     <ClInclude Include="NWPEditor2Doc.h" />
@@ -202,9 +205,11 @@
     <ClInclude Include="Tester.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractLanguage.cpp" />
     <ClCompile Include="Bookmark.cpp" />
     <ClCompile Include="BookmarkAddDlg.cpp" />
     <ClCompile Include="ColorPickDlg.cpp" />
+    <ClCompile Include="CppLanguage.cpp" />
     <ClCompile Include="IniCtrl.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="NWPEditor2.cpp" />

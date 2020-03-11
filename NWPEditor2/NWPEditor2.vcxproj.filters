@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Exceptions">
+      <UniqueIdentifier>{fca833cd-85fc-4ce3-91fe-ce948a951b43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Languages">
+      <UniqueIdentifier>{d3099a8c-8ab9-4c20-ad6f-b635095687c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Languages">
+      <UniqueIdentifier>{20486ed0-bdf7-4fe2-ae4d-0e3296f14194}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NWPEditor2.h">
@@ -60,6 +69,15 @@
     <ClInclude Include="Tester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EmptyFunctionNameException.h">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractLanguage.h">
+      <Filter>Header Files\Languages</Filter>
+    </ClInclude>
+    <ClInclude Include="CppLanguage.h">
+      <Filter>Header Files\Languages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NWPEditor2.cpp">
@@ -100,6 +118,12 @@
     </ClCompile>
     <ClCompile Include="Tester.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CppLanguage.cpp">
+      <Filter>Source Files\Languages</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractLanguage.cpp">
+      <Filter>Source Files\Languages</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
