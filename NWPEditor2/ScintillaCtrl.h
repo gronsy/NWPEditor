@@ -5,6 +5,7 @@
 #include <vector>
 //#include <regex>
 #include <msclr/marshal_cppstd.h>
+#include "AbstractLanguage.h"
 #include "EmptyFunctionNameException.h"
 
 #define TAB_WIDTH			4
@@ -44,6 +45,7 @@ public:
 
 	void SetScintillaCtrl(HWND wnd);
 	void SetLang(int lang, bool clang = false);
+	void SetLang();
 	void LoadDefaultState();
 	void UpdateColor(const std::wstring& field);
 	void UpdateFont();

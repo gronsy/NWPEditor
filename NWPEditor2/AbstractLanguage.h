@@ -13,6 +13,7 @@ protected:
 	bool is_function_call;
 	std::wstring file_extension;
 	std::wstring keywords;
+	int language_id;
 
 protected:
 	bool CheckIfVariable(std::string line, std::regex language_regex);
@@ -26,4 +27,5 @@ public:
 
 	std::wstring GetFileExtension();
 	std::wstring GetKeywords();
+	int GetLanguageId();
 };

@@ -7,6 +7,8 @@ CppLanguage::CppLanguage(bool is_clang/*=false*/)
 		InitializeCLanguage();
 	else
 		InitializeCppLanguage();
+
+	language_id = SCLEX_CPP;
 }
 
 void CppLanguage::InitializeCLanguage()
