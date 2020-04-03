@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#pragma once
 #include "CppLanguage.h"
 
 CppLanguage::CppLanguage(bool is_clang/*=false*/)

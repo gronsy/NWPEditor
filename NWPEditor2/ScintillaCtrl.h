@@ -34,6 +34,8 @@ protected:
 	Sci_Print_Info m_print_info;
 	int m_indent;
 	std::string m_working_file;
+
+	AbstractLanguage* m_current_language;
 protected:
 	void SetUpEditor();
 	void SetAStyle(int style, COLORREF fore, COLORREF back = RGB(255, 255, 255), int size = NULL, const std::wstring& face = L"")const;
@@ -45,7 +47,7 @@ public:
 
 	void SetScintillaCtrl(HWND wnd);
 	void SetLang(int lang, bool clang = false);
-	void SetLang();
+	void SetLanguage(AbstractLanguage* languageToSet);
 	void LoadDefaultState();
 	void UpdateColor(const std::wstring& field);
 	void UpdateFont();
@@ -74,4 +76,6 @@ public:
 	std::string GetAllDocumentText();
 	void RenameVariableOrFunction(const CString& renameTo, int language);
 	void SetWorkingFile(CString file_path);
+	unsigned GetCurrentLanguageId()const;
+	std::wstring GetCurrentLanguageExtension()const;
 };

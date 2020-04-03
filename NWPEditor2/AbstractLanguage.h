@@ -2,7 +2,6 @@
 #include <string>
 #include <regex>
 #include <exception>
-#include <exception>
 #include <msclr/marshal_cppstd.h>
 
 public class AbstractLanguage
@@ -21,6 +20,7 @@ protected:
 	virtual void ExtractFunctionName(std::string line) = 0;
 public:
 	AbstractLanguage();
+	virtual ~AbstractLanguage();
 
 	virtual void GenerateRegex(std::string line) = 0;
 	std::string ReplaceInstances(std::string document_text, std::string replace_to);

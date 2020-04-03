@@ -17,5 +17,7 @@ protected:
 	void InitializeCppLanguage();
 public:
 	CppLanguage(bool is_clang = false);
+	virtual ~CppLanguage();
+	
 	virtual void GenerateRegex(std::string line);
 };

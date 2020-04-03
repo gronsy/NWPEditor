@@ -44,11 +44,32 @@ void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
 	SetUpEditor();
 }
 
+void ScintillaCtrl::SetLanguage(AbstractLanguage* languageToSet)
+{
+	m_current_language = languageToSet;
+}
+
 int ScintillaCtrl::GetCurrentLineNumber()
 {
 	int position = SendEditor(SCI_GETCURRENTPOS, NULL);
 
 	return SendEditor(SCI_LINEFROMPOSITION, position);
+}
+
+unsigned ScintillaCtrl::GetCurrentLanguageId() const
+{
+	if (m_current_language == nullptr)
+		return NULL;
+	
+	return m_current_language->GetLanguageId();
+}
+
+std::wstring ScintillaCtrl::GetCurrentLanguageExtension() const
+{
+	if (m_current_language == nullptr)
+		return L"";
+
+	return m_current_language->GetFileExtension();
 }
 
 void ScintillaCtrl::SetUpEditor()
@@ -69,6 +90,8 @@ void ScintillaCtrl::SetUpEditor()
 
 void ScintillaCtrl::LoadDefaultState()
 {
+	m_current_language = nullptr;
+	
 	SendEditor(SCI_SETLEXER, SCLEX_NULL);
 	SendEditor(SCI_SETTABWIDTH, TAB_WIDTH);
 	UpdateFont();

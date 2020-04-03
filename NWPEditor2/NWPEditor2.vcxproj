@@ -196,6 +196,7 @@
     <ClInclude Include="NWPEditor2.h" />
     <ClInclude Include="NWPEditor2Doc.h" />
     <ClInclude Include="NWPEditor2View.h" />
+    <ClInclude Include="PythonLanguage.h" />
     <ClInclude Include="RegexHandler.h" />
     <ClInclude Include="RenameDlg.h" />
     <ClInclude Include="Resource.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="NWPEditor2.cpp" />
     <ClCompile Include="NWPEditor2Doc.cpp" />
     <ClCompile Include="NWPEditor2View.cpp" />
+    <ClCompile Include="PythonLanguage.cpp" />
     <ClCompile Include="RegexHandler.cpp" />
     <ClCompile Include="RenameDlg.cpp" />
     <ClCompile Include="ScintillaCtrl.cpp" />

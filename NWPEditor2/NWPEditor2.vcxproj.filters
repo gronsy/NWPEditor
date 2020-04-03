@@ -78,6 +78,9 @@
     <ClInclude Include="CppLanguage.h">
       <Filter>Header Files\Languages</Filter>
     </ClInclude>
+    <ClInclude Include="PythonLanguage.h">
+      <Filter>Header Files\Languages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NWPEditor2.cpp">
@@ -123,6 +126,9 @@
       <Filter>Source Files\Languages</Filter>
     </ClCompile>
     <ClCompile Include="AbstractLanguage.cpp">
+      <Filter>Source Files\Languages</Filter>
+    </ClCompile>
+    <ClCompile Include="PythonLanguage.cpp">
       <Filter>Source Files\Languages</Filter>
     </ClCompile>
   </ItemGroup>
