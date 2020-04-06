@@ -3,7 +3,6 @@
 #include "RegexHandler.h"
 #include <string>
 #include <vector>
-//#include <regex>
 #include <msclr/marshal_cppstd.h>
 #include "AbstractLanguage.h"
 #include "EmptyFunctionNameException.h"
