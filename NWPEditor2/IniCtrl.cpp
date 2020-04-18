@@ -47,27 +47,9 @@ IniCtrl::~IniCtrl()
 {
 }
 
-void IniCtrl::SendIni(int lang, bool clang/*=false*/)
+void IniCtrl::SetKeywords(std::wstring keywords)
 {
-	std::wstring keywordsLang;
-
-	switch (lang) {
-	case SCLEX_CPP:
-		if (clang) {
-			m_keywords = c_keywords;
-			keywordsLang = L"c";
-			break;
-		}
-		keywordsLang = L"cpp";
-		m_keywords = cpp_keywords;
-		break;
-	case SCLEX_PYTHON:
-		keywordsLang = L"python";
-		m_keywords = py_keywords;
-		break;
-	default:
-		m_keywords = L"";
-	}
+	m_keywords = keywords;
 }
 
 void IniCtrl::WriteDefaultKeywords()

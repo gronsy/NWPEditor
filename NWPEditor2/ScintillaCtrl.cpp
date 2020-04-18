@@ -37,16 +37,12 @@ void ScintillaCtrl::SetAStyle(int style, COLORREF fore,
 		SendEditor(SCI_STYLESETFONT, style, reinterpret_cast<LPARAM>(face.c_str()));
 }
 
-void ScintillaCtrl::SetLang(int lex, bool clang/*=false*/)
-{
-	SendEditor(SCI_SETLEXER, lex, NULL);
-	m_ini.SendIni(lex, clang);
-	SetUpEditor();
-}
-
 void ScintillaCtrl::SetLanguage(AbstractLanguage* languageToSet)
 {
 	m_current_language = languageToSet;
+	SendEditor(SCI_SETLEXER, m_current_language->GetLanguageId(), NULL);
+	m_ini.SetKeywords(m_current_language->GetKeywords());
+	SetUpEditor();
 }
 
 int ScintillaCtrl::GetCurrentLineNumber()

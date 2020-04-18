@@ -20,7 +20,7 @@ protected:
 public:
 	IniCtrl(bool init = true);
 	~IniCtrl();
-	void SendIni(int lang, bool clang = false);
+	void SetKeywords(std::wstring keywords);
 	const std::string GetKeywords() const;
 	COLORREF GetColor(const std::wstring& colorName);
 	void ChangeColor(const COLORREF color, const std::wstring& field);
