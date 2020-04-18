@@ -2,15 +2,9 @@
 #pragma once
 #include "CppLanguage.h"
 
-CppLanguage::CppLanguage(bool is_clang/*=false*/)
-{
-	if (is_clang)
-		InitializeCLanguage();
-	else
-		InitializeCppLanguage();
-
-	language_id = SCLEX_CPP;
-}
+CppLanguage::CppLanguage(bool is_clang/*=false*/):
+AbstractLanguage(is_clang?GetCKeywords(): GetCppKeywords(), is_clang?L"c": L"cpp", SCLEX_CPP)
+{}
 
 CppLanguage::~CppLanguage()
 {
@@ -18,18 +12,16 @@ CppLanguage::~CppLanguage()
 }
 
 
-void CppLanguage::InitializeCLanguage()
+std::wstring CppLanguage::GetCKeywords()
 {
-	keywords = L"auto break case char const continue delete do double "
+	return L"auto break case char const continue delete do double "
 		"else enum explicit float for goto if int long register "
 		"return short signed sizeof static struct switch typedef while";
-
-	file_extension = L"c";
 }
 
-void CppLanguage::InitializeCppLanguage()
+std::wstring CppLanguage::GetCppKeywords()
 {
-	keywords = L"asm auto bool break case catch char class const "
+	return L"asm auto bool break case catch char class const "
 		"dynamic_cast else enum explicit extern false finally "
 		"float for friend goto if inline int long mutable "
 		"namespace new operator private protected public "
@@ -38,8 +30,6 @@ void CppLanguage::InitializeCppLanguage()
 		"this throw true try typedef typeid typename "
 		"union unsigned using virtual void volatile "
 		"wchar_t while";
-
-	file_extension = L"cpp";
 }
 
 void CppLanguage::ExtractFunctionName(std::string line)

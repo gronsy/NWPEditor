@@ -2,7 +2,8 @@
 #pragma once
 #include "PythonLanguage.h"
 
-PythonLanguage::PythonLanguage()
+PythonLanguage::PythonLanguage():
+AbstractLanguage(GetPythonKeywords(), L"py", SCLEX_PYTHON)
 {
 	
 }
@@ -21,4 +22,9 @@ void PythonLanguage::ExtractFunctionName(std::string line)
 void PythonLanguage::GenerateRegex(std::string line)
 {
 	
+}
+
+std::wstring PythonLanguage::GetPythonKeywords()
+{
+	return L"";
 }

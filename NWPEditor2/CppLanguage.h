@@ -13,8 +13,8 @@ class CppLanguage : public AbstractLanguage
 {
 protected:
 	virtual void ExtractFunctionName(std::string line)override;
-	void InitializeCLanguage();
-	void InitializeCppLanguage();
+	std::wstring GetCKeywords();
+	std::wstring GetCppKeywords();
 public:
 	CppLanguage(bool is_clang = false);
 	virtual ~CppLanguage() override;

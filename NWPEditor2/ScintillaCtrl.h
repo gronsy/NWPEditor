@@ -44,8 +44,8 @@ public:
 
 	void SetScintillaCtrl(HWND wnd);
 	void SetLang(int lang, bool clang = false);
-	void SetLanguage(AbstractLanguage* languageToSet);
-	void LoadDefaultState();
+	void SetLanguage(AbstractLanguage* language_to_set);
+	void LoadDefaultState(bool is_initial_load=false);
 	void UpdateColor(const std::wstring& field);
 	void UpdateFont();
 	void AutoCompKey(int wordLength)const;

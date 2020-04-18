@@ -37,9 +37,9 @@ void ScintillaCtrl::SetAStyle(int style, COLORREF fore,
 		SendEditor(SCI_STYLESETFONT, style, reinterpret_cast<LPARAM>(face.c_str()));
 }
 
-void ScintillaCtrl::SetLanguage(AbstractLanguage* languageToSet)
+void ScintillaCtrl::SetLanguage(AbstractLanguage* language_to_set)
 {
-	m_current_language = languageToSet;
+	m_current_language = language_to_set;
 	SendEditor(SCI_SETLEXER, m_current_language->GetLanguageId(), NULL);
 	m_ini.SetKeywords(m_current_language->GetKeywords());
 	SetUpEditor();
@@ -54,7 +54,7 @@ int ScintillaCtrl::GetCurrentLineNumber()
 
 unsigned ScintillaCtrl::GetCurrentLanguageId() const
 {
-	if (m_current_language == nullptr)
+	if (m_current_language == NULL)
 		return NULL;
 	
 	return m_current_language->GetLanguageId();
@@ -84,8 +84,11 @@ void ScintillaCtrl::SetUpEditor()
 	SetAStyle(SCE_C_WORD, m_ini.GetColor(_T("keywords")));
 }
 
-void ScintillaCtrl::LoadDefaultState()
+void ScintillaCtrl::LoadDefaultState(bool is_initial_load/*=false*/)
 {
+	if(!is_initial_load)
+		delete m_current_language;
+	
 	m_current_language = nullptr;
 	
 	SendEditor(SCI_SETLEXER, SCLEX_NULL);
