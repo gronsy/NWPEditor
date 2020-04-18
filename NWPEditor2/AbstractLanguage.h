@@ -2,9 +2,8 @@
 #include <string>
 #include <regex>
 #include <exception>
-#include <msclr/marshal_cppstd.h>
 
-public class AbstractLanguage
+class AbstractLanguage
 {
 protected:
 	std::string name_to_replace, replace_to;
@@ -19,7 +18,6 @@ protected:
 	bool CheckIfFunction(std::string line, std::regex lang_regex, bool is_call);
 	virtual void ExtractFunctionName(std::string line) = 0;
 public:
-	AbstractLanguage();
 	virtual ~AbstractLanguage();
 
 	virtual void GenerateRegex(std::string line) = 0;

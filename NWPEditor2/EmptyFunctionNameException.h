@@ -2,7 +2,7 @@
 #include <string>
 #include <exception>
 
-public class EmptyFunctionNameException :std::exception
+class EmptyFunctionNameException :std::exception
 {
 private:
 	std::string error_message;

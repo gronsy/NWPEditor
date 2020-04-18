@@ -9,15 +9,15 @@
 #define ERASE_OFFSET 1
 #define STRING_BEGINNING 0
 
-public class CppLanguage : public AbstractLanguage
+class CppLanguage : public AbstractLanguage
 {
 protected:
-	virtual void ExtractFunctionName(std::string line);
+	virtual void ExtractFunctionName(std::string line)override;
 	void InitializeCLanguage();
 	void InitializeCppLanguage();
 public:
 	CppLanguage(bool is_clang = false);
-	virtual ~CppLanguage();
+	virtual ~CppLanguage() override;
 	
-	virtual void GenerateRegex(std::string line);
+	virtual void GenerateRegex(std::string line) override;
 };

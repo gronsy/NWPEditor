@@ -12,6 +12,12 @@ CppLanguage::CppLanguage(bool is_clang/*=false*/)
 	language_id = SCLEX_CPP;
 }
 
+CppLanguage::~CppLanguage()
+{
+	
+}
+
+
 void CppLanguage::InitializeCLanguage()
 {
 	keywords = L"auto break case char const continue delete do double "

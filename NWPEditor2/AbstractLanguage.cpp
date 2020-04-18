@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "AbstractLanguage.h"
 
+AbstractLanguage::~AbstractLanguage()
+{
+	
+}
+
+
 std::wstring AbstractLanguage::GetFileExtension() { return file_extension; }
 
 std::wstring AbstractLanguage::GetKeywords() { return keywords; }
@@ -22,4 +28,9 @@ bool AbstractLanguage::CheckIfFunction(std::string line, std::regex language_reg
 bool AbstractLanguage::CheckIfVariable(std::string line, std::regex language_regex)
 {
 	return false;
+}
+
+std::string AbstractLanguage::ReplaceInstances(std::string document_text, std::string replace_to)
+{
+	return "";
 }

@@ -363,21 +363,22 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 {
 	const int line = GetCurrentLineNumber();
 	const int line_length = SendEditor(SCI_LINELENGTH, line);
-	char* buffer = new char[line_length];
+	char* line_to_rename = new char[line_length];
 
 	const auto document_text = GetAllDocumentText();
 
 	try {
-		SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(buffer));
-		RegexHandler^ regexHandler = gcnew RegexHandler();
-		regexHandler->GenerateRegex(language, buffer);
-		const auto replaced_text = regexHandler->ReplaceInstances(document_text, std::string(CT2CA(renameTo)));
+		SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(line_to_rename));
+
+		m_current_language->GenerateRegex(line_to_rename);
+		const std::string replaced_text=
+			m_current_language->ReplaceInstances(document_text, std::string(CT2CA(renameTo)));
 		WriteToFile(replaced_text);
 	}
 	catch (EmptyFunctionNameException & e) {
-		delete[] buffer;
+		delete[] line_to_rename;
 		throw;
 	}
 
-	delete[] buffer;
+	delete[] line_to_rename;
 }

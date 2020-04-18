@@ -116,7 +116,6 @@
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalOptions>/clr %(AdditionalOptions)</AdditionalOptions>
       <ExceptionHandling>Async</ExceptionHandling>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
@@ -188,7 +187,9 @@
     <ClInclude Include="Bookmark.h" />
     <ClInclude Include="BookmarkAddDlg.h" />
     <ClInclude Include="ColorPickDlg.h" />
-    <ClInclude Include="CppLanguage.h" />
+    <ClInclude Include="CppLanguage.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="EmptyFunctionNameException.h" />
     <ClInclude Include="IniCtrl.h" />
     <ClInclude Include="AbstractLanguage.h" />
@@ -196,8 +197,9 @@
     <ClInclude Include="NWPEditor2.h" />
     <ClInclude Include="NWPEditor2Doc.h" />
     <ClInclude Include="NWPEditor2View.h" />
-    <ClInclude Include="PythonLanguage.h" />
-    <ClInclude Include="RegexHandler.h" />
+    <ClInclude Include="PythonLanguage.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="RenameDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ScintillaCtrl.h" />
@@ -206,18 +208,23 @@
     <ClInclude Include="Tester.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractLanguage.cpp" />
+    <ClCompile Include="AbstractLanguage.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Bookmark.cpp" />
     <ClCompile Include="BookmarkAddDlg.cpp" />
     <ClCompile Include="ColorPickDlg.cpp" />
-    <ClCompile Include="CppLanguage.cpp" />
+    <ClCompile Include="CppLanguage.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="IniCtrl.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="NWPEditor2.cpp" />
     <ClCompile Include="NWPEditor2Doc.cpp" />
     <ClCompile Include="NWPEditor2View.cpp" />
-    <ClCompile Include="PythonLanguage.cpp" />
-    <ClCompile Include="RegexHandler.cpp" />
+    <ClCompile Include="PythonLanguage.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="RenameDlg.cpp" />
     <ClCompile Include="ScintillaCtrl.cpp" />
     <ClCompile Include="stdafx.cpp">
