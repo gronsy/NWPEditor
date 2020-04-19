@@ -362,11 +362,12 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 {
 	const int line = GetCurrentLineNumber();
 	const int line_length = SendEditor(SCI_LINELENGTH, line);
+	
+	const auto document_text = GetAllDocumentText();
 	char* line_to_rename = new char[line_length];
 
-	const auto document_text = GetAllDocumentText();
-
 	try {
+		
 		SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(line_to_rename));
 
 		m_current_language->GenerateRegex(line_to_rename);

@@ -5,7 +5,7 @@
 void WriteToFile(std::string input)
 {
 	std::ofstream ofstream_file;
-	ofstream_file.open("C:\\Users\\mhorvat\\Desktop\\test.cpp");
+	ofstream_file.open("C:\\Users\\horva\\Desktop\\test.cpp");
 	ofstream_file << input;
 	ofstream_file.close();
 }

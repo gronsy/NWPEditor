@@ -39,5 +39,10 @@ bool AbstractLanguage::CheckIfVariable(std::string line, std::regex language_reg
 
 std::string AbstractLanguage::ReplaceInstances(std::string document_text, std::string replace_to)
 {
-	return "";
+	this->replace_to = replace_to;
+	std::smatch matches;
+
+	std::string replaced_instances_text=std::regex_replace(document_text, regex_in_use, replace_to);
+	
+	return replaced_instances_text;
 }
