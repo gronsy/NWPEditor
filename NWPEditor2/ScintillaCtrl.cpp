@@ -157,7 +157,6 @@ void ScintillaCtrl::CutCopyPaste(int msg)const
 void ScintillaCtrl::RestoreDefaults()
 {
 	m_ini.WriteDefaultColours();
-	m_ini.WriteDefaultKeywords();
 	m_ini.WriteDefaultFont();
 }
 

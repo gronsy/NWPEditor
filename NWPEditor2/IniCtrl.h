@@ -13,7 +13,6 @@ class IniCtrl
 {
 protected:
 	std::wstring  m_keywords;
-	static std::wstring cpp_keywords, c_keywords, py_keywords;
 	int m_lang;
 	CString m_ini_path;
 
@@ -27,8 +26,7 @@ public:
 	void ChangeFont(const LOGFONT& lf, int size);
 	LOGFONT GetFontProps(bool widthHeight = false);
 	int GetFontHeight();
-
-	void WriteDefaultKeywords();
+	
 	void WriteDefaultColours();
 	void WriteDefaultFont();
 

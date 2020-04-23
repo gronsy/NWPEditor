@@ -1,41 +1,19 @@
 #include "stdafx.h"
 #include "IniCtrl.h"
 
-std::wstring IniCtrl::cpp_keywords = L"asm auto bool break case catch char class const "
-"dynamic_cast else enum explicit extern false finally "
-"float for friend goto if inline int long mutable "
-"namespace new operator private protected public "
-"register reinterpret_cast register return short signed "
-"sizeof static static_cast struct switch template "
-"this throw true try typedef typeid typename "
-"union unsigned using virtual void volatile "
-"wchar_t while";
-
-std::wstring IniCtrl::c_keywords = L"auto break case char const continue delete do double "
-"else enum explicit float for goto if int long register "
-"return short signed sizeof static struct switch typedef while";
-
-std::wstring IniCtrl::py_keywords = L"False class finally is return None continue for lambda "
-"try True def from nonlocal while and del global not "
-"with as elif if or yield assert else import pass "
-"break except in raise";
-
 IniCtrl::IniCtrl(bool init/*=true*/)
 {
+	m_keywords = L"";
+	m_lang = SCLEX_NULL;
+	
 	if (init)
 	{
-		m_keywords = L"";
-
 		if (GetFileAttributesA("config") == INVALID_FILE_ATTRIBUTES)
 			CreateDirectoryA("config", NULL);
 
 		m_ini_path.LoadStringW(IDS_INI_COLOR_PATH);
 		if (!PathFileExists(m_ini_path))
 			WriteDefaultColours();
-
-		m_ini_path.LoadStringW(IDS_INI_KW_PATH);
-		if (!PathFileExists(m_ini_path))
-			WriteDefaultKeywords();
 
 		m_ini_path.LoadStringW(IDS_INI_FONT_PATH);
 		if (!PathFileExists(m_ini_path))
@@ -50,14 +28,6 @@ IniCtrl::~IniCtrl()
 void IniCtrl::SetKeywords(std::wstring keywords)
 {
 	m_keywords = keywords;
-}
-
-void IniCtrl::WriteDefaultKeywords()
-{
-	m_ini_path.LoadString(IDS_INI_KW_PATH);
-	WritePrivateProfileString(_T("keywords"), _T("cpp"), cpp_keywords.c_str(), m_ini_path);
-	WritePrivateProfileString(_T("keywords"), _T("c"), c_keywords.c_str(), m_ini_path);
-	WritePrivateProfileString(_T("keywords"), _T("python"), py_keywords.c_str(), m_ini_path);
 }
 
 void IniCtrl::WriteDefaultFont()
