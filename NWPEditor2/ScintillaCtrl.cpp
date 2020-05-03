@@ -359,6 +359,9 @@ std::string ScintillaCtrl::GetAllDocumentText()
 
 void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int language)
 {
+	if (m_current_language->GetLanguageId() == SCLEX_NULL)
+		return;
+	
 	const int line = GetCurrentLineNumber();
 	const int line_length = SendEditor(SCI_LINELENGTH, line);
 	

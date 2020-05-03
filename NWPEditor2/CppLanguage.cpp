@@ -42,13 +42,16 @@ void CppLanguage::ExtractFunctionName(std::string line)
 
 	if (filter == ':') {
 		function_name = line;
+
+		if(function_name.find('(')!=std::string::npos){
+			function_name = function_name.substr(STRING_BEGINNING, function_name.find('('));
+		}
+		
 		while (function_name.find(':') != std::string::npos)
-			function_name = line.substr(function_name.find(filter) + offset, function_name.find('('));
+			function_name = function_name.substr(function_name.find(filter) + offset, function_name.find('('));
 	}
 	else
 		function_name = line.substr(line.find(filter) + offset, line.find('('));
-
-	function_name = function_name.substr(STRING_BEGINNING, function_name.find('('));
 
 	name_to_replace = function_name;
 }
