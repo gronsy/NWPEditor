@@ -4,3 +4,5 @@
 //
 
 #include "pch.h"
+
+#include "../NWPEditor2/CppLanguage.h"
