@@ -6,3 +6,7 @@
 #include "pch.h"
 
 #include "../NWPEditor2/CppLanguage.h"
+
+class CppLanguageTest : public ::testing::Test
+{
+};
