@@ -7,6 +7,15 @@
 
 #include "../NWPEditor2/CppLanguage.h"
 
-class CppLanguageTest : public ::testing::Test
+struct CppLanguageTest : public ::testing::Test
 {
+public:
+	CppLanguage cpp_language;
+	CppLanguageTest(bool is_clang = false) :cpp_language(is_clang)
+	{
+	}
 };
+
+TEST_F(CppLanguageTest, ReturnsCorrectValueAfterRenameCpp)
+{
+}
