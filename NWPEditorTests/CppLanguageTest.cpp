@@ -6,6 +6,9 @@
 #include "pch.h"
 
 #include "../NWPEditor2/CppLanguage.h"
+#include "../NWPEditor2/CppLanguage.cpp"
+#include "../NWPEditor2/AbstractLanguage.h"
+#include "../NWPEditor2/AbstractLanguage.cpp"
 
 struct CppLanguageTest : public ::testing::Test
 {
