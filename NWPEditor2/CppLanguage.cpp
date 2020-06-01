@@ -58,7 +58,7 @@ void CppLanguage::ExtractFunctionName(std::string line)
 
 void CppLanguage::GenerateRegex(std::string line)
 {
-	line = line.substr(STRING_BEGINNING, line.find("\n") + ERASE_OFFSET);
+	const std::string cleared_line = CleanStringOfGarbage(line);
 
 	/*Regex^ cregex_function_definition = gcnew Regex(msclr::interop::marshal_as<System::String^>(".*(::)?.*\((\r?\n?).*\)\{?(.*\}|;)?\r?\n?"));
 	Regex^ cregex_function_call = gcnew Regex(msclr::interop::marshal_as<System::String^>(".*?.*\(\)?;?"));*/

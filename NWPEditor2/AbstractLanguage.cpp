@@ -22,7 +22,7 @@ int AbstractLanguage::GetLanguageId() { return language_id; }
 
 bool AbstractLanguage::CheckIfFunction(std::string line, std::regex language_regex, bool is_call)
 {
-	auto is_match = std::regex_match(line, language_regex);
+	const bool is_match = std::regex_match(line, language_regex);
 	if (is_match && is_call)
 		is_function_call = is_call;
 
@@ -45,4 +45,12 @@ std::string AbstractLanguage::ReplaceInstances(std::string document_text, std::s
 	std::string replaced_instances_text=std::regex_replace(document_text, regex_in_use, replace_to);
 	
 	return replaced_instances_text;
+}
+
+std::string AbstractLanguage::CleanStringOfGarbage(std::string line)
+{
+	if (line.find("\n") != std::string::npos)
+		return line.substr(STRING_BEGINNING, line.find("\n") + ERASE_OFFSET);
+	
+	return line;
 }
