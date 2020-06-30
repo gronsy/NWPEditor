@@ -18,7 +18,7 @@ namespace CppUnitTests
 	public:
 		CppLanguage cpp_language;
 		CppLanguageTest(bool is_clang = false) :
-			cpp_language(is_clang), new_method_name("new_test_name")
+			new_method_name("new_test_name"), cpp_language(is_clang)
 		{
 		}
 	};

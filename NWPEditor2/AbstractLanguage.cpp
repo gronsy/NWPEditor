@@ -39,12 +39,12 @@ bool AbstractLanguage::CheckIfVariable(std::string line, std::regex language_reg
 
 std::string AbstractLanguage::ReplaceInstances(std::string document_text, std::string replace_to)
 {
-	this->replace_to = replace_to;
-	std::smatch matches;
-
-	std::string replaced_instances_text=std::regex_replace(document_text, regex_in_use, replace_to);
+	std::sregex_token_iterator begin_iterator(document_text.begin(), document_text.end(), regex_in_use, {-1, 0}), end_iterator;
+	std::for_each(begin_iterator, end_iterator, [&](const std::string& matched_line){
+		
+	});
 	
-	return replaced_instances_text;
+	return document_text;
 }
 
 std::string AbstractLanguage::CleanStringOfGarbage(std::string line)
