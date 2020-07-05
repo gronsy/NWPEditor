@@ -28,7 +28,7 @@ namespace CppUnitTests
 		const std::string function_definition_line_cpp = "void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int language)";
 		cpp_language.GenerateRegex(function_definition_line_cpp);
 		const std::string renamed_method_name =
-			cpp_language.ReplaceInstances(function_definition_line_cpp, new_method_name);
+			cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
 
 		EXPECT_EQ(renamed_method_name, "void ScintillaCtrl::" + new_method_name + "(const CString& renameTo, int language)");
 	}

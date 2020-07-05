@@ -37,14 +37,17 @@ bool AbstractLanguage::CheckIfVariable(std::string line, std::regex language_reg
 	return false;
 }
 
-std::string AbstractLanguage::ReplaceInstances(std::string document_text, std::string replace_to)
+std::string AbstractLanguage::ReplaceCurrentLineNameIfMatched(std::string line_to_change, std::string replace_to) const
 {
-	std::sregex_token_iterator begin_iterator(document_text.begin(), document_text.end(), regex_in_use, {-1, 0}), end_iterator;
-	std::for_each(begin_iterator, end_iterator, [&](const std::string& matched_line){
-		
-	});
+	if(std::regex_match(line_to_change, regex_in_use))
+	{
+		std::string new_line_text = line_to_change.replace(line_to_change.find(line_to_change),
+											  line_to_change.find('('), name_to_replace);
+
+		return new_line_text;
+	}
 	
-	return document_text;
+	return "";
 }
 
 std::string AbstractLanguage::CleanStringOfGarbage(std::string line)

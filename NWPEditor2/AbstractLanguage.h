@@ -31,7 +31,7 @@ protected:
 	std::wstring GetKeywords();
 	int GetLanguageId();
 
-	std::string ReplaceInstances(std::string document_text, std::string replace_to);
+	std::string ReplaceCurrentLineNameIfMatched(std::string line_to_change, std::string replace_to) const;
 	
 	virtual ~AbstractLanguage();
 	virtual void GenerateRegex(std::string line) = 0;

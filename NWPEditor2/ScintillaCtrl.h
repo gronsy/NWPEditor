@@ -9,6 +9,7 @@
 #define PRINT_OVERFLOW		7
 #define MARGIN_PIXEL_WIDTH	16
 #define PRINTING_LINE_FIT	30
+#define LINE_LENGTH_DEFAULT 1024
 
 //Message defines
 #define MSG_COPY			100
@@ -38,6 +39,7 @@ protected:
 	void SetAStyle(int style, COLORREF fore, COLORREF back = RGB(255, 255, 255), int size = NULL, const std::wstring& face = L"")const;
 	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL) const;
 	int GetCurrentLineNumber();
+	void RenameFunctionOrVariable(std::string rename_to) const;
 public:
 	ScintillaCtrl();
 	~ScintillaCtrl();
@@ -71,7 +73,7 @@ public:
 	void GiveBookmarkInfo(const std::wstring& filePath, const std::wstring& bookmarkName);
 	void LoadBookmarks(CMenu* menu, const std::wstring& fileName);
 	std::string GetAllDocumentText();
-	void RenameVariableOrFunction(const CString& renameTo, int language);
+	void RenameVariableOrFunction(const CString& rename_to, int language);
 	void SetWorkingFile(CString file_path);
 	unsigned GetCurrentLanguageId()const;
 	std::wstring GetCurrentLanguageExtension()const;

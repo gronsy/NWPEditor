@@ -292,7 +292,7 @@ void ScintillaCtrl::Print(CDC* pDC, int page)
 
 	while (m_print_info.lines_printed < m_print_info.lines_per_page && !EditorIsEmpty())
 	{
-		int line_length = SendEditor(SCI_LINELENGTH, cur_line);
+		const int line_length = SendEditor(SCI_LINELENGTH, cur_line);
 
 		char* buffer = new char[line_length + 1];
 		SendEditor(SCI_GETLINE, cur_line, reinterpret_cast<LPARAM>(buffer));
@@ -335,7 +335,7 @@ void ScintillaCtrl::SetWorkingFile(CString file_path)
 
 std::string ScintillaCtrl::GetAllDocumentText()
 {
-	const auto line_count = SendEditor(SCI_GETLINECOUNT, NULL);
+	const int line_count = SendEditor(SCI_GETLINECOUNT, NULL);
 
 	std::ifstream input_file_stream(m_working_file, std::ifstream::ate | std::ifstream::binary);
 	if (!input_file_stream.is_open())
@@ -357,7 +357,27 @@ std::string ScintillaCtrl::GetAllDocumentText()
 	return document_text;
 }
 
-void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int language)
+void ScintillaCtrl::RenameFunctionOrVariable(std::string rename_to) const
+{
+	const int line_count=SendEditor(SCI_GETLINECOUNT, NULL);
+
+	for(int current_line=0; current_line<line_count; ++current_line)
+	{
+		char* line_buffer{new char[LINE_LENGTH_DEFAULT]};
+		SendEditor(SCI_GETLINE, current_line, static_cast<LPARAM>(current_line));
+
+		const std::string current_line_text{ current_line };
+		delete[] line_buffer;
+
+		const std::string new_line_text = m_current_language->ReplaceCurrentLineNameIfMatched(current_line_text, rename_to);
+		if(new_line_text != "")
+		{
+			
+		}
+	}
+}
+
+void ScintillaCtrl::RenameVariableOrFunction(const CString& rename_to, int language)
 {
 	if (m_current_language->GetLanguageId() == SCLEX_NULL)
 		return;
@@ -374,7 +394,7 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& renameTo, int langua
 
 		m_current_language->GenerateRegex(line_to_rename);
 		const std::string replaced_text=
-			m_current_language->ReplaceInstances(document_text, std::string(CT2CA(renameTo)));
+			m_current_language->ReplaceCurrentLineNameIfMatched(document_text, std::string(CT2CA(rename_to)));
 		WriteToFile(replaced_text);
 	}
 	catch (EmptyFunctionNameException & e) {
