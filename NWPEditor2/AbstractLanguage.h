@@ -25,13 +25,14 @@ protected:
 	std::string CleanStringOfGarbage(std::string line);
 	
 	virtual void ExtractFunctionName(std::string line) = 0;
+	virtual std::string ReplaceName(const std::string& line_text)=0;
 	
 	public:
 	std::wstring GetFileExtension();
 	std::wstring GetKeywords();
 	int GetLanguageId();
 
-	std::string ReplaceCurrentLineNameIfMatched(std::string line_to_change, std::string replace_to) const;
+	std::string ReplaceCurrentLineNameIfMatched(const std::string& line_to_change, std::string replace_to);
 	
 	virtual ~AbstractLanguage();
 	virtual void GenerateRegex(std::string line) = 0;

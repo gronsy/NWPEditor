@@ -9,7 +9,9 @@
 class CppLanguage : public AbstractLanguage
 {
 protected:
-	virtual void ExtractFunctionName(std::string line)override;
+	virtual void ExtractFunctionName(std::string line) override;
+	virtual std::string ReplaceName(const std::string& line_text) override;
+	
 	std::wstring GetCKeywords();
 	std::wstring GetCppKeywords();
 public:

@@ -37,12 +37,14 @@ bool AbstractLanguage::CheckIfVariable(std::string line, std::regex language_reg
 	return false;
 }
 
-std::string AbstractLanguage::ReplaceCurrentLineNameIfMatched(std::string line_to_change, std::string replace_to) const
+std::string AbstractLanguage::ReplaceCurrentLineNameIfMatched(const std::string& line_to_change, std::string replace_to)
 {
 	if(std::regex_match(line_to_change, regex_in_use))
 	{
-		std::string new_line_text = line_to_change.replace(line_to_change.find(line_to_change),
-											  line_to_change.find('('), name_to_replace);
+		// std::string new_line_text = line_to_change.replace(line_to_change.find(name_to_replace),
+		// 									  line_to_change.find('(') - ERASE_OFFSET, replace_to);
+
+		std::string new_line_text = ReplaceName(line_to_change);
 
 		return new_line_text;
 	}

@@ -28,3 +28,9 @@ std::wstring PythonLanguage::GetPythonKeywords()
 {
 	return L"";
 }
+
+std::string PythonLanguage::ReplaceName(const std::string& line_text)
+{
+	return "";
+}
+

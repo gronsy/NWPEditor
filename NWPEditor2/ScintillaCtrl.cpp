@@ -361,20 +361,24 @@ void ScintillaCtrl::RenameFunctionOrVariable(std::string rename_to) const
 {
 	const int line_count=SendEditor(SCI_GETLINECOUNT, NULL);
 
+	std::string new_document_text;
 	for(int current_line=0; current_line<line_count; ++current_line)
 	{
 		char* line_buffer{new char[LINE_LENGTH_DEFAULT]};
 		SendEditor(SCI_GETLINE, current_line, static_cast<LPARAM>(current_line));
 
-		const std::string current_line_text{ current_line };
+		const std::string current_line_text{ line_buffer };
 		delete[] line_buffer;
 
 		const std::string new_line_text = m_current_language->ReplaceCurrentLineNameIfMatched(current_line_text, rename_to);
+		
 		if(new_line_text != "")
-		{
-			
-		}
+			new_document_text+=new_line_text;
+		else
+			new_document_text+=current_line_text;
 	}
+
+	SendEditor(SCI_SETTEXT, NULL, reinterpret_cast<LPARAM>(new_document_text.c_str()));
 }
 
 void ScintillaCtrl::RenameVariableOrFunction(const CString& rename_to, int language)

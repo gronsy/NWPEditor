@@ -78,3 +78,8 @@ void CppLanguage::GenerateRegex(std::string line)
 		regex_in_use = std::regex(".*(::)?" + name_to_replace + R"(\(.*\)\{?(.*\}|;)?\r?\n?)");
 	}
 }
+
+std::string CppLanguage::ReplaceName(const std::string& line_text)
+{
+	return "";
+}
