@@ -44,7 +44,7 @@ std::string AbstractLanguage::ReplaceCurrentLineNameIfMatched(const std::string&
 		// std::string new_line_text = line_to_change.replace(line_to_change.find(name_to_replace),
 		// 									  line_to_change.find('(') - ERASE_OFFSET, replace_to);
 
-		std::string new_line_text = ReplaceName(line_to_change);
+		std::string new_line_text = ReplaceName(line_to_change, replace_to);
 
 		return new_line_text;
 	}

@@ -29,7 +29,7 @@ std::wstring PythonLanguage::GetPythonKeywords()
 	return L"";
 }
 
-std::string PythonLanguage::ReplaceName(const std::string& line_text)
+std::string PythonLanguage::ReplaceName(const std::string& line_text, const std::string& replace_to)
 {
 	return "";
 }

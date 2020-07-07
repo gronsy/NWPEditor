@@ -79,7 +79,25 @@ void CppLanguage::GenerateRegex(std::string line)
 	}
 }
 
-std::string CppLanguage::ReplaceName(const std::string& line_text)
+std::string CppLanguage::ReplaceName(const std::string& line_text, const std::string& replace_to)
 {
-	return "";
+	const int name_beginning_index = line_text.find(name_to_replace);
+	const int name_end_index = line_text.find('(') != std::string::npos ?
+													line_text.find('(') : line_text.find('\n'); 
+	std::string new_line_text{ line_text };
+
+	if(is_function_call)
+	{
+		int replace_to_index = 0;
+		for(int iterating_index = name_beginning_index; iterating_index < name_end_index; ++iterating_index, ++replace_to_index)
+		{
+			new_line_text[iterating_index] = replace_to[replace_to_index];
+			if(replace_to_index >= replace_to.length())
+			{
+				new_line_text.erase(iterating_index, NUMBER_OF_CHARS_TO_DELETE_ON_RENAME);
+			}
+		}
+	}
+	
+	return new_line_text;
 }

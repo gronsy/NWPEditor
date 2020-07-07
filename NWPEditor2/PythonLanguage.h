@@ -5,7 +5,7 @@
 class PythonLanguage :public AbstractLanguage
 {
 	virtual void ExtractFunctionName(std::string line) override;
-	virtual std::string ReplaceName(const std::string& line_text) override;
+	virtual std::string ReplaceName(const std::string& line_text, const std::string& replace_to) override;
 public:
 	PythonLanguage();
 	virtual ~PythonLanguage() override;

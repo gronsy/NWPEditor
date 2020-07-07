@@ -5,12 +5,11 @@
 #include "EmptyFunctionNameException.h"
 
 
-
 class CppLanguage : public AbstractLanguage
 {
 protected:
 	virtual void ExtractFunctionName(std::string line) override;
-	virtual std::string ReplaceName(const std::string& line_text) override;
+	virtual std::string ReplaceName(const std::string& line_text, const std::string& replace_to) override;
 	
 	std::wstring GetCKeywords();
 	std::wstring GetCppKeywords();

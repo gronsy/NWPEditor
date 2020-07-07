@@ -7,6 +7,7 @@
 #define ITERATOR_SPACE_OFFSET 1
 #define ERASE_OFFSET 1
 #define STRING_BEGINNING 0
+#define NUMBER_OF_CHARS_TO_DELETE_ON_RENAME 1
 
 class AbstractLanguage
 {
@@ -25,7 +26,7 @@ protected:
 	std::string CleanStringOfGarbage(std::string line);
 	
 	virtual void ExtractFunctionName(std::string line) = 0;
-	virtual std::string ReplaceName(const std::string& line_text)=0;
+	virtual std::string ReplaceName(const std::string& line_text, const std::string& replace_to)=0;
 	
 	public:
 	std::wstring GetFileExtension();
