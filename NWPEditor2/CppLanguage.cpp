@@ -63,8 +63,8 @@ void CppLanguage::GenerateRegex(std::string line)
 	/*Regex^ cregex_function_definition = gcnew Regex(msclr::interop::marshal_as<System::String^>(".*(::)?.*\((\r?\n?).*\)\{?(.*\}|;)?\r?\n?"));
 	Regex^ cregex_function_call = gcnew Regex(msclr::interop::marshal_as<System::String^>(".*?.*\(\)?;?"));*/
 
-	std::regex cregex_function_definition = std::regex(R"(.*(::)?.*\((\r?\n?).*\)\{?(.*\}|;)?\r?\n?)");
-	std::regex cregex_function_call = std::regex(R"(.*?.*\(\)?;?)");
+	const std::regex cregex_function_definition = std::regex(R"(.*(::)?.*\((\r?\n?).*\)\{?(.*\}|;)?\r?\n?)");
+	const std::regex cregex_function_call = std::regex(R"(.*?.*\(\)?;?)");
 
 	if (CheckIfFunction(line, cregex_function_definition, false) || CheckIfFunction(line, cregex_function_call, true))
 	{
