@@ -60,9 +60,6 @@ void CppLanguage::GenerateRegex(std::string line)
 {
 	const std::string cleared_line = CleanStringOfGarbage(line);
 
-	/*Regex^ cregex_function_definition = gcnew Regex(msclr::interop::marshal_as<System::String^>(".*(::)?.*\((\r?\n?).*\)\{?(.*\}|;)?\r?\n?"));
-	Regex^ cregex_function_call = gcnew Regex(msclr::interop::marshal_as<System::String^>(".*?.*\(\)?;?"));*/
-
 	const std::regex cregex_function_definition = std::regex(R"(.*(::)?.*\((\r?\n?).*\)\{?(.*\}|;)?\r?\n?)");
 	const std::regex cregex_function_call = std::regex(R"(.*?.*\(\)?;?)");
 
@@ -72,9 +69,7 @@ void CppLanguage::GenerateRegex(std::string line)
 
 		if (name_to_replace == "")
 			throw EmptyFunctionNameException("Function name not found.");
-
-		/*regex_in_use = gcnew Regex(
-			msclr::interop::marshal_as<System::String^>(".*(::)?" + name_to_replace + "\(.*\)\{?(.*\}|;)?\r?\n?"));*/
+		
 		regex_in_use = std::regex(".*(::)?" + name_to_replace + R"(\(.*\)\{?(.*\}|;)?\r?\n?)");
 	}
 }
@@ -86,7 +81,7 @@ std::string CppLanguage::ReplaceName(const std::string& line_text, const std::st
 													line_text.find('(') : line_text.find('\n'); 
 	std::string new_line_text{ line_text };
 
-	if(is_function_call)
+	if(is_function)
 	{
 		int replace_to_index = 0;
 		for(int iterating_index = name_beginning_index; iterating_index < name_end_index; ++iterating_index, ++replace_to_index)
@@ -94,7 +89,8 @@ std::string CppLanguage::ReplaceName(const std::string& line_text, const std::st
 			new_line_text[iterating_index] = replace_to[replace_to_index];
 			if(replace_to_index >= replace_to.length())
 			{
-				new_line_text.erase(iterating_index, NUMBER_OF_CHARS_TO_DELETE_ON_RENAME);
+				new_line_text.erase(iterating_index, name_end_index - iterating_index);
+				break;
 			}
 		}
 	}

@@ -14,7 +14,7 @@ class AbstractLanguage
 protected:
 	std::string name_to_replace;
 	std::regex regex_in_use;
-	bool is_function_call;
+	bool is_function_call, is_function;
 	std::wstring file_extension;
 	std::wstring keywords;
 	int language_id;

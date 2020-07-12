@@ -23,11 +23,9 @@ int AbstractLanguage::GetLanguageId() { return language_id; }
 bool AbstractLanguage::CheckIfFunction(std::string line, std::regex language_regex, bool is_call)
 {
 	const bool is_match = std::regex_match(line, language_regex);
-	if (is_match && is_call)
-		is_function_call = is_call;
-
-	if (!is_call)
-		is_function_call = false;
+	
+	is_function=is_match;
+	is_function_call = is_call;
 
 	return is_match;
 }
