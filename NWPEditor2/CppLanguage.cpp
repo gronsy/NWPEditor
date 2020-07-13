@@ -2,15 +2,13 @@
 #pragma once
 #include "CppLanguage.h"
 
-CppLanguage::CppLanguage(bool is_clang/*=false*/):
-AbstractLanguage(is_clang?GetCKeywords(): GetCppKeywords(), is_clang?L"c": L"cpp", SCLEX_CPP)
+CppLanguage::CppLanguage(bool is_clang/*=false*/) :
+	AbstractLanguage(is_clang ? GetCKeywords() : GetCppKeywords(), is_clang ? L"c" : L"cpp", SCLEX_CPP)
 {}
 
 CppLanguage::~CppLanguage()
 {
-	
 }
-
 
 std::wstring CppLanguage::GetCKeywords()
 {
@@ -43,10 +41,10 @@ void CppLanguage::ExtractFunctionName(std::string line)
 	if (filter == ':') {
 		function_name = line;
 
-		if(function_name.find('(')!=std::string::npos){
+		if (function_name.find('(') != std::string::npos) {
 			function_name = function_name.substr(STRING_BEGINNING, function_name.find('('));
 		}
-		
+
 		while (function_name.find(':') != std::string::npos)
 			function_name = function_name.substr(function_name.find(filter) + offset, function_name.find('('));
 	}
@@ -69,7 +67,7 @@ void CppLanguage::GenerateRegex(std::string line)
 
 		if (name_to_replace == "")
 			throw EmptyFunctionNameException("Function name not found.");
-		
+
 		regex_in_use = std::regex(".*(::)?" + name_to_replace + R"(\(.*\)\{?(.*\}|;)?\r?\n?)");
 	}
 }
@@ -78,22 +76,22 @@ std::string CppLanguage::ReplaceName(const std::string& line_text, const std::st
 {
 	const int name_beginning_index = line_text.find(name_to_replace);
 	const int name_end_index = line_text.find('(') != std::string::npos ?
-													line_text.find('(') : line_text.find('\n'); 
+		line_text.find('(') : line_text.find('\n');
 	std::string new_line_text{ line_text };
 
-	if(is_function)
+	if (is_function)
 	{
 		int replace_to_index = 0;
-		for(int iterating_index = name_beginning_index; iterating_index < name_end_index; ++iterating_index, ++replace_to_index)
+		for (int iterating_index = name_beginning_index; iterating_index < name_end_index; ++iterating_index, ++replace_to_index)
 		{
 			new_line_text[iterating_index] = replace_to[replace_to_index];
-			if(replace_to_index >= replace_to.length())
+			if (replace_to_index >= replace_to.length())
 			{
-				new_line_text.erase(iterating_index, name_end_index - iterating_index);
+				new_line_text.erase(iterating_index, static_cast<size_t>(name_end_index) - iterating_index);
 				break;
 			}
 		}
 	}
-	
+
 	return new_line_text;
 }
