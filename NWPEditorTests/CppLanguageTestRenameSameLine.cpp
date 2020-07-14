@@ -72,7 +72,7 @@ namespace CppUnitTests
 			const std::string renamed_method_name =
                 cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
 
-			EXPECT_EQ(renamed_method_name, "void " + new_method_name + "(const CString& renameTo, int language){");
+			EXPECT_EQ(renamed_method_name, "void " + new_method_name + "(const CString& renameTo, int language);");
 		}
 	}
 

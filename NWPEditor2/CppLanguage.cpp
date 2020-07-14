@@ -49,7 +49,10 @@ void CppLanguage::ExtractFunctionName(std::string line)
 			function_name = function_name.substr(function_name.find(filter) + offset, function_name.find('('));
 	}
 	else
-		function_name = line.substr(line.find(filter) + offset, line.find('('));
+	{
+		const int filter_index = line.find(filter);
+		function_name = line.substr(filter_index + offset, line.find('(')-filter_index-ERASE_OFFSET);
+	}
 
 	name_to_replace = function_name;
 }
