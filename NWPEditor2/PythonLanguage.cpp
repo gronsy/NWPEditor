@@ -24,6 +24,11 @@ void PythonLanguage::GenerateRegex(std::string line)
 	
 }
 
+void PythonLanguage::SetIsFunctionCall(const std::string line)
+{
+	
+}
+
 std::wstring PythonLanguage::GetPythonKeywords()
 {
 	return L"";

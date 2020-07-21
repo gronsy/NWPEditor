@@ -13,6 +13,7 @@ protected:
 	
 	std::wstring GetCKeywords();
 	std::wstring GetCppKeywords();
+	virtual void SetIsFunctionCall(const std::string line) override;
 public:
 	CppLanguage(bool is_clang = false);
 	virtual ~CppLanguage() override;

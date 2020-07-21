@@ -74,6 +74,16 @@ namespace CppUnitTests
 
 			EXPECT_EQ(renamed_method_name, "void " + new_method_name + "(const CString& renameTo, int language);");
 		}
+
+		TEST_F(CppLanguageTestRenameSameLine, RenameCppWithTemplateMethodCallInOneLine)
+		{
+			const std::string function_definition_line_cpp = "RenameVariableOrFunction<int>(const CString& renameTo, int language);";
+			cpp_language.GenerateRegex(function_definition_line_cpp);
+			const std::string renamed_method_name =
+                cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
+
+			EXPECT_EQ(renamed_method_name, new_method_name + "<int>(const CString& renameTo, int language);");
+		}
 	}
 
 	namespace RenameDifferentLinesBasedOnThePickedLineName

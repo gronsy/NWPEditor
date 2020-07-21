@@ -26,7 +26,8 @@ protected:
 	std::string CleanStringOfGarbage(std::string line);
 	
 	virtual void ExtractFunctionName(std::string line) = 0;
-	virtual std::string ReplaceName(const std::string& line_text, const std::string& replace_to)=0;
+	virtual std::string ReplaceName(const std::string& line_text, const std::string& replace_to) = 0;
+	virtual void SetIsFunctionCall(const std::string line) = 0;
 	
 	public:
 	std::wstring GetFileExtension();

@@ -57,14 +57,23 @@ void CppLanguage::ExtractFunctionName(std::string line)
 	name_to_replace = function_name;
 }
 
+void CppLanguage::SetIsFunctionCall(const std::string line)
+{
+	is_function_call=false;
+
+	if(line.find_first_of(' ') > line.find_first_of('('))
+		is_function_call = true;
+}
+
 void CppLanguage::GenerateRegex(std::string line)
 {
 	const std::string cleared_line = CleanStringOfGarbage(line);
 
-	const std::regex cregex_function_definition = std::regex(R"(.*(::)?.*\((\r?\n?).*\)\{?(.*\}|;)?\r?\n?)");
-	const std::regex cregex_function_call = std::regex(R"(.*?.*\(\)?;?)");
+	const std::regex cregex_function_definition_regex = std::regex(R"(.*(::)?.*\((\r?\n?).*\)\{?(.*\}|;)?\r?\n?)");
+	const std::regex cregex_function_call_regex = std::regex(R"(.*?.*\(\)?;?)");
 
-	if (CheckIfFunction(line, cregex_function_definition, false) || CheckIfFunction(line, cregex_function_call, true))
+	SetIsFunctionCall(line);
+	if (CheckIfFunction(line, cregex_function_definition_regex, false) || CheckIfFunction(line, cregex_function_call_regex, true))
 	{
 		ExtractFunctionName(line);
 
