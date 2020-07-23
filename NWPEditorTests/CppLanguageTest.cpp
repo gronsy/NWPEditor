@@ -84,6 +84,8 @@ namespace CppUnitTests
 
 			EXPECT_EQ(renamed_method_name, new_method_name + "<int>(const CString& renameTo, int language);");
 		}
+
+		//TODO: add template calls with namespaces
 	}
 
 	namespace RenameDifferentLinesBasedOnThePickedLineName

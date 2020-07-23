@@ -22,14 +22,14 @@ protected:
 protected:
 	AbstractLanguage(std::wstring keywords, std::wstring file_extenstion, int language_id);
 	bool CheckIfVariable(std::string line, std::regex language_regex);
-	bool CheckIfFunction(std::string line, std::regex lang_regex, bool is_call);
+	bool CheckIfFunction(std::string line, std::regex lang_regex);
 	std::string CleanStringOfGarbage(std::string line);
 	
 	virtual void ExtractFunctionName(std::string line) = 0;
 	virtual std::string ReplaceName(const std::string& line_text, const std::string& replace_to) = 0;
 	virtual void SetIsFunctionCall(const std::string line) = 0;
 	
-	public:
+public:
 	std::wstring GetFileExtension();
 	std::wstring GetKeywords();
 	int GetLanguageId();

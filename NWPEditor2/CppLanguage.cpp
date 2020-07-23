@@ -3,7 +3,8 @@
 #include "CppLanguage.h"
 
 CppLanguage::CppLanguage(bool is_clang/*=false*/) :
-	AbstractLanguage(is_clang ? GetCKeywords() : GetCppKeywords(), is_clang ? L"c" : L"cpp", SCLEX_CPP)
+	AbstractLanguage(is_clang ? GetCKeywords() : GetCppKeywords(), is_clang ? L"c" : L"cpp", SCLEX_CPP),
+					is_template(false)
 {}
 
 CppLanguage::~CppLanguage()
@@ -30,23 +31,37 @@ std::wstring CppLanguage::GetCppKeywords()
 		"wchar_t while";
 }
 
+void CppLanguage::RemoveTypeIfTemplate(std::string& function_name)
+{
+	const int template_start_index = function_name.find('<');
+	is_template = false;
+
+	if(template_start_index != std::string::npos)
+	{
+		is_template = true;
+		function_name = function_name.substr(STRING_BEGINNING, function_name.find('<'));
+	}
+}
+
 void CppLanguage::ExtractFunctionName(std::string line)
 {
 	std::string function_name;
 
-	char filter = line.find(':') != std::string::npos ? ':' : ' ';
+	const char filter = line.find(':') != std::string::npos ? ':' : ' ';
 
-	int offset = filter == ':' ? ITERATOR_CLANG_COLON_OFFSET : ITERATOR_SPACE_OFFSET;
+	const int offset = filter == ':' ? ITERATOR_CLANG_COLON_OFFSET : ITERATOR_SPACE_OFFSET;
 
-	if (filter == ':') {
+	if (filter == ':' || is_function_call)
+	{
 		function_name = line;
 
-		if (function_name.find('(') != std::string::npos) {
+		if (function_name.find('(') != std::string::npos) 
 			function_name = function_name.substr(STRING_BEGINNING, function_name.find('('));
-		}
 
 		while (function_name.find(':') != std::string::npos)
 			function_name = function_name.substr(function_name.find(filter) + offset, function_name.find('('));
+
+		RemoveTypeIfTemplate(function_name);
 	}
 	else
 	{
@@ -73,22 +88,28 @@ void CppLanguage::GenerateRegex(std::string line)
 	const std::regex cregex_function_call_regex = std::regex(R"(.*?.*\(\)?;?)");
 
 	SetIsFunctionCall(line);
-	if (CheckIfFunction(line, cregex_function_definition_regex, false) || CheckIfFunction(line, cregex_function_call_regex, true))
+	if (CheckIfFunction(line, cregex_function_definition_regex) || CheckIfFunction(line, cregex_function_call_regex))
 	{
 		ExtractFunctionName(line);
 
 		if (name_to_replace == "")
 			throw EmptyFunctionNameException("Function name not found.");
 
-		regex_in_use = std::regex(".*(::)?" + name_to_replace + R"(\(.*\)\{?(.*\}|;)?\r?\n?)");
+		regex_in_use = std::regex(".*(::)?" + name_to_replace + R"(.*\(.*\)\{?(.*\}|;)?\r?\n?)");
 	}
 }
 
 std::string CppLanguage::ReplaceName(const std::string& line_text, const std::string& replace_to)
 {
 	const int name_beginning_index = line_text.find(name_to_replace);
-	const int name_end_index = line_text.find('(') != std::string::npos ?
-		line_text.find('(') : line_text.find('\n');
+	int name_end_index;
+
+	if(is_template)
+		name_end_index=line_text.find('<');
+	else
+		name_end_index = line_text.find('(') != std::string::npos ?
+					line_text.find('(') : line_text.find('\n');
+	
 	std::string new_line_text{ line_text };
 
 	if (is_function)

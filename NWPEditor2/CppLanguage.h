@@ -8,6 +8,9 @@
 class CppLanguage : public AbstractLanguage
 {
 protected:
+	bool is_template;
+protected:
+	void RemoveTypeIfTemplate(std::string& function_name);
 	virtual void ExtractFunctionName(std::string line) override;
 	virtual std::string ReplaceName(const std::string& line_text, const std::string& replace_to) override;
 	
