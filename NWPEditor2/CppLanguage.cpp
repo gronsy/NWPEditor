@@ -76,7 +76,10 @@ void CppLanguage::SetIsFunctionCall(const std::string line)
 {
 	is_function_call=false;
 
-	if(line.find_first_of(' ') > line.find_first_of('('))
+	size_t prenthesis_index = line.find_first_of('(');
+	if(line.find_first_of(' ') > prenthesis_index
+		|| line.find_first_of('.') < prenthesis_index
+		|| line.find_first_of("->") < prenthesis_index)
 		is_function_call = true;
 }
 
@@ -85,10 +88,10 @@ void CppLanguage::GenerateRegex(std::string line)
 	const std::string cleared_line = CleanStringOfGarbage(line);
 
 	const std::regex cregex_function_definition_regex = std::regex(R"(.*(::)?.*\((\r?\n?).*\)\{?(.*\}|;)?\r?\n?)");
-	const std::regex cregex_function_call_regex = std::regex(R"(.*?.*\(\)?;?)");
+	const std::regex cregex_function_call_regex = std::regex(R"(.*?.*\(.*\)?;?)");
 
 	SetIsFunctionCall(line);
-	if (CheckIfFunction(line, cregex_function_definition_regex) || CheckIfFunction(line, cregex_function_call_regex))
+	if (CheckIfFunction(line, cregex_function_definition_regex))
 	{
 		ExtractFunctionName(line);
 
