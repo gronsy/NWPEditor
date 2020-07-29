@@ -4,7 +4,7 @@
 
 CppLanguage::CppLanguage(bool is_clang/*=false*/) :
 	AbstractLanguage(is_clang ? GetCKeywords() : GetCppKeywords(), is_clang ? L"c" : L"cpp", SCLEX_CPP),
-					is_template(false)
+					is_template(false), is_dot_method_call(false), is_arrow_method_call(false)
 {}
 
 CppLanguage::~CppLanguage()
@@ -43,22 +43,33 @@ void CppLanguage::RemoveTypeIfTemplate(std::string& function_name)
 	}
 }
 
+std::string CppLanguage::DetermineFilter(const std::string line)
+{
+	if(is_dot_method_call)
+		return ".";
+
+	if(is_arrow_method_call)
+		return "->";
+
+	return line.find(':') != std::string::npos ? ":" : " ";
+}
+
 void CppLanguage::ExtractFunctionName(std::string line)
 {
 	std::string function_name;
+	
+	const std::string filter = DetermineFilter(line);
 
-	const char filter = line.find(':') != std::string::npos ? ':' : ' ';
+	const int offset = filter == ":" || filter== "->" ? ITERATOR_CLANG_COLON_OR_ARROW_OPERATOR_OFFSET : ITERATOR_SPACE_OR_DOT_OPERATOR_OFFSET;
 
-	const int offset = filter == ':' ? ITERATOR_CLANG_COLON_OFFSET : ITERATOR_SPACE_OFFSET;
-
-	if (filter == ':' || is_function_call)
+	if (filter == ":" || filter == "." || filter == "->" || is_function_call)
 	{
 		function_name = line;
 
 		if (function_name.find('(') != std::string::npos) 
 			function_name = function_name.substr(STRING_BEGINNING, function_name.find('('));
 
-		while (function_name.find(':') != std::string::npos)
+		while (function_name.find(filter) != std::string::npos)
 			function_name = function_name.substr(function_name.find(filter) + offset, function_name.find('('));
 
 		RemoveTypeIfTemplate(function_name);
@@ -76,11 +87,25 @@ void CppLanguage::SetIsFunctionCall(const std::string line)
 {
 	is_function_call=false;
 
-	size_t prenthesis_index = line.find_first_of('(');
-	if(line.find_first_of(' ') > prenthesis_index
-		|| line.find_first_of('.') < prenthesis_index
-		|| line.find_first_of("->") < prenthesis_index)
+	const size_t parenthesis_index = line.find_first_of('(');
+	const size_t dot_operator_index = line.find_first_of('.');
+	const size_t arrow_operator_index = line.find_first_of("->");
+	
+	if(line.find_first_of(' ') > parenthesis_index
+		|| dot_operator_index < parenthesis_index
+		|| arrow_operator_index < parenthesis_index)
+	{
+		if(dot_operator_index != std::string::npos)
+			is_dot_method_call = true;
+
+		if (arrow_operator_index != std::string::npos && line[arrow_operator_index + 1] == '>')
+		{
+			is_arrow_method_call = true;
+		}
+		
+
 		is_function_call = true;
+	}
 }
 
 void CppLanguage::GenerateRegex(std::string line)
