@@ -13,7 +13,6 @@ AbstractLanguage::~AbstractLanguage()
 	
 }
 
-
 std::wstring AbstractLanguage::GetFileExtension() { return file_extension; }
 
 std::wstring AbstractLanguage::GetKeywords() { return keywords; }

@@ -83,6 +83,10 @@ void CppLanguage::ExtractFunctionName(std::string line)
 	name_to_replace = function_name;
 }
 
+void CppLanguage::GetCursorLineName(const std::string current_line, int cursor_index)
+{
+}
+
 void CppLanguage::SetIsFunctionCall(const std::string line)
 {
 	is_function_call=false;
@@ -103,7 +107,6 @@ void CppLanguage::SetIsFunctionCall(const std::string line)
 			is_arrow_method_call = true;
 		}
 		
-
 		is_function_call = true;
 	}
 }

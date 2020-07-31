@@ -393,7 +393,6 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& rename_to, int langu
 	char* line_to_rename = new char[line_length];
 
 	try {
-		
 		SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(line_to_rename));
 
 		m_current_language->GenerateRegex(line_to_rename);

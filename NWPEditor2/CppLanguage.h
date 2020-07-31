@@ -26,4 +26,5 @@ public:
 	virtual ~CppLanguage() override;
 	
 	virtual void GenerateRegex(std::string line) override;
+	virtual void GetCursorLineName(const std::string current_line, int cursor_index) override;
 };
