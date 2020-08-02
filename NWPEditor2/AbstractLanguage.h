@@ -37,5 +37,5 @@ public:
 	
 	virtual ~AbstractLanguage();
 	virtual void GenerateRegex(std::string line) = 0;
-	virtual void GetCursorLineName(const std::string current_line, int cursor_index) = 0;
+	virtual std::string GetCursorLineName(const std::string current_line, int cursor_index) = 0;
 };

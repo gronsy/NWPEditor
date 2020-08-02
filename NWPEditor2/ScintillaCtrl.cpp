@@ -381,6 +381,17 @@ void ScintillaCtrl::RenameFunctionOrVariable(std::string rename_to) const
 	SendEditor(SCI_SETTEXT, NULL, reinterpret_cast<LPARAM>(new_document_text.c_str()));
 }
 
+//TODO: Implement mapping of caret index in the line string (without the indentation) 
+unsigned ScintillaCtrl::GetCaretIndexInLine()
+{
+	const int current_caret_position = SendEditor(SCI_GETCURRENTPOS, NULL, NULL);
+	const int current_line = SendEditor(SCI_LINEFROMPOSITION, current_caret_position);
+	const int character_from_point = SendEditor(SCI_CHARPOSITIONFROMPOINT, current_line);
+	const int caret_index_in_line = current_caret_position - character_from_point;
+
+	return caret_index_in_line;
+}
+
 void ScintillaCtrl::RenameVariableOrFunction(const CString& rename_to, int language)
 {
 	if (m_current_language->GetLanguageId() == SCLEX_NULL)
@@ -391,6 +402,8 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& rename_to, int langu
 	
 	const auto document_text = GetAllDocumentText();
 	char* line_to_rename = new char[line_length];
+
+	const unsigned line_index = GetCaretIndexInLine();
 
 	try {
 		SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(line_to_rename));

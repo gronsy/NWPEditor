@@ -40,6 +40,7 @@ protected:
 	LRESULT SendEditor(int msg, WPARAM wparam, LPARAM lparam = NULL) const;
 	int GetCurrentLineNumber();
 	void RenameFunctionOrVariable(std::string rename_to) const;
+	unsigned GetCaretIndexInLine();
 public:
 	ScintillaCtrl();
 	~ScintillaCtrl();

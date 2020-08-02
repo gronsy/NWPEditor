@@ -83,8 +83,30 @@ void CppLanguage::ExtractFunctionName(std::string line)
 	name_to_replace = function_name;
 }
 
-void CppLanguage::GetCursorLineName(const std::string current_line, int cursor_index)
+//TODO: Integrate new name fetching method to fetch name
+std::string CppLanguage::GetCursorLineName(const std::string current_line, const int cursor_index)
 {
+	int name_beginning{-1}, name_ending{-1};
+
+	for(int iterator_name_beginning = cursor_index - 1, iterator_name_ending = cursor_index + 1;;
+		--iterator_name_beginning, ++iterator_name_ending)
+	{
+		if(name_beginning != -1 && name_ending != -1)
+			break;
+		
+		const char current_line_previous_char = current_line[iterator_name_beginning];
+		const char current_line_next_char = current_line[iterator_name_ending];
+
+		if((current_line_previous_char == '.' || current_line_previous_char == '>' || current_line_previous_char == ' ')
+			&& (name_beginning != -1 || iterator_name_beginning == 0))
+			name_beginning = iterator_name_beginning;
+
+		if((current_line_next_char == '.' || current_line_next_char == '-' || current_line_next_char == '(' || current_line_next_char == '\n' || current_line_next_char == '\r')
+            && (name_ending != -1 || iterator_name_ending == current_line.length() - 1))
+            	name_ending = iterator_name_ending;
+	}
+
+	return current_line.substr(name_beginning, name_ending);
 }
 
 void CppLanguage::SetIsFunctionCall(const std::string line)

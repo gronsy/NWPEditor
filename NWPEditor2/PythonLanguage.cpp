@@ -39,7 +39,7 @@ std::string PythonLanguage::ReplaceName(const std::string& line_text, const std:
 	return "";
 }
 
-void PythonLanguage::GetCursorLineName(const std::string current_line, int cursor_index)
+std::string PythonLanguage::GetCursorLineName(const std::string current_line, int cursor_index)
 {
-	
+	return "";
 }
