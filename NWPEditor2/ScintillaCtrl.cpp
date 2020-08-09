@@ -408,7 +408,7 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& rename_to, int langu
 	try {
 		SendEditor(SCI_GETLINE, line, reinterpret_cast<LPARAM>(line_to_rename));
 
-		m_current_language->GenerateRegex(line_to_rename);
+		m_current_language->GenerateRegex(line_to_rename, line_index);
 		const std::string replaced_text=
 			m_current_language->ReplaceCurrentLineNameIfMatched(document_text, std::string(CT2CA(rename_to)));
 		WriteToFile(replaced_text);

@@ -10,8 +10,8 @@ class PythonLanguage :public AbstractLanguage
 public:
 	PythonLanguage();
 	virtual ~PythonLanguage() override;
-	void GenerateRegex(std::string line) override;
+	void GenerateRegex(std::string line, const int line_index) override;
 	std::wstring GetPythonKeywords();
-	std::string GetCursorLineName(const std::string current_line, int cursor_index) override;
+	void GetCursorLineName(const std::string current_line, int cursor_index) override;
 };
 

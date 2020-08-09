@@ -36,6 +36,6 @@ public:
 	std::string ReplaceCurrentLineNameIfMatched(const std::string& line_to_change, std::string replace_to);
 	
 	virtual ~AbstractLanguage();
-	virtual void GenerateRegex(std::string line) = 0;
-	virtual std::string GetCursorLineName(const std::string current_line, int cursor_index) = 0;
+	virtual void GenerateRegex(std::string line, const int line_index) = 0;
+	virtual void GetCursorLineName(const std::string current_line, int cursor_index) = 0;
 };

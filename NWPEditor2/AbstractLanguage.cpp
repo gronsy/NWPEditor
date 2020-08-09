@@ -2,7 +2,7 @@
 #include "AbstractLanguage.h"
 
 AbstractLanguage::AbstractLanguage(std::wstring keywords, std::wstring file_extenstion, int language_id):
-file_extension(file_extenstion), keywords(keywords), language_id(language_id)
+file_extension(file_extenstion), keywords(keywords), language_id(language_id), is_function_call(false)
 {
 	
 }

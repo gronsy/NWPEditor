@@ -19,7 +19,7 @@ void PythonLanguage::ExtractFunctionName(std::string line)
 	
 }
 
-void PythonLanguage::GenerateRegex(std::string line)
+void PythonLanguage::GenerateRegex(std::string line, const int line_index)
 {
 	
 }
@@ -39,7 +39,6 @@ std::string PythonLanguage::ReplaceName(const std::string& line_text, const std:
 	return "";
 }
 
-std::string PythonLanguage::GetCursorLineName(const std::string current_line, int cursor_index)
+void PythonLanguage::GetCursorLineName(const std::string current_line, int cursor_index)
 {
-	return "";
 }
