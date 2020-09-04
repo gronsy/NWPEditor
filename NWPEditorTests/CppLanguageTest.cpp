@@ -70,7 +70,7 @@ namespace CppUnitTests
 			const std::string function_definition_line_cpp = "void RenameVariableOrFunction(const CString& renameTo, int language);";
 			cpp_language.GenerateRegex(function_definition_line_cpp, 15);
 			const std::string renamed_method_name =
-                cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
+				cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
 
 			EXPECT_EQ(renamed_method_name, "void " + new_method_name + "(const CString& renameTo, int language);");
 		}
@@ -80,7 +80,7 @@ namespace CppUnitTests
 			const std::string function_definition_line_cpp = "RenameVariableOrFunction<int>(const CString& renameTo, int language);";
 			cpp_language.GenerateRegex(function_definition_line_cpp, 7);
 			const std::string renamed_method_name =
-                cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
+				cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
 
 			EXPECT_EQ(renamed_method_name, new_method_name + "<int>(const CString& renameTo, int language);");
 		}
@@ -108,9 +108,9 @@ namespace CppUnitTests
 		TEST_F(CppLanguageTestRenameSameLine, RenameCppWithCallFromLocalClassObject)
 		{
 			const std::string function_definition_line_cpp = "my_class.RenameVariableOrFunction(const CString& renameTo, int language);";
-			cpp_language.GenerateRegex(function_definition_line_cpp,15);
+			cpp_language.GenerateRegex(function_definition_line_cpp, 15);
 			const std::string renamed_method_name =
-                cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
+				cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
 
 			EXPECT_EQ(renamed_method_name, "my_class." + new_method_name + "(const CString& renameTo, int language);");
 		}
@@ -118,9 +118,9 @@ namespace CppUnitTests
 		TEST_F(CppLanguageTestRenameSameLine, RenameCppWithCallFromLocalClassObjectPointer)
 		{
 			const std::string function_definition_line_cpp = "my_class->RenameVariableOrFunction(const CString& renameTo, int language);";
-			cpp_language.GenerateRegex(function_definition_line_cpp,15);
+			cpp_language.GenerateRegex(function_definition_line_cpp, 15);
 			const std::string renamed_method_name =
-                cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
+				cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
 
 			EXPECT_EQ(renamed_method_name, "my_class->" + new_method_name + "(const CString& renameTo, int language);");
 		}
@@ -128,7 +128,7 @@ namespace CppUnitTests
 		TEST_F(CppLanguageTestRenameSameLine, RenameCppWithCallFromLocalClassObjectTemplateMethodCall)
 		{
 			const std::string function_definition_line_cpp = "my_class.RenameVariableOrFunction<int>(const CString& renameTo, int language);";
-			cpp_language.GenerateRegex(function_definition_line_cpp,15);
+			cpp_language.GenerateRegex(function_definition_line_cpp, 15);
 			const std::string renamed_method_name =
 				cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
 
@@ -138,7 +138,7 @@ namespace CppUnitTests
 		TEST_F(CppLanguageTestRenameSameLine, RenameCppWithCallFromLocalClassPointerTemplateMethodCall)
 		{
 			const std::string function_definition_line_cpp = "my_class->RenameVariableOrFunction<int>(const CString& renameTo, int language);";
-			cpp_language.GenerateRegex(function_definition_line_cpp,15);
+			cpp_language.GenerateRegex(function_definition_line_cpp, 15);
 			const std::string renamed_method_name =
 				cpp_language.ReplaceCurrentLineNameIfMatched(function_definition_line_cpp, new_method_name);
 
@@ -154,8 +154,8 @@ namespace CppUnitTests
 			std::string line_to_change;
 			CppLanguage cpp_language;
 		public:
-			CppLanguageTestRenameDifferentLine(std::string line_to_change, bool is_clang = false):
-				line_to_change(line_to_change) ,new_method_name("new_method_name")
+			CppLanguageTestRenameDifferentLine(std::string line_to_change, bool is_clang = false) :
+				line_to_change(line_to_change), new_method_name("new_method_name")
 			{}
 		};
 	}

@@ -4,7 +4,7 @@
 
 CppLanguage::CppLanguage(bool is_clang/*=false*/) :
 	AbstractLanguage(is_clang ? GetCKeywords() : GetCppKeywords(), is_clang ? L"c" : L"cpp", SCLEX_CPP),
-					is_template(false), is_dot_method_call(false), is_arrow_method_call(false)
+	is_template(false), is_dot_method_call(false), is_arrow_method_call(false)
 {}
 
 CppLanguage::~CppLanguage()
@@ -36,7 +36,7 @@ void CppLanguage::RemoveTypeIfTemplate(std::string& function_name)
 	const int template_start_index = function_name.find('<');
 	is_template = false;
 
-	if(template_start_index != std::string::npos)
+	if (template_start_index != std::string::npos)
 	{
 		is_template = true;
 		function_name = function_name.substr(STRING_BEGINNING, function_name.find('<'));
@@ -45,10 +45,10 @@ void CppLanguage::RemoveTypeIfTemplate(std::string& function_name)
 
 std::string CppLanguage::DetermineFilter(const std::string line)
 {
-	if(is_dot_method_call)
+	if (is_dot_method_call)
 		return ".";
 
-	if(is_arrow_method_call)
+	if (is_arrow_method_call)
 		return "->";
 
 	return line.find(':') != std::string::npos ? ":" : " ";
@@ -57,16 +57,16 @@ std::string CppLanguage::DetermineFilter(const std::string line)
 void CppLanguage::ExtractFunctionName(std::string line)
 {
 	std::string function_name;
-	
+
 	const std::string filter = DetermineFilter(line);
 
-	const int offset = filter == ":" || filter== "->" ? ITERATOR_CLANG_COLON_OR_ARROW_OPERATOR_OFFSET : ITERATOR_SPACE_OR_DOT_OPERATOR_OFFSET;
+	const int offset = filter == ":" || filter == "->" ? ITERATOR_CLANG_COLON_OR_ARROW_OPERATOR_OFFSET : ITERATOR_SPACE_OR_DOT_OPERATOR_OFFSET;
 
 	if (filter == ":" || filter == "." || filter == "->" || is_function_call)
 	{
 		function_name = line;
 
-		if (function_name.find('(') != std::string::npos) 
+		if (function_name.find('(') != std::string::npos)
 			function_name = function_name.substr(STRING_BEGINNING, function_name.find('('));
 
 		while (function_name.find(filter) != std::string::npos)
@@ -77,41 +77,80 @@ void CppLanguage::ExtractFunctionName(std::string line)
 	else
 	{
 		const int filter_index = line.find(filter);
-		function_name = line.substr(filter_index + offset, line.find('(')-filter_index-ERASE_OFFSET);
+		function_name = line.substr(filter_index + offset, line.find('(') - filter_index - ERASE_OFFSET);
 	}
 
 	name_to_replace = function_name;
 }
 
-
 bool CppLanguage::CheckForFunctionCall(const char current_line_next_char)
 {
-	if(current_line_next_char == '(')
+	if (current_line_next_char == '(')
 		is_function_call = true;
 
 	return is_function_call;
 }
 
+bool CppLanguage::CheckNameBeginningCondition(int name_beginning, int iterator_name_beginning,
+	const char current_line_previous_char)
+{
+	if (name_beginning == NAME_NOT_FOUND_FLAG)
+	{
+		switch (current_line_previous_char) {
+		case DOT_OPERATOR:
+		case ARROW_OPERATOR_POINT:
+		case SPACE_CHARACTER:
+		case COLON_CHARACTER:
+			return true;
+		}
+
+		if (iterator_name_beginning == STRING_BEGINNING_INDEX)
+			return true;
+	}
+
+	return false;
+}
+
+bool CppLanguage::CheckNameEndingConditions(const std::string current_line, int name_ending, int iterator_name_ending,
+	const char current_line_next_char)
+{
+	if (name_ending == NAME_NOT_FOUND_FLAG)
+	{
+		switch (current_line_next_char) {
+		case DOT_OPERATOR:
+		case ARROW_OPERATOR_BASE:
+		case COLON_CHARACTER:
+			return true;
+		}
+
+		if (CheckForFunctionCall(current_line_next_char))
+			return true;
+
+		if (iterator_name_ending == current_line.length() - 1)
+			return true;
+	}
+
+	return false;
+}
+
 //TODO: Integrate new name fetching method to fetch name
 void CppLanguage::GetCursorLineName(const std::string current_line, const int cursor_index)
 {
-	int name_beginning{NAME_NOT_FOUND_FLAG}, name_ending{NAME_NOT_FOUND_FLAG};
+	int name_beginning{ NAME_NOT_FOUND_FLAG }, name_ending{ NAME_NOT_FOUND_FLAG };
 
-	for(int iterator_name_beginning = cursor_index - 1, iterator_name_ending = cursor_index + 1;;
+	for (int iterator_name_beginning = cursor_index - 1, iterator_name_ending = cursor_index + 1;;
 		--iterator_name_beginning, ++iterator_name_ending)
 	{
-		if(name_beginning != -1 && name_ending != -1)
+		if (name_beginning != -1 && name_ending != -1)
 			break;
-		
+
 		const char current_line_previous_char = current_line[iterator_name_beginning];
 		const char current_line_next_char = current_line[iterator_name_ending];
 
-		if((current_line_previous_char == '.' || current_line_previous_char == '>' || current_line_previous_char == ' ' || current_line_previous_char == ':'
-			|| iterator_name_beginning == 0) && name_beginning == NAME_NOT_FOUND_FLAG)
+		if (CheckNameBeginningCondition(name_beginning, iterator_name_beginning, current_line_previous_char))
 			name_beginning = iterator_name_beginning + NAME_SEARCH_MOVE_OFFSET;
 
-		if((current_line_next_char == '.' || current_line_next_char == '-' || current_line_next_char == ':' || CheckForFunctionCall(current_line_next_char)
-            || iterator_name_ending == current_line.length() - 1) && name_ending == NAME_NOT_FOUND_FLAG)
+		if (CheckNameEndingConditions(current_line, name_ending, iterator_name_ending, current_line_next_char))
 			name_ending = iterator_name_ending - NAME_SEARCH_MOVE_OFFSET;
 	}
 
@@ -120,24 +159,24 @@ void CppLanguage::GetCursorLineName(const std::string current_line, const int cu
 
 void CppLanguage::SetIsFunctionCall(const std::string line)
 {
-	is_function_call=false;
+	is_function_call = false;
 
 	const size_t parenthesis_index = line.find_first_of('(');
 	const size_t dot_operator_index = line.find_first_of('.');
 	const size_t arrow_operator_index = line.find_first_of("->");
-	
-	if(line.find_first_of(' ') > parenthesis_index
+
+	if (line.find_first_of(' ') > parenthesis_index
 		|| dot_operator_index < parenthesis_index
 		|| arrow_operator_index < parenthesis_index)
 	{
-		if(dot_operator_index != std::string::npos)
+		if (dot_operator_index != std::string::npos)
 			is_dot_method_call = true;
 
 		if (arrow_operator_index != std::string::npos && line[arrow_operator_index + 1] == '>')
 		{
 			is_arrow_method_call = true;
 		}
-		
+
 		is_function_call = true;
 	}
 }
@@ -167,12 +206,12 @@ std::string CppLanguage::ReplaceName(const std::string& line_text, const std::st
 	const int name_beginning_index = line_text.find(name_to_replace);
 	int name_end_index;
 
-	if(is_template)
-		name_end_index=line_text.find('<');
+	if (is_template)
+		name_end_index = line_text.find('<');
 	else
 		name_end_index = line_text.find('(') != std::string::npos ?
-					line_text.find('(') : line_text.find('\n');
-	
+		line_text.find('(') : line_text.find('\n');
+
 	std::string new_line_text{ line_text };
 
 	if (is_function)
