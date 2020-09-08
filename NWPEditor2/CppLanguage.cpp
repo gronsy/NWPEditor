@@ -111,7 +111,7 @@ bool CppLanguage::CheckNameBeginningCondition(int name_beginning, int iterator_n
 	return false;
 }
 
-bool CppLanguage::CheckNameEndingConditions(const std::string current_line, int name_ending, int iterator_name_ending,
+bool CppLanguage::CheckNameEndingConditions(const std::string& current_line, int name_ending, int iterator_name_ending,
 	const char current_line_next_char)
 {
 	if (name_ending == NAME_NOT_FOUND_FLAG)
@@ -120,6 +120,7 @@ bool CppLanguage::CheckNameEndingConditions(const std::string current_line, int 
 		case DOT_OPERATOR:
 		case ARROW_OPERATOR_BASE:
 		case COLON_CHARACTER:
+		case TEMPLATE_BEGINNING:
 			return true;
 		}
 
@@ -138,14 +139,17 @@ void CppLanguage::GetCursorLineName(const std::string current_line, const int cu
 {
 	int name_beginning{ NAME_NOT_FOUND_FLAG }, name_ending{ NAME_NOT_FOUND_FLAG };
 
-	for (int iterator_name_beginning = cursor_index - 1, iterator_name_ending = cursor_index + 1;;
+	for (int iterator_name_beginning = cursor_index - 1, iterator_name_ending = cursor_index + 1;
+		name_beginning != -1 && name_ending != -1;
 		--iterator_name_beginning, ++iterator_name_ending)
 	{
-		if (name_beginning != -1 && name_ending != -1)
-			break;
+		char current_line_previous_char{};
+		if (name_beginning == -1)
+			current_line_previous_char = current_line[iterator_name_beginning];
 
-		const char current_line_previous_char = current_line[iterator_name_beginning];
-		const char current_line_next_char = current_line[iterator_name_ending];
+		char current_line_next_char{};
+		if (name_ending == -1)
+			current_line_next_char = current_line[iterator_name_ending];
 
 		if (CheckNameBeginningCondition(name_beginning, iterator_name_beginning, current_line_previous_char))
 			name_beginning = iterator_name_beginning + NAME_SEARCH_MOVE_OFFSET;
