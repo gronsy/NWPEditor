@@ -39,6 +39,6 @@ public:
 	CppLanguage(bool is_clang = false);
 	virtual ~CppLanguage() override;
 
-	virtual void GenerateRegex(std::string line, const int line_index) override;
-	virtual void GetCursorLineName(const std::string current_line, int cursor_index) override;
+	virtual void GenerateRegex(const std::string& line, const int line_index) override;
+	virtual void GetCursorLineName(const std::string& current_line, int cursor_index) override;
 };

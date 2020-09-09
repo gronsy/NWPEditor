@@ -135,7 +135,7 @@ bool CppLanguage::CheckNameEndingConditions(const std::string& current_line, int
 }
 
 //TODO: Integrate new name fetching method to fetch name
-void CppLanguage::GetCursorLineName(const std::string current_line, const int cursor_index)
+void CppLanguage::GetCursorLineName(const std::string& current_line, const int cursor_index)
 {
 	int name_beginning{ NAME_NOT_FOUND_FLAG }, name_ending{ NAME_NOT_FOUND_FLAG };
 
@@ -185,7 +185,7 @@ void CppLanguage::SetIsFunctionCall(const std::string line)
 	}
 }
 
-void CppLanguage::GenerateRegex(std::string line, const int line_index)
+void CppLanguage::GenerateRegex(const std::string& line, const int line_index)
 {
 	const std::string cleared_line = CleanStringOfGarbage(line);
 
