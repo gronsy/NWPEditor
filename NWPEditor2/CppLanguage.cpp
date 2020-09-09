@@ -140,7 +140,7 @@ void CppLanguage::GetCursorLineName(const std::string& current_line, const int c
 	int name_beginning{ NAME_NOT_FOUND_FLAG }, name_ending{ NAME_NOT_FOUND_FLAG };
 
 	for (int iterator_name_beginning = cursor_index - 1, iterator_name_ending = cursor_index + 1;
-		name_beginning != -1 && name_ending != -1;
+		name_beginning == -1 && name_ending == -1;
 		--iterator_name_beginning, ++iterator_name_ending)
 	{
 		char current_line_previous_char{};
@@ -158,7 +158,8 @@ void CppLanguage::GetCursorLineName(const std::string& current_line, const int c
 			name_ending = iterator_name_ending - NAME_SEARCH_MOVE_OFFSET;
 	}
 
-	name_to_replace = current_line.substr(name_beginning, name_ending);
+	if(name_beginning != -1 && name_ending != -1)
+		name_to_replace = current_line.substr(name_beginning, name_ending);
 }
 
 void CppLanguage::SetIsFunctionCall(const std::string line)
