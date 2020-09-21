@@ -102,6 +102,7 @@ bool CppLanguage::CheckNameBeginningCondition(int name_beginning, int iterator_n
 		case SPACE_CHARACTER:
 		case COLON_CHARACTER:
 		case COMA_CHARACTER:
+		case FUNCTION_OPENING_OPERATOR:
 			return true;
 		}
 
@@ -161,7 +162,7 @@ void CppLanguage::GetCursorLineName(const std::string& current_line, const int c
 	}
 
 	if (name_beginning != -1 && name_ending != -1)
-		name_to_replace = current_line.substr(name_beginning, name_ending - name_beginning);
+		name_to_replace = current_line.substr(name_beginning, static_cast<std::string::size_type>(name_ending) - name_beginning);
 }
 
 void CppLanguage::SetIsFunctionCall(const std::string& line)
