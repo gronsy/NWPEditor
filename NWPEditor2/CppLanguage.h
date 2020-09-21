@@ -15,6 +15,8 @@
 #define SPACE_CHARACTER ' '
 #define COLON_CHARACTER ':'
 #define TEMPLATE_BEGINNING '<'
+#define FUNCTION_OPENING_OPERATOR '('
+#define COMA_CHARACTER ','
 
 class CppLanguage : public AbstractLanguage
 {
@@ -32,9 +34,9 @@ protected:
 	std::wstring GetCppKeywords();
 	bool CheckForFunctionCall(const char current_line_next_char);
 	bool CheckNameBeginningCondition(int name_beginning, int iterator_name_beginning, char current_line_previous_char);
-	bool CheckNameEndingConditions(const std::string& current_line, int name_ending, int iterator_name_ending,
+	bool CheckNameEndingConditions(const int line_length, int name_ending, int iterator_name_ending,
 		char current_line_next_char);
-	virtual void SetIsFunctionCall(const std::string line) override;
+	virtual void SetIsFunctionCall(const std::string& line) override;
 public:
 	CppLanguage(bool is_clang = false);
 	virtual ~CppLanguage() override;

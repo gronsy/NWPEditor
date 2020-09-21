@@ -19,7 +19,7 @@ void PythonLanguage::GenerateRegex(const std::string& line, const int line_index
 {
 }
 
-void PythonLanguage::SetIsFunctionCall(const std::string line)
+void PythonLanguage::SetIsFunctionCall(const std::string& line)
 {
 }
 

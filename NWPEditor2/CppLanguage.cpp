@@ -101,6 +101,7 @@ bool CppLanguage::CheckNameBeginningCondition(int name_beginning, int iterator_n
 		case ARROW_OPERATOR_POINT:
 		case SPACE_CHARACTER:
 		case COLON_CHARACTER:
+		case COMA_CHARACTER:
 			return true;
 		}
 
@@ -111,8 +112,7 @@ bool CppLanguage::CheckNameBeginningCondition(int name_beginning, int iterator_n
 	return false;
 }
 
-bool CppLanguage::CheckNameEndingConditions(const std::string& current_line, int name_ending, int iterator_name_ending,
-	const char current_line_next_char)
+bool CppLanguage::CheckNameEndingConditions(const int line_length, int name_ending, int iterator_name_ending, const char current_line_next_char)
 {
 	if (name_ending == NAME_NOT_FOUND_FLAG)
 	{
@@ -121,13 +121,15 @@ bool CppLanguage::CheckNameEndingConditions(const std::string& current_line, int
 		case ARROW_OPERATOR_BASE:
 		case COLON_CHARACTER:
 		case TEMPLATE_BEGINNING:
+		case FUNCTION_OPENING_OPERATOR:
+		case COMA_CHARACTER:
 			return true;
 		}
 
 		if (CheckForFunctionCall(current_line_next_char))
 			return true;
 
-		if (iterator_name_ending == current_line.length() - 1)
+		if (iterator_name_ending == line_length - 1)
 			return true;
 	}
 
@@ -140,7 +142,7 @@ void CppLanguage::GetCursorLineName(const std::string& current_line, const int c
 	int name_beginning{ NAME_NOT_FOUND_FLAG }, name_ending{ NAME_NOT_FOUND_FLAG };
 
 	for (int iterator_name_beginning = cursor_index - 1, iterator_name_ending = cursor_index + 1;
-		name_beginning == -1 && name_ending == -1;
+		name_beginning == -1 || name_ending == -1;
 		--iterator_name_beginning, ++iterator_name_ending)
 	{
 		char current_line_previous_char{};
@@ -154,15 +156,15 @@ void CppLanguage::GetCursorLineName(const std::string& current_line, const int c
 		if (CheckNameBeginningCondition(name_beginning, iterator_name_beginning, current_line_previous_char))
 			name_beginning = iterator_name_beginning + NAME_SEARCH_MOVE_OFFSET;
 
-		if (CheckNameEndingConditions(current_line, name_ending, iterator_name_ending, current_line_next_char))
-			name_ending = iterator_name_ending - NAME_SEARCH_MOVE_OFFSET;
+		if (CheckNameEndingConditions(current_line.length(), name_ending, iterator_name_ending, current_line_next_char))
+			name_ending = iterator_name_ending;
 	}
 
-	if(name_beginning != -1 && name_ending != -1)
-		name_to_replace = current_line.substr(name_beginning, name_ending);
+	if (name_beginning != -1 && name_ending != -1)
+		name_to_replace = current_line.substr(name_beginning, name_ending - name_beginning);
 }
 
-void CppLanguage::SetIsFunctionCall(const std::string line)
+void CppLanguage::SetIsFunctionCall(const std::string& line)
 {
 	is_function_call = false;
 
