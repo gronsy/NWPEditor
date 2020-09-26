@@ -7,7 +7,6 @@
 #define ITERATOR_CLANG_COLON_OR_ARROW_OPERATOR_OFFSET 2
 #define NAME_SEARCH_MOVE_OFFSET 1
 #define NAME_NOT_FOUND_FLAG -1
-#define STRING_BEGINNING_INDEX 0
 
 #define DOT_OPERATOR '.'
 #define ARROW_OPERATOR_BASE '-'
@@ -25,7 +24,7 @@ protected:
 	bool is_dot_method_call;
 	bool is_arrow_method_call;
 protected:
-	void RemoveTypeIfTemplate(std::string& function_name);
+	void SetIsTemplate(const std::string& function_name);
 	std::string DetermineFilter(const std::string line);
 	virtual void ExtractFunctionName(std::string line) override;
 	virtual std::string ReplaceName(const std::string& line_text, const std::string& replace_to) override;

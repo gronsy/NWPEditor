@@ -31,16 +31,12 @@ std::wstring CppLanguage::GetCppKeywords()
 		"wchar_t while";
 }
 
-void CppLanguage::RemoveTypeIfTemplate(std::string& function_name)
+void CppLanguage::SetIsTemplate(const std::string& function_name)
 {
 	const int template_start_index = function_name.find('<');
-	is_template = false;
 
 	if (template_start_index != std::string::npos)
-	{
 		is_template = true;
-		function_name = function_name.substr(STRING_BEGINNING, function_name.find('<'));
-	}
 }
 
 std::string CppLanguage::DetermineFilter(const std::string line)
@@ -72,7 +68,7 @@ void CppLanguage::ExtractFunctionName(std::string line)
 		while (function_name.find(filter) != std::string::npos)
 			function_name = function_name.substr(function_name.find(filter) + offset, function_name.find('('));
 
-		RemoveTypeIfTemplate(function_name);
+		SetIsTemplate(function_name);
 	}
 	else
 	{
@@ -106,7 +102,7 @@ bool CppLanguage::CheckNameBeginningCondition(int name_beginning, int iterator_n
 			return true;
 		}
 
-		if (iterator_name_beginning == STRING_BEGINNING_INDEX)
+		if (iterator_name_beginning == STRING_BEGINNING)
 			return true;
 	}
 
@@ -124,7 +120,7 @@ bool CppLanguage::CheckNameEndingConditions(const int line_length, int name_endi
 		case TEMPLATE_BEGINNING:
 		case FUNCTION_OPENING_OPERATOR:
 		case COMA_CHARACTER:
-			return true;
+			return 	true;
 		}
 
 		if (CheckForFunctionCall(current_line_next_char))
@@ -155,12 +151,13 @@ void CppLanguage::GetCursorLineName(const std::string& current_line, const int c
 			current_line_next_char = current_line[iterator_name_ending];
 
 		if (CheckNameBeginningCondition(name_beginning, iterator_name_beginning, current_line_previous_char))
-			name_beginning = iterator_name_beginning + NAME_SEARCH_MOVE_OFFSET;
+			name_beginning = iterator_name_beginning + (iterator_name_beginning == STRING_BEGINNING ? STRING_BEGINNING : NAME_SEARCH_MOVE_OFFSET);
 
 		if (CheckNameEndingConditions(current_line.length(), name_ending, iterator_name_ending, current_line_next_char))
 			name_ending = iterator_name_ending;
 	}
 
+	SetIsTemplate(current_line);
 	if (name_beginning != -1 && name_ending != -1)
 		name_to_replace = current_line.substr(name_beginning, static_cast<std::string::size_type>(name_ending) - name_beginning);
 }
