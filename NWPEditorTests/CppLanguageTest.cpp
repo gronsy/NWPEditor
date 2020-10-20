@@ -20,7 +20,7 @@ namespace CppUnitTests
 			CppLanguage cpp_language;
 		public:
 			CppLanguageTestRenameSameLine(bool is_clang = false) :
-				new_method_name("new_test_name"), cpp_language()
+				new_method_name("new_test_name")
 			{
 			}
 		};
@@ -151,12 +151,23 @@ namespace CppUnitTests
 		struct CppLanguageTestRenameDifferentLine : public ::testing::Test
 		{
 			std::string new_method_name;
-			std::string line_to_change;
 			CppLanguage cpp_language;
 		public:
-			CppLanguageTestRenameDifferentLine(std::string line_to_change, bool is_clang = false) :
-				line_to_change(line_to_change), new_method_name("new_method_name")
+			CppLanguageTestRenameDifferentLine(bool is_clang = false) :
+			new_method_name("new_method_name")
 			{}
 		};
+
+		TEST_F(CppLanguageTestRenameDifferentLine, RenameCppMethodDeffinitionWithNameFromMethodCallWithDotOperator)
+		{
+			const std::string name_extraction_line = "RenameVariableOrFunction(const CString & renameTo, int language)";
+			cpp_language.GenerateRegex(name_extraction_line, 13);
+			
+			const std::string line_to_swap_name = "my_class.RenameVariableOrFunction(const CString & renameTo, int language)";
+			const std::string renamed_line_name =
+				cpp_language.ReplaceCurrentLineNameIfMatched(line_to_swap_name, new_method_name);
+
+			EXPECT_EQ(renamed_line_name, "my_class." + new_method_name + "RenameVariableOrFunction(const CString & renameTo, int language)");
+		}
 	}
 }
