@@ -19,7 +19,7 @@ namespace CppUnitTests
 			std::string new_method_name;
 			CppLanguage cpp_language;
 		public:
-			CppLanguageTestRenameSameLine(bool is_clang = false) :
+			CppLanguageTestRenameSameLine() :
 				new_method_name("new_test_name")
 			{
 			}
@@ -27,7 +27,7 @@ namespace CppUnitTests
 			std::string ExecuteTest(const std::string& name_extract_line, const int cursor_index)
 			{
 				cpp_language.GenerateRegex(name_extract_line, cursor_index);
-				const std::string new_name_line =
+				std::string new_name_line =
 					cpp_language.ReplaceCurrentLineNameIfMatched(name_extract_line, new_method_name);
 
 				return new_name_line;
@@ -126,20 +126,27 @@ namespace CppUnitTests
 			std::string new_method_name;
 			CppLanguage cpp_language;
 		public:
-			CppLanguageTestRenameDifferentLine(bool is_clang = false) :
+			CppLanguageTestRenameDifferentLine() :
 				new_method_name("new_method_name")
 			{}
+
+			std::string ExecuteTest(const std::string& name_extraction_line, const std::string& line_to_rename, const int index)
+			{
+				cpp_language.GenerateRegex(name_extraction_line, index);
+
+				std::string renamed_line_name =
+					cpp_language.ReplaceCurrentLineNameIfMatched(line_to_rename, new_method_name);
+
+				return renamed_line_name;
+			}
 		};
 
 		TEST_F(CppLanguageTestRenameDifferentLine, RenameCppMethodDeffinitionWithNameFromMethodCallWithDotOperator)
 		{
-			const std::string name_extraction_line = "RenameVariableOrFunction(const CString & renameTo, int language)";
-			cpp_language.GenerateRegex(name_extraction_line, 13);
-
-			const std::string line_to_swap_name = "my_class.RenameVariableOrFunction(const CString & renameTo, int language)";
 			const std::string renamed_line_name =
-				cpp_language.ReplaceCurrentLineNameIfMatched(line_to_swap_name, new_method_name);
-
+				ExecuteTest("RenameVariableOrFunction(const CString & renameTo, int language)",
+					"my_class.RenameVariableOrFunction(const CString & renameTo, int language)", 13);
+			
 			EXPECT_EQ(renamed_line_name, "my_class." + new_method_name + "RenameVariableOrFunction(const CString & renameTo, int language)");
 		}
 	}
