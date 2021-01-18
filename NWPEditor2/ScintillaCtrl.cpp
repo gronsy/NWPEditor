@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ScintillaCtrl.h"
-#include "Tester.h"
 
 //construction and deconstruction
 ScintillaCtrl::ScintillaCtrl()
@@ -335,13 +334,11 @@ void ScintillaCtrl::SetWorkingFile(CString file_path)
 
 std::string ScintillaCtrl::GetAllDocumentText()
 {
-	const int line_count = SendEditor(SCI_GETLINECOUNT, NULL);
-
 	std::ifstream input_file_stream(m_working_file, std::ifstream::ate | std::ifstream::binary);
 	if (!input_file_stream.is_open())
 		return "";
 	input_file_stream.seekg(0, std::ios::end);
-	int file_size = input_file_stream.tellg();
+	const int file_size = input_file_stream.tellg();
 	input_file_stream.close();
 
 	char* buffer{ new char[file_size + 1] };
@@ -411,7 +408,6 @@ void ScintillaCtrl::RenameVariableOrFunction(const CString& rename_to, int langu
 		m_current_language->GenerateRegex(line_to_rename, line_index);
 		const std::string replaced_text=
 			m_current_language->ReplaceCurrentLineNameIfMatched(document_text, std::string(CT2CA(rename_to)));
-		WriteToFile(replaced_text);
 	}
 	catch (EmptyFunctionNameException & e) {
 		delete[] line_to_rename;

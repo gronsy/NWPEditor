@@ -144,10 +144,10 @@ namespace CppUnitTests
 		TEST_F(CppLanguageTestRenameDifferentLine, RenameCppMethodDeffinitionWithNameFromMethodCallWithDotOperator)
 		{
 			const std::string renamed_line_name =
-				ExecuteTest("RenameVariableOrFunction(const CString & renameTo, int language)",
-					"my_class.RenameVariableOrFunction(const CString & renameTo, int language)", 13);
+				ExecuteTest("RenameVariableOrFunction(const CString& renameTo, int language)",
+					"my_class.RenameVariableOrFunction(const CString& renameTo, int language)", 13);
 			
-			EXPECT_EQ(renamed_line_name, "my_class." + new_method_name + "RenameVariableOrFunction(const CString & renameTo, int language)");
+			EXPECT_EQ(renamed_line_name, "my_class." + new_method_name + "RenameVariableOrFunction(const CString& renameTo, int language)");
 		}
 	}
 }

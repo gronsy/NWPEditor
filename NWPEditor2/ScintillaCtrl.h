@@ -2,6 +2,7 @@
 #include "IniCtrl.h"
 #include <string>
 #include <vector>
+#include <fstream>
 #include "AbstractLanguage.h"
 #include "EmptyFunctionNameException.h"
 
