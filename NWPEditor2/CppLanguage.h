@@ -20,11 +20,12 @@
 class CppLanguage : public AbstractLanguage
 {
 protected:
-	bool is_template;
+	bool is_template_extraction_line;
+	bool is_template_renaming_line;
 	bool is_dot_method_call;
 	bool is_arrow_method_call;
 protected:
-	void SetIsTemplate(const std::string& function_name);
+	void SetIsTemplate(const std::string& function_name, bool is_renaming_line=false);
 	std::string DetermineFilter(const std::string line);
 	virtual void ExtractFunctionName(std::string line) override;
 	virtual std::string ReplaceName(const std::string& line_text, const std::string& replace_to) override;

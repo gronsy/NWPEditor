@@ -4,7 +4,7 @@
 
 CppLanguage::CppLanguage(bool is_clang/*=false*/) :
 	AbstractLanguage(is_clang ? GetCKeywords() : GetCppKeywords(), is_clang ? L"c" : L"cpp", SCLEX_CPP),
-	is_template(false), is_dot_method_call(false), is_arrow_method_call(false)
+	is_template_extraction_line(false), is_template_renaming_line(false),is_dot_method_call(false), is_arrow_method_call(false)
 {}
 
 CppLanguage::~CppLanguage()
@@ -31,12 +31,17 @@ std::wstring CppLanguage::GetCppKeywords()
 		"wchar_t while";
 }
 
-void CppLanguage::SetIsTemplate(const std::string& function_name)
+void CppLanguage::SetIsTemplate(const std::string& function_name, bool is_renaming_line)
 {
 	const int template_start_index = function_name.find('<');
 
-	if (template_start_index != std::string::npos)
-		is_template = true;
+	if (template_start_index != std::string::npos) 
+	{
+		if (is_renaming_line)
+			is_template_renaming_line = true;
+		else
+			is_template_extraction_line = true;
+	}
 }
 
 std::string CppLanguage::DetermineFilter(const std::string line)
@@ -211,7 +216,7 @@ std::string CppLanguage::ReplaceName(const std::string& line_text, const std::st
 	const int name_beginning_index = line_text.find(name_to_replace);
 	int name_end_index;
 
-	if (is_template)
+	if (is_template_extraction_line)
 		name_end_index = line_text.find('<');
 	else
 		name_end_index = line_text.find('(') != std::string::npos ?

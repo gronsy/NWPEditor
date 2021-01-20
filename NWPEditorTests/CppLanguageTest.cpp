@@ -149,5 +149,32 @@ namespace CppUnitTests
 			
 			EXPECT_EQ(renamed_line_name, "my_class." + new_method_name + "(const CString& renameTo, int language)");
 		}
+
+		TEST_F(CppLanguageTestRenameDifferentLine, RenameCppMethodDeffinitionWithNameFromMethodCallWithArrowOperator)
+		{
+			const std::string renamed_line_name =
+				ExecuteTest("RenameVariableOrFunction(const CString& renameTo, int language)",
+					"my_class->RenameVariableOrFunction(const CString& renameTo, int language)", 13);
+
+			EXPECT_EQ(renamed_line_name, "my_class->" + new_method_name + "(const CString& renameTo, int language)");
+		}
+
+		TEST_F(CppLanguageTestRenameDifferentLine, RenameCppMethodDeffinitionWithNameFromMethodCallWithDotOperatorTemplate)
+		{
+			const std::string renamed_line_name =
+				ExecuteTest("RenameVariableOrFunction(const CString& renameTo, int language)",
+					"my_class.RenameVariableOrFunction<int>(const CString& renameTo, int language)", 13);
+
+			EXPECT_EQ(renamed_line_name, "my_class." + new_method_name + "<int>(const CString& renameTo, int language)");
+		}
+
+		TEST_F(CppLanguageTestRenameDifferentLine, RenameCppMethodDeffinitionWithNameFromMethodCallWithArrowOperatorTemplate)
+		{
+			const std::string renamed_line_name =
+				ExecuteTest("RenameVariableOrFunction(const CString& renameTo, int language)",
+					"my_class->RenameVariableOrFunction<int>(const CString& renameTo, int language)", 13);
+
+			EXPECT_EQ(renamed_line_name, "my_class->" + new_method_name + "<int>(const CString& renameTo, int language)");
+		}
 	}
 }
