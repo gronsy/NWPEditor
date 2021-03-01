@@ -25,7 +25,7 @@ protected:
 	bool is_dot_method_call;
 	bool is_arrow_method_call;
 protected:
-	void SetIsTemplate(const std::string& function_name, bool is_renaming_line=false);
+	void SetIsTemplate(const std::string& line, bool is_renaming_line=false);
 	std::string DetermineFilter(const std::string line);
 	virtual void ExtractFunctionName(std::string line) override;
 	virtual std::string ReplaceName(const std::string& line_text, const std::string& replace_to) override;

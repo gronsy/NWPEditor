@@ -31,9 +31,9 @@ std::wstring CppLanguage::GetCppKeywords()
 		"wchar_t while";
 }
 
-void CppLanguage::SetIsTemplate(const std::string& function_name, bool is_renaming_line)
+void CppLanguage::SetIsTemplate(const std::string& line, bool is_renaming_line)
 {
-	const int template_start_index = function_name.find('<');
+	const int template_start_index = line.find('<');
 
 	if (template_start_index != std::string::npos) 
 	{
@@ -78,7 +78,7 @@ void CppLanguage::ExtractFunctionName(std::string line)
 	else
 	{
 		const int filter_index = line.find(filter);
-		function_name = line.substr(filter_index + offset, line.find('(') - filter_index - ERASE_OFFSET);
+		function_name = line.substr(offset + filter_index, line.find('(') - filter_index - ERASE_OFFSET);
 	}
 
 	name_to_replace = function_name;
@@ -207,7 +207,7 @@ void CppLanguage::GenerateRegex(const std::string& line, const int line_index)
 		if (name_to_replace == "")
 			throw EmptyFunctionNameException("Function name not found.");
 
-		regex_in_use = std::regex(".*(::)?" + name_to_replace + R"(.*\(.*\)\{?(.*\}|;)?\r?\n?)");
+		regex_in_use = std::regex(".*(::)?" + name_to_replace + R"((<>)?.*\(.*\)\{?(.*\}|;)?\r?\n?)");
 	}
 }
 
@@ -215,8 +215,9 @@ std::string CppLanguage::ReplaceName(const std::string& line_text, const std::st
 {
 	const int name_beginning_index = line_text.find(name_to_replace);
 	int name_end_index;
+	SetIsTemplate(line_text, true);
 
-	if (is_template_extraction_line)
+	if (is_template_extraction_line || is_template_renaming_line)
 		name_end_index = line_text.find('<');
 	else
 		name_end_index = line_text.find('(') != std::string::npos ?
@@ -237,6 +238,8 @@ std::string CppLanguage::ReplaceName(const std::string& line_text, const std::st
 			}
 		}
 	}
+
+	is_template_renaming_line = false;
 
 	return new_line_text;
 }
