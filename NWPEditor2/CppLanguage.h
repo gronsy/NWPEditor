@@ -38,6 +38,7 @@ protected:
 		char current_line_next_char);
 	virtual void SetIsFunctionCall(const std::string& line) override;
 	void GetNameEndIndexFromLine(const std::string& line_text, int& name_end_index) const;
+	std::string SwapNameInLine(const std::string& line_text, const std::string& replace_to, int name_end_index) const;
 public:
 	CppLanguage(bool is_clang = false);
 	virtual ~CppLanguage() override;

@@ -222,28 +222,37 @@ void CppLanguage::GetNameEndIndexFromLine(const std::string& line_text, int& nam
 			                 line_text.find('(') : line_text.find('\n');
 }
 
+std::string CppLanguage::SwapNameInLine(const std::string& line_text, const std::string& replace_to, int name_end_index) const
+{
+	std::string new_line_text {line_text};
+	
+	const int name_beginning_index = line_text.find(name_to_replace);
+	int replace_to_index = 0;
+	for (int iterating_index = name_beginning_index; iterating_index < name_end_index; ++iterating_index, ++replace_to_index)
+	{
+		new_line_text[iterating_index] = replace_to[replace_to_index];
+		if (replace_to_index >= replace_to.length())
+		{
+			new_line_text.erase(iterating_index, static_cast<size_t>(name_end_index) - iterating_index);
+			break;
+		}
+	}
+
+	return new_line_text;
+}
+
 std::string CppLanguage::ReplaceName(const std::string& line_text, const std::string& replace_to)
 {
-	const int name_beginning_index = line_text.find(name_to_replace);
 	int name_end_index;
 	SetIsTemplate(line_text, true);
 
 	GetNameEndIndexFromLine(line_text, name_end_index);
 
-	std::string new_line_text{ line_text };
+	std::string new_line_text;
 
 	if (is_function)
 	{
-		int replace_to_index = 0;
-		for (int iterating_index = name_beginning_index; iterating_index < name_end_index; ++iterating_index, ++replace_to_index)
-		{
-			new_line_text[iterating_index] = replace_to[replace_to_index];
-			if (replace_to_index >= replace_to.length())
-			{
-				new_line_text.erase(iterating_index, static_cast<size_t>(name_end_index) - iterating_index);
-				break;
-			}
-		}
+		new_line_text = SwapNameInLine(line_text, replace_to, name_end_index);
 	}
 
 	is_template_renaming_line = false;
