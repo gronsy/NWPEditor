@@ -37,10 +37,11 @@ protected:
 	bool CheckNameEndingConditions(const int line_length, int name_ending, int iterator_name_ending,
 		char current_line_next_char);
 	virtual void SetIsFunctionCall(const std::string& line) override;
+	void GetNameEndIndexFromLine(const std::string& line_text, int& name_end_index) const;
 public:
 	CppLanguage(bool is_clang = false);
 	virtual ~CppLanguage() override;
 
-	virtual void GenerateRegex(const std::string& line, const int line_index) override;
+	virtual void GenerateRegex(const std::string& line, const int line_index) override;	
 	virtual void GetCursorLineName(const std::string& current_line, int cursor_index) override;
 };

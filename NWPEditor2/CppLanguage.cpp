@@ -211,17 +211,24 @@ void CppLanguage::GenerateRegex(const std::string& line, const int line_index)
 	}
 }
 
+void CppLanguage::GetNameEndIndexFromLine(const std::string& line_text, int& name_end_index) const
+{
+	const int name_index_check = line_text.find('<');
+	
+	if ((is_template_extraction_line || is_template_renaming_line) && name_index_check != std::string::npos)
+		name_end_index = line_text.find('<');
+	else
+		name_end_index = line_text.find('(') != std::string::npos ?
+			                 line_text.find('(') : line_text.find('\n');
+}
+
 std::string CppLanguage::ReplaceName(const std::string& line_text, const std::string& replace_to)
 {
 	const int name_beginning_index = line_text.find(name_to_replace);
 	int name_end_index;
 	SetIsTemplate(line_text, true);
 
-	if (is_template_extraction_line || is_template_renaming_line)
-		name_end_index = line_text.find('<');
-	else
-		name_end_index = line_text.find('(') != std::string::npos ?
-		line_text.find('(') : line_text.find('\n');
+	GetNameEndIndexFromLine(line_text, name_end_index);
 
 	std::string new_line_text{ line_text };
 
